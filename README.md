@@ -1,16 +1,14 @@
 Asteroids - Team Assignment 1
 =============================
 
-Introduction
-------------
+### Introduction
 
 The first projects have given you an opportunity to develop skills in architecting and coding a game, along with learning (probably) a new language and development platform (web).  This project's purpose is to put all of that to work in a more sophisticated game.
 
 This is intended to be the biggest project of the semester, with the final project having a smaller scope than this one.
 
 
-Assignment
-----------
+### Assignment
 
 Write an Asteroids Evolved game, using the following wiki page for background information:
 
