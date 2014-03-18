@@ -1,0 +1,127 @@
+body{
+  background: url('/img/blueStars.jpg') no-repeat;
+
+   -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-color: #000000;
+  font-family:Lucida Console;
+}
+#nav {
+  text-align: center;
+  margin-right: 7%;
+}
+#nav ul{
+
+  list-style-type: none;
+}
+#nav ul li {
+  display: inline;
+}
+.game-play{
+  display:none;
+}
+.high-scores{
+  display:none;
+}
+.about{
+  display:none;
+}
+.help{
+  display:none;
+}
+.main-menu{
+  display:block;
+}
+.custButton:hover{
+  font-family:Lucida Console;
+  font-size: 100%;
+  font-weight: bold;
+  width: 12%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #3399FF;
+  color: #000000;
+  border-style: solid;
+  border-color: #000000;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px #888888;
+
+}
+.custButton{
+  font-family:Lucida Console;
+  font-size: 100%;
+  font-weight: bold;
+  width: 12%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #000000;
+  color: #3399FF;
+  border-style: solid;
+  border-color: #3399FF;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px #000000;
+
+
+}
+.quitButton:hover{
+  position: absolute;
+  z-index: 20;
+  font-family:Lucida Console;
+  font-size: 100%;
+  font-weight: bold;
+  width: 8%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #3399FF;
+  color: #000000;
+  border-style: solid;
+  border-color: #000000;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px #888888;
+
+}
+.quitButton{
+  position: absolute;
+  z-index: 20;
+  font-family:Lucida Console;
+  font-size: 100%;
+  font-weight: bold;
+  width: 8%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #000000;
+  color: #3399FF;
+  border-style: solid;
+  border-color: #3399FF;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px #000000;
+
+
+}
+.logo{
+  color: #3399FF;
+  letter-spacing: 30px;
+
+  text-align: center;
+  text-shadow: 2px 2px 5px #888888;
+}
+
+.info{
+  color: #000000;
+  letter-spacing: 10px;
+
+  text-align: center;
+   text-shadow: -1px 0 #3399FF , 0 1px #3399FF , 1px 0 #3399FF , 0 -1px #3399FF ;
+}
+
+#canvas-main{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  text-align: center;
+  z-index: 10;
+}

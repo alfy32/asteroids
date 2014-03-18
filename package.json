@@ -1,12 +1,12 @@
 {
-  "name": "application-name",
+  "name": "asteroids",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node server/app.js"
   },
   "dependencies": {
     "express": "3.4.8",
-    "ejs": "~0.8.5"
+    "config": "~0.4.35"
   }
 }
