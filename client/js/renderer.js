@@ -9,7 +9,7 @@
 ASTEROIDGAME.graphics = (function() {
   'use strict';
 
-  var canvas = document.getElementById('canvas-main'), moving =false,
+  var canvas = document.getElementById('canvas-main'), 
     context = canvas.getContext('2d');
 
   //
@@ -32,43 +32,97 @@ ASTEROIDGAME.graphics = (function() {
       canvas.height = window.innerHeight;
     }
 
-  function Ship(spec) {
+  function Lasers(spec){
     var that = {};
 
+    that.create = function(elapsedTime, ship){
+      spec.activeLasers.push({
+        image : ASTEROIDGAME.images['/img/laser.png'],
+        center : { x : ship.centerX, y : ship.centerY},
+        width : 30, height : 2,
+        direction : ship.rotation,
+        moveRate : 800,     // pixels per second 
+      });
+    };
+
+    that.update = function(elapsedTime){
+
+      for(var L in spec.activeLasers){
+        var laser = spec.activeLasers[L];
+        laser.center.x -= Math.cos(laser.direction) * laser.moveRate * (elapsedTime / 1000);
+        laser.center.y -= Math.sin(laser.direction) * laser.moveRate * (elapsedTime / 1000);
+
+        if(laser.center.y<0 || laser.center.y>canvas.height || laser.center.x<0 || laser.center.x>canvas.width){
+          spec.activeLasers.splice(L, 1);
+        }
+        
+      }
+    };
+
+    that.draw = function(){
+
+      var sizeX = canvas.width*0.02;
+      var sizeY = canvas.width*0.002;
+      for(var L in spec.activeLasers){
+        var laser = spec.activeLasers[L];
+        context.save();
+        context.translate(laser.center.x , laser.center.y );
+        context.rotate(laser.direction);
+        context.translate(-laser.center.x , -laser.center.y );
+        context.drawImage(
+          laser.image,
+          laser.center.x - sizeX/2,
+          laser.center.y - sizeY/2,
+          sizeX, sizeY
+        );
+        context.restore();
+      }
+    };
+
+    return that;
+  }
+
+  function Ship(spec) {
+    var that = {};
+    that.centerX = spec.center.x;
+    that.centerY = spec.center.y;
+    that.direction = spec.direction;
+    that.rotation = spec.rotation;
+    that.moving =false,
     that.rotateRight = function(elapsedTime) {
-      spec.rotation += spec.rotateRate * (elapsedTime / 1000);
+      that.rotation += spec.rotateRate * (elapsedTime / 1000);
     };
 
     that.rotateLeft = function(elapsedTime) {
-      spec.rotation -= spec.rotateRate * (elapsedTime / 1000);
+      that.rotation -= spec.rotateRate * (elapsedTime / 1000);
     };
 
     that.moveLeft = function(elapsedTime) {
-      spec.center.x -= spec.moveRate * (elapsedTime / 1000);
-      if(spec.center.x<0){
-        spec.center.x = canvas.width;
+      that.centerX  -= spec.moveRate * (elapsedTime / 1000);
+      if(that.centerX <0){
+        that.centerX  = canvas.width;
       }
     };
 
     that.moveRight = function(elapsedTime) {
-      spec.center.x += spec.moveRate * (elapsedTime / 1000);
-      if(spec.center.x>canvas.width){
-        spec.center.x = 0;
+      that.centerX  += spec.moveRate * (elapsedTime / 1000);
+      if(that.centerX >canvas.width){
+        that.centerX  = 0;
       }
     };
 
     that.moveUp = function(elapsedTime) {
-      //console.log('Rotation' + spec.rotation);
-      //spec.center.y -= spec.moveRate * (elapsedTime / 1000);
-      moving =true;
-      spec.direction = spec.rotation;
+      //console.log('Rotation' + that.rotation);
+      //that.centerY-= spec.moveRate * (elapsedTime / 1000);
+      that.moving =true;
+      that.direction = that.rotation;
      
     };
 
     that.moveDown = function(elapsedTime) {
-      spec.center.y += spec.moveRate * (elapsedTime / 1000);
-      if(spec.center.y>canvas.height){
-        spec.center.y = 0;
+      that.centerY+= spec.moveRate * (elapsedTime / 1000);
+      if(that.centerY>canvas.height){
+        that.centerY= 0;
       }
     };
 
@@ -77,36 +131,36 @@ ASTEROIDGAME.graphics = (function() {
     };
 
     that.update = function(elapsedTime){
-      if(moving){
-        spec.center.x -= Math.cos(spec.direction) * spec.moveRate * (elapsedTime / 1000);
-        spec.center.y -= Math.sin(spec.direction) * spec.moveRate * (elapsedTime / 1000);
-        if(spec.center.y<0){
-          spec.center.y = canvas.height;
+      if(that.moving){
+        that.centerX  -= Math.cos(that.direction) * spec.moveRate * (elapsedTime / 1000);
+        that.centerY-= Math.sin(that.direction) * spec.moveRate * (elapsedTime / 1000);
+        if(that.centerY<0){
+          that.centerY= canvas.height;
         }
-        if(spec.center.y>canvas.height){
-          spec.center.y = 0;
+        if(that.centerY>canvas.height){
+          that.centerY= 0;
         }
-        if(spec.center.x>canvas.width){
-          spec.center.x = 0;
+        if(that.centerX >canvas.width){
+          that.centerX  = 0;
         }
 
-        if(spec.center.x<0){
-          spec.center.x = canvas.width;
+        if(that.centerX <0){
+          that.centerX  = canvas.width;
         }
       }
     }
 
     that.draw = function() {
       context.save();
-      var size = canvas.width*0.08;
-      context.translate(spec.center.x, spec.center.y);
-      context.rotate(spec.rotation);
-      context.translate(-spec.center.x, -spec.center.y);
+      var size = canvas.width*0.06;
+      context.translate(that.centerX , that.centerY);
+      context.rotate(that.rotation);
+      context.translate(-that.centerX , -that.centerY);
 
       context.drawImage(
         spec.image,
-        spec.center.x - size/2,
-        spec.center.y - size/2,
+        that.centerX  - size/2,
+        that.centerY- size/2,
         size, size);
 
       context.restore();
@@ -119,6 +173,7 @@ ASTEROIDGAME.graphics = (function() {
   return {
     clear : clear,
     Ship : Ship,
-    resize: resize
+    resize: resize,
+    Lasers: Lasers
   };
 }());

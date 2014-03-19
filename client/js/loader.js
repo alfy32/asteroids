@@ -34,7 +34,8 @@ window.addEventListener('load', function() {
         'preload!/js/help.js',
         'preload!/js/about.js',
         'preload!/js/random.js',
-        'preload!/img/longBrownShip.png'
+        'preload!/img/longBrownShip.png',
+        'preload!/img/laser.png'
       ],
       complete : function() {
         console.log('All files requested for loading...');

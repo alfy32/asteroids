@@ -88,7 +88,6 @@ ASTEROIDGAME.input = (function() {
   function Keyboard() {
     var that = {
         keys : {},
-        keysReleased: {},
         handlers : []
       },
       key;
@@ -107,9 +106,6 @@ ASTEROIDGAME.input = (function() {
       for(key in that.keys){
         delete that.keys[key];
       }
-      for(key in that.keysReleased){
-        delete that.keysReleased[key];
-      }
 
     }
     // ------------------------------------------------------------------
@@ -126,10 +122,10 @@ ASTEROIDGAME.input = (function() {
     // Allows the client to invoke all the handlers for the registered key/handlers.
     //
     // ------------------------------------------------------------------
-    that.update = function(elapsedTime) {
+    that.update = function(elapsedTime, ship) {
       for (key = 0; key < that.handlers.length; key++) {
         if (typeof that.keys[that.handlers[key].key] !== 'undefined') {
-          that.handlers[key].handler(elapsedTime);
+          that.handlers[key].handler(elapsedTime, ship);
         }
       }
     };

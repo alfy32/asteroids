@@ -8,7 +8,8 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myMouse = ASTEROIDGAME.input.Mouse(),
     myKeyboard = ASTEROIDGAME.input.Keyboard(),
     myShip = null,
-    cancelNextRequest = false;
+    cancelNextRequest = false,
+    myLasers = null;
 
   function initialize() {
     console.log('game initializing...');
@@ -19,21 +20,29 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myShip = ASTEROIDGAME.graphics.Ship( {
       image : ASTEROIDGAME.images['/img/longBrownShip.png'],
       center : { x : (Math.floor(window.innerWidth/2)), y : (Math.floor(window.innerHeight/2))},
-      width : 100, height : 100,
+      width : 50, height : 50,
       rotation : 3.14,
       direction : 3.14,
-      moveRate : 400,     // pixels per second
+      moveRate : 300,     // pixels per second
       rotateRate : 6.14159  // Radians per second
     });
 
+    myLasers = ASTEROIDGAME.graphics.Lasers({
+      activeLasers : []
+    });
     //
     // Create the keyboard input handler and register the keyboard commands
     //myKeyboard.registerCommand(KeyEvent.DOM_VK_A, myShip.moveLeft);
     //myKeyboard.registerCommand(KeyEvent.DOM_VK_D, myShip.moveRight);
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_W, myShip.moveUp);
+    //myKeyboard.registerCommand(KeyEvent.DOM_VK_W, myShip.moveUp);
     //myKeyboard.registerCommand(KeyEvent.DOM_VK_S, myShip.moveDown);
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_Q, myShip.rotateLeft);
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_E, myShip.rotateRight);
+    //myKeyboard.registerCommand(KeyEvent.DOM_VK_Q, myShip.rotateLeft);
+    //myKeyboard.registerCommand(KeyEvent.DOM_VK_E, myShip.rotateRight);
+
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_A, myShip.rotateLeft);
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_D, myShip.rotateRight);
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_W, myShip.moveUp);
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, myLasers.create);
 
     myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {
       //
@@ -76,10 +85,14 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     ASTEROIDGAME.elapsedTime = time - ASTEROIDGAME.lastTimeStamp;
     ASTEROIDGAME.lastTimeStamp = time;
 
-    myKeyboard.update(ASTEROIDGAME.elapsedTime);
+    myKeyboard.update(ASTEROIDGAME.elapsedTime, myShip);
     myMouse.update(ASTEROIDGAME.elapsedTime);
 
     ASTEROIDGAME.graphics.clear();
+
+    myLasers.update(ASTEROIDGAME.elapsedTime);
+    myLasers.draw();
+
     myShip.update(ASTEROIDGAME.elapsedTime);
     myShip.draw();
 
@@ -96,6 +109,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     //
     // Start the animation loop
     cancelNextRequest = false;
+    myShip.moving = false;
     myKeyboard.clear();
     requestAnimationFrame(gameLoop);
   }
