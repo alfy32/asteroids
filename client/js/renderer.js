@@ -9,7 +9,7 @@
 ASTEROIDGAME.graphics = (function() {
   'use strict';
 
-  var canvas = document.getElementById('canvas-main'),
+  var canvas = document.getElementById('canvas-main'), moving =false,
     context = canvas.getContext('2d');
 
   //
@@ -58,11 +58,11 @@ ASTEROIDGAME.graphics = (function() {
     };
 
     that.moveUp = function(elapsedTime) {
-      spec.center.y -= spec.moveRate * (elapsedTime / 1000);
-      if(spec.center.y<0){
-        spec.center.y = canvas.height;
-      }
-
+      //console.log('Rotation' + spec.rotation);
+      //spec.center.y -= spec.moveRate * (elapsedTime / 1000);
+      moving =true;
+      spec.direction = spec.rotation;
+     
     };
 
     that.moveDown = function(elapsedTime) {
@@ -75,6 +75,26 @@ ASTEROIDGAME.graphics = (function() {
     that.moveTo = function(center) {
       spec.center = center;
     };
+
+    that.update = function(elapsedTime){
+      if(moving){
+        spec.center.x -= Math.cos(spec.direction) * spec.moveRate * (elapsedTime / 1000);
+        spec.center.y -= Math.sin(spec.direction) * spec.moveRate * (elapsedTime / 1000);
+        if(spec.center.y<0){
+          spec.center.y = canvas.height;
+        }
+        if(spec.center.y>canvas.height){
+          spec.center.y = 0;
+        }
+        if(spec.center.x>canvas.width){
+          spec.center.x = 0;
+        }
+
+        if(spec.center.x<0){
+          spec.center.x = canvas.width;
+        }
+      }
+    }
 
     that.draw = function() {
       context.save();

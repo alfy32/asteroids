@@ -94,65 +94,13 @@ ASTEROIDGAME.input = (function() {
       key;
 
     function keyPress(e) { //87 -w, 83 - s, 68-d, 65-a, 69-e, 81-q
-      console.log(e.keyCode);
-
-      //check which key was pressed and remove opposite direction from keys object, also check for diagonal direction
-      if(e.keyCode==87){
-        delete that.keys[83]; //delete downward direction
-        if(68 in that.keysReleased){ //if left is still pressed then go diagonal
-          delete that.keys[68];
-        }
-        if(65 in that.keysReleased){ //if right is still pressed then go diagonal
-          delete that.keys[65];
-        }
-
-      }
-      if(e.keyCode==83){
-        delete that.keys[87];
-        if(that.keysReleased.hasOwnProperty(68)){
-          delete that.keys[68];
-        }
-        if(that.keysReleased.hasOwnProperty(68)){
-          delete that.keys[65];
-        }
-      }
-      if(e.keyCode==68){
-        delete that.keys[65];
-        if(that.keysReleased.hasOwnProperty(87)){
-          delete that.keys[87];
-        }
-        if(that.keysReleased.hasOwnProperty(83)){
-          delete that.keys[83];
-        }
-      }
-      if(e.keyCode==65){
-        delete that.keys[68];
-        if(that.keysReleased.hasOwnProperty(87)){
-          delete that.keys[87];
-        }
-        if(that.keysReleased.hasOwnProperty(83)){
-          delete that.keys[63];
-        }
-
-      }
-      if(e.keyCode==69){
-        delete that.keys[81];
-      }
-      if(e.keyCode==81){
-        delete that.keys[69];
-      }
-
+      //console.log(e.keyCode);
       that.keys[e.keyCode] = e.timeStamp;
-      if(e.keyCode in that.keysReleased){
-        delete that.keysReleased[e.keyCode];
-      }
+      
     }
 
     function keyRelease(e) {
-      if(e.keyCode == 69 || e.keyCode == 81){
         delete that.keys[e.keyCode];
-      }
-      that.keysReleased[e.keyCode] = e.timeStamp;
 
     }
     that.clear =  function(){

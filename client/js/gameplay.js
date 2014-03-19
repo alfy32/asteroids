@@ -20,17 +20,18 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       image : ASTEROIDGAME.images['/img/longBrownShip.png'],
       center : { x : (Math.floor(window.innerWidth/2)), y : (Math.floor(window.innerHeight/2))},
       width : 100, height : 100,
-      rotation : 0,
+      rotation : 3.14,
+      direction : 3.14,
       moveRate : 400,     // pixels per second
       rotateRate : 6.14159  // Radians per second
     });
 
     //
     // Create the keyboard input handler and register the keyboard commands
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_A, myShip.moveLeft);
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_D, myShip.moveRight);
+    //myKeyboard.registerCommand(KeyEvent.DOM_VK_A, myShip.moveLeft);
+    //myKeyboard.registerCommand(KeyEvent.DOM_VK_D, myShip.moveRight);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_W, myShip.moveUp);
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_S, myShip.moveDown);
+    //myKeyboard.registerCommand(KeyEvent.DOM_VK_S, myShip.moveDown);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_Q, myShip.rotateLeft);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_E, myShip.rotateRight);
 
@@ -79,6 +80,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myMouse.update(ASTEROIDGAME.elapsedTime);
 
     ASTEROIDGAME.graphics.clear();
+    myShip.update(ASTEROIDGAME.elapsedTime);
     myShip.draw();
 
     if (!cancelNextRequest) {
