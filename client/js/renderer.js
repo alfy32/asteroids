@@ -34,15 +34,24 @@ ASTEROIDGAME.graphics = (function() {
 
   function Lasers(spec){
     var that = {};
-
+    that.totalTime = 0;
     that.create = function(elapsedTime, ship){
-      spec.activeLasers.push({
-        image : ASTEROIDGAME.images['/img/laser.png'],
-        center : { x : ship.centerX, y : ship.centerY},
-        width : 30, height : 2,
-        direction : ship.rotation,
-        moveRate : 800,     // pixels per second 
-      });
+      if(that.totalTime > 75){
+      
+        that.totalTime =0;
+        that.lastTimeStamp = elapsedTime;
+        spec.activeLasers.push({
+          image : ASTEROIDGAME.images['/img/laser.png'],
+          center : {  x : ship.centerX-(Math.cos(ship.rotation)*((canvas.width*0.06)/2)), 
+                      y : ship.centerY-(Math.sin(ship.rotation)*((canvas.width*0.06)/2))},
+          width : 30, height : 2,
+          direction : ship.rotation,
+          moveRate : 800,     // pixels per second 
+        });
+      }
+      else{
+        that.totalTime+=elapsedTime;
+      }
     };
 
     that.update = function(elapsedTime){
@@ -89,6 +98,7 @@ ASTEROIDGAME.graphics = (function() {
     that.direction = spec.direction;
     that.rotation = spec.rotation;
     that.moving =false,
+
     that.rotateRight = function(elapsedTime) {
       that.rotation += spec.rotateRate * (elapsedTime / 1000);
     };
@@ -116,7 +126,33 @@ ASTEROIDGAME.graphics = (function() {
       //that.centerY-= spec.moveRate * (elapsedTime / 1000);
       that.moving =true;
       that.direction = that.rotation;
-     
+
+      //create particles for blast off
+      var particlesSmoke = ASTEROIDGAME.particleSystems.createSystem( {
+        image : ASTEROIDGAME.images['/img/smoke.png'],
+        center: { x : that.centerX+(Math.cos(that.rotation)*((canvas.width*0.05)/2)), 
+                  y : that.centerY+(Math.sin(that.rotation)*((canvas.width*0.05)/2))},
+        speed: {mean: .05, stdev: .01},
+        lifetime: {mean: 200, stdev: 20}
+      });
+
+      for(var i=0; i<5; ++i){
+        particlesSmoke.create();
+      }
+
+      var particleFire = ASTEROIDGAME.particleSystems.createSystem( {
+          image : ASTEROIDGAME.images['/img/fire.png'],
+          center: { x : that.centerX+(Math.cos(that.rotation)*((canvas.width*0.03)/2)), 
+                    y : that.centerY+(Math.sin(that.rotation)*((canvas.width*0.03)/2))},
+          speed: {mean: .05, stdev: .01},
+          lifetime: {mean: 300, stdev: 100}
+        });
+      for(var i=0; i<20; ++i){
+        particleFire.create();
+      }
+
+      spec.particles.push(particlesSmoke);
+      spec.particles.push(particleFire);
     };
 
     that.moveDown = function(elapsedTime) {
@@ -148,6 +184,9 @@ ASTEROIDGAME.graphics = (function() {
           that.centerX  = canvas.width;
         }
       }
+      for(var p in spec.particles){
+        spec.particles[p].update(elapsedTime);
+      }
     }
 
     that.draw = function() {
@@ -164,7 +203,16 @@ ASTEROIDGAME.graphics = (function() {
         size, size);
 
       context.restore();
+
+      for(var p in spec.particles){
+
+        if(spec.particles[p].render()){
+          spec.particles.splice(p,1);
+        }
+      }
     };
+
+
 
     return that;
   }

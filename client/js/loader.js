@@ -25,6 +25,7 @@ window.addEventListener('load', function() {
     {
       load : [
         'preload!/js/jquery-1.11.0.min.js',
+        'preload!/js/particle-system.js',
         'preload!/js/renderer.js',
         'preload!/js/input.js',
         'preload!/js/game.js',
@@ -35,7 +36,10 @@ window.addEventListener('load', function() {
         'preload!/js/about.js',
         'preload!/js/random.js',
         'preload!/img/longBrownShip.png',
-        'preload!/img/laser.png'
+        'preload!/img/laser.png',
+        'preload!/img/fire.png',
+        'preload!/img/smoke.png'
+
       ],
       complete : function() {
         console.log('All files requested for loading...');

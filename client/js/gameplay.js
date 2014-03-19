@@ -24,7 +24,8 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       rotation : 3.14,
       direction : 3.14,
       moveRate : 300,     // pixels per second
-      rotateRate : 6.14159  // Radians per second
+      rotateRate : 6.14159,  // Radians per second
+      particles: []
     });
 
     myLasers = ASTEROIDGAME.graphics.Lasers({
