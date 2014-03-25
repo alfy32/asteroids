@@ -1,6 +1,7 @@
 /* globals Modernizr, yepnope, console */
 
 var ASTEROIDGAME = {
+  audio : {},
   images : {},
   screens : {},
 
@@ -29,7 +30,7 @@ window.addEventListener('load', function() {
         'preload!/js/graphics.js',
         'preload!/js/graphics.asteroids.js',
         'preload!/js/graphics.Ship.js',
-        'preload!/js/graphics.Lazers.js',
+        'preload!/js/graphics.Lasers.js',
         'preload!/js/collision.js',
         'preload!/js/input.js',
         'preload!/js/game.js',
@@ -43,9 +44,14 @@ window.addEventListener('load', function() {
         'preload!/img/laser.png',
         'preload!/img/fire.png',
         'preload!/img/smoke.png',
-        'preload!/img/asteroid-sprite.png'
+        'preload!/img/asteroid-sprite.png',
 
-
+        'preload!/js/sounds.js',
+        'preload!/audio/bangLarge.wav',
+        'preload!/audio/bangMedium.wav',
+        'preload!/audio/bangSmall.wav',
+        'preload!/audio/fire.wav',
+        'preload!/audio/thrust.wav'
       ],
       complete : function() {
         console.log('All files requested for loading...');
@@ -65,14 +71,25 @@ yepnope.addPrefix('preload', function(resource) {
   console.log('preloading: ' + resource.url);
 
   ASTEROIDGAME.status.preloadRequest += 1;
+
   var isImage = /.+\.(jpg|png|gif)$/i.test(resource.url);
-  resource.noexec = isImage;
+  var isAudio = /.+\.(wav|mp3)$/i.test(resource.url);
+
+  resource.noexec = isImage || isAudio;
+
   resource.autoCallback = function(e) {
     if (isImage) {
       var image = new Image();
       image.src = resource.url;
+
       ASTEROIDGAME.images[resource.url] = image;
+
+    } else if(isAudio) {
+      var audio = new Audio(resource.url);
+
+      ASTEROIDGAME.audio[resource.url] = audio;
     }
+
     ASTEROIDGAME.status.preloadComplete += 1;
 
     //

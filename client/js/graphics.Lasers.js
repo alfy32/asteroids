@@ -9,15 +9,20 @@ ASTEROIDGAME.graphics.Lasers = (function() {
   function Lasers(spec){
     var that = {};
     that.totalTime = 0;
+
+    that.list = spec.activeLasers;
+
     that.create = function(elapsedTime, ship){
       if(that.totalTime > 75){
+
+        ASTEROIDGAME.sounds.shoot();
 
         that.totalTime =0;
         that.lastTimeStamp = elapsedTime;
         spec.activeLasers.push({
           image : ASTEROIDGAME.images['/img/laser.png'],
-          center : {  x : ship.centerX-(Math.cos(ship.rotation)*((canvas.width*0.06)/2)),
-                      y : ship.centerY-(Math.sin(ship.rotation)*((canvas.width*0.06)/2))},
+          center : {  x : ship.center.x-(Math.cos(ship.rotation)*((canvas.width*0.06)/2)),
+                      y : ship.center.y-(Math.sin(ship.rotation)*((canvas.width*0.06)/2))},
           width : 30, height : 2,
           direction : ship.rotation,
           moveRate : 800,     // pixels per second
@@ -58,6 +63,11 @@ ASTEROIDGAME.graphics.Lasers = (function() {
           laser.center.y - sizeY/2,
           sizeX, sizeY
         );
+
+        context.beginPath();
+        context.arc(laser.center.x, laser.center.y, laser.width/2, 0, 2*Math.PI);
+        context.stroke();
+
         context.restore();
       }
     };

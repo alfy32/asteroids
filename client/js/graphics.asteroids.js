@@ -9,6 +9,8 @@ ASTEROIDGAME.graphics.asteroids = (function() {
   var asteroids = [];
   var explosions = [];
 
+  var explosionLifeTime = 500; // ms
+
   var sprite = {
     large: {width: 200, height: 200, top: 0, speed: 30},
     medium: {width: 100, height: 100, top: 200, speed: 40},
@@ -21,12 +23,6 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     medium: 100,
     small: 50
   };
-
-  function getSize(number) {
-    if(number == 1) return 'small';
-    else if(number == 2) return 'medium';
-    else if(number == 3) return 'large';
-  }
 
   function create(size) {
     asteroids.push(asteroid({
@@ -48,13 +44,25 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     }
 
     for(var i in explosions) {
-      explosions[i].update(elapsedTime);
+      explosions[i].alive += elapsedTime;
+
+      if(explosions[i].alive > explosionLifeTime)
+        explosions.splice(i, 1);
+      else {
+        explosions[i].system.create();
+        explosions[i].system.create();
+        explosions[i].system.update(elapsedTime);
+      }
     }
   }
 
-  function draw() {
+  function render() {
     for(var i in asteroids) {
       asteroids[i].draw();
+    }
+
+    for(var i in explosions) {
+      explosions[i].system.render();
     }
   }
 
@@ -78,20 +86,23 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     };
 
     function addExplosion(center) {
-      var particles = ASTEROIDGAME.particleSystems.createSystem( {
+      var particleSystem = ASTEROIDGAME.particleSystems.createSystem( {
         image : ASTEROIDGAME.images['/img/fire.png'],
         center: {
           x: center.x,
           y: center.y
         },
-        speed: {mean: 0.05, stdev: 0.01},
-        lifetime: {mean: 300, stdev: 100}
+        speed: {mean: 0.1, stdev: 0.05},
+        lifetime: {mean: 30000, stdev: 100}
       });
 
-      for(var i = 0; i < 100; i++)
-        particles.create();
+      for(var i = 0; i < 20; i++)
+        particleSystem.create();
 
-      explosions.push(particles);
+      explosions.push({
+        system: particleSystem,
+        alive: 0
+      });
     }
 
     function addAsteroid(center, size) {
@@ -110,6 +121,7 @@ ASTEROIDGAME.graphics.asteroids = (function() {
 
     that.explode = function () {
       addExplosion(that.center);
+      ASTEROIDGAME.sounds.explode[that.size]();
 
       if(that.size == 'large') {
         asteroids.splice(asteroids.indexOf(that), 1);
@@ -133,8 +145,8 @@ ASTEROIDGAME.graphics.asteroids = (function() {
       that.velocity.y += that.power * (elapsedTime/1000);
     };
 
-    var lastImageChange = 0;
-    var imageChangeRate = 50;
+    // var lastImageChange = 0;
+    // var imageChangeRate = 50;
 
     that.update = function(elapsedTime){
       // lastImageChange += elapsedTime;
@@ -182,10 +194,6 @@ ASTEROIDGAME.graphics.asteroids = (function() {
       context.stroke();
 
       context.restore();
-
-      for(var i in explosions) {
-        explosions[i].render();
-      }
     };
 
     function imageLeft() {
@@ -201,6 +209,6 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     list: asteroids,
     create: create,
     update: update,
-    draw: draw
+    render: render
   };
 }());

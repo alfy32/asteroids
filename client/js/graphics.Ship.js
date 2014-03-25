@@ -46,6 +46,8 @@ ASTEROIDGAME.graphics.Ship = (function() {
       that.moving =true;
       that.direction = that.rotation;
 
+      ASTEROIDGAME.sounds.thrust();
+
       //create particles for blast off
       var particlesSmoke = ASTEROIDGAME.particleSystems.createSystem( {
         image : ASTEROIDGAME.images['/img/smoke.png'],

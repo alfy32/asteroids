@@ -32,7 +32,34 @@ ASTEROIDGAME.collision = (function() {
     return distance < radius1 + radius2;
   }
 
+  function checkLaserCollision(lasers, asteroids) {
+    var collisions = [];
+
+    for(var laser in lasers) {
+      for(var asteroid in asteroids) {
+        if(laserAsteroidCollision(lasers[laser], asteroids[asteroid])) {
+          collisions.push({
+            laser: lasers[laser],
+            asteroid: asteroids[asteroid]
+          });
+        }
+      }
+    }
+
+    return collisions;
+  }
+
+  function laserAsteroidCollision(laser, asteroid) {
+    var x = laser.center.x - asteroid.center.x;
+    var y = laser.center.y - asteroid.center.y;
+
+    var distance = Math.sqrt(x*x + y*y);
+
+    return distance < asteroid.width/2;
+  }
+
   return {
-    checkCollision: checkCollision
+    checkCollision: checkCollision,
+    checkLaserCollision: checkLaserCollision
   };
 }());

@@ -51,6 +51,10 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     //myKeyboard.registerCommand(KeyEvent.DOM_VK_Q, myShip.rotateLeft);
     //myKeyboard.registerCommand(KeyEvent.DOM_VK_E, myShip.rotateRight);
 
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_LEFT, myShip.rotateLeft);
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_RIGHT, myShip.rotateRight);
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, myShip.moveUp);
+
     myKeyboard.registerCommand(KeyEvent.DOM_VK_A, myShip.rotateLeft);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_D, myShip.rotateRight);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_W, myShip.moveUp);
@@ -110,8 +114,17 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       }
     }
 
+    var laserHits = myCollisions.checkLaserCollision(myLasers.list, myAsteroids.list);
+
+    if(laserHits.length) {
+      for(var i in laserHits) {
+        laserHits[i].asteroid.explode();
+        myLasers.list.splice(myLasers.list.indexOf(laserHits[i].laser), 1);
+      }
+    }
+
     myAsteroids.update(ASTEROIDGAME.elapsedTime);
-    myAsteroids.draw();
+    myAsteroids.render();
 
     myLasers.update(ASTEROIDGAME.elapsedTime);
     myLasers.draw();
