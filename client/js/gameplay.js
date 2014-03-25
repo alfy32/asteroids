@@ -37,10 +37,10 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     console.log(ASTEROIDGAME.graphics);
 
     myAsteroids = ASTEROIDGAME.graphics.asteroids;
-    myAsteroids.create();
-    myAsteroids.create();
-    myAsteroids.create();
-    myAsteroids.create();
+    myAsteroids.create('large');
+    myAsteroids.create('large');
+    myAsteroids.create('large');
+    myAsteroids.create('large');
 
     //
     // Create the keyboard input handler and register the keyboard commands
@@ -105,7 +105,9 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     var collisions = myCollisions.checkCollision([myShip], myAsteroids.list);
 
     if(collisions.length) {
-      console.log(collisions);
+      for(var i in collisions) {
+        collisions[i].item2.explode();
+      }
     }
 
     myAsteroids.update(ASTEROIDGAME.elapsedTime);

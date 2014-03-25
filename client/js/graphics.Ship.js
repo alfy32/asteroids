@@ -121,6 +121,10 @@ ASTEROIDGAME.graphics.Ship = (function() {
         that.center.y- that.width/2,
         that.width, that.width);
 
+      context.beginPath();
+      context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
+      context.stroke();
+
       context.restore();
 
       for(var p in spec.particles){
