@@ -1,95 +1,10 @@
-/*jslint browser: true, white: true */
-/*global CanvasRenderingContext2D, ASTEROIDGAME */
+/*global ASTEROIDGAME */
 
-// ------------------------------------------------------------------
-//
-//
-// ------------------------------------------------------------------
-
-ASTEROIDGAME.graphics = (function() {
+ASTEROIDGAME.graphics.Ship = (function() {
   'use strict';
 
-  var canvas = document.getElementById('canvas-main'), 
-    context = canvas.getContext('2d');
-
-  //
-  // Place a 'clear' function on the Canvas prototype, this makes it a part
-  // of the canvas, rather than making a function that calls and does it.
-  CanvasRenderingContext2D.prototype.clear = function() {
-    this.save();
-    this.setTransform(1, 0, 0, 1, 0, 0);
-    this.clearRect(0, 0, canvas.width, canvas.height);
-    this.restore();
-  };
-
-  function clear() {
-    context.clear();
-  }
-
-  function resize() {
-
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-
-  function Lasers(spec){
-    var that = {};
-    that.totalTime = 0;
-    that.create = function(elapsedTime, ship){
-      if(that.totalTime > 75){
-      
-        that.totalTime =0;
-        that.lastTimeStamp = elapsedTime;
-        spec.activeLasers.push({
-          image : ASTEROIDGAME.images['/img/laser.png'],
-          center : {  x : ship.centerX-(Math.cos(ship.rotation)*((canvas.width*0.06)/2)), 
-                      y : ship.centerY-(Math.sin(ship.rotation)*((canvas.width*0.06)/2))},
-          width : 30, height : 2,
-          direction : ship.rotation,
-          moveRate : 800,     // pixels per second 
-        });
-      }
-      else{
-        that.totalTime+=elapsedTime;
-      }
-    };
-
-    that.update = function(elapsedTime){
-
-      for(var L in spec.activeLasers){
-        var laser = spec.activeLasers[L];
-        laser.center.x -= Math.cos(laser.direction) * laser.moveRate * (elapsedTime / 1000);
-        laser.center.y -= Math.sin(laser.direction) * laser.moveRate * (elapsedTime / 1000);
-
-        if(laser.center.y<0 || laser.center.y>canvas.height || laser.center.x<0 || laser.center.x>canvas.width){
-          spec.activeLasers.splice(L, 1);
-        }
-        
-      }
-    };
-
-    that.draw = function(){
-
-      var sizeX = canvas.width*0.02;
-      var sizeY = canvas.width*0.002;
-      for(var L in spec.activeLasers){
-        var laser = spec.activeLasers[L];
-        context.save();
-        context.translate(laser.center.x , laser.center.y );
-        context.rotate(laser.direction);
-        context.translate(-laser.center.x , -laser.center.y );
-        context.drawImage(
-          laser.image,
-          laser.center.x - sizeX/2,
-          laser.center.y - sizeY/2,
-          sizeX, sizeY
-        );
-        context.restore();
-      }
-    };
-
-    return that;
-  }
+  var canvas = document.getElementById('canvas-main');
+  var context = canvas.getContext('2d');
 
   function Ship(spec) {
     var that = {};
@@ -97,7 +12,7 @@ ASTEROIDGAME.graphics = (function() {
     that.centerY = spec.center.y;
     that.direction = spec.direction;
     that.rotation = spec.rotation;
-    that.moving =false,
+    that.moving = false;
 
     that.rotateRight = function(elapsedTime) {
       that.rotation += spec.rotateRate * (elapsedTime / 1000);
@@ -130,9 +45,9 @@ ASTEROIDGAME.graphics = (function() {
       //create particles for blast off
       var particlesSmoke = ASTEROIDGAME.particleSystems.createSystem( {
         image : ASTEROIDGAME.images['/img/smoke.png'],
-        center: { x : that.centerX+(Math.cos(that.rotation)*((canvas.width*0.05)/2)), 
+        center: { x : that.centerX+(Math.cos(that.rotation)*((canvas.width*0.05)/2)),
                   y : that.centerY+(Math.sin(that.rotation)*((canvas.width*0.05)/2))},
-        speed: {mean: .05, stdev: .01},
+        speed: {mean: 0.05, stdev: 0.01},
         lifetime: {mean: 200, stdev: 20}
       });
 
@@ -142,9 +57,9 @@ ASTEROIDGAME.graphics = (function() {
 
       var particleFire = ASTEROIDGAME.particleSystems.createSystem( {
           image : ASTEROIDGAME.images['/img/fire.png'],
-          center: { x : that.centerX+(Math.cos(that.rotation)*((canvas.width*0.03)/2)), 
+          center: { x : that.centerX+(Math.cos(that.rotation)*((canvas.width*0.03)/2)),
                     y : that.centerY+(Math.sin(that.rotation)*((canvas.width*0.03)/2))},
-          speed: {mean: .05, stdev: .01},
+          speed: {mean: 0.05, stdev: 0.01},
           lifetime: {mean: 300, stdev: 100}
         });
       for(var i=0; i<20; ++i){
@@ -187,7 +102,7 @@ ASTEROIDGAME.graphics = (function() {
       for(var p in spec.particles){
         spec.particles[p].update(elapsedTime);
       }
-    }
+    };
 
     that.draw = function() {
       context.save();
@@ -212,16 +127,8 @@ ASTEROIDGAME.graphics = (function() {
       }
     };
 
-
-
     return that;
   }
 
-
-  return {
-    clear : clear,
-    Ship : Ship,
-    resize: resize,
-    Lasers: Lasers
-  };
+  return Ship;
 }());

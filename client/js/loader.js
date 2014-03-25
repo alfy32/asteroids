@@ -26,8 +26,10 @@ window.addEventListener('load', function() {
       load : [
         'preload!/js/jquery-1.11.0.min.js',
         'preload!/js/particle-system.js',
-        'preload!/js/renderer.js',
+        'preload!/js/graphics.js',
         'preload!/js/graphics.asteroids.js',
+        'preload!/js/graphics.Ship.js',
+        'preload!/js/graphics.Lazers.js',
         'preload!/js/input.js',
         'preload!/js/game.js',
         'preload!/js/mainmenu.js',
