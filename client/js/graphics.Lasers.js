@@ -1,79 +1,109 @@
 /*global ASTEROIDGAME */
 
-ASTEROIDGAME.graphics.Lasers = (function() {
+ASTEROIDGAME.graphics.lasers = (function() {
   'use strict';
 
   var canvas = document.getElementById('canvas-main');
   var context = canvas.getContext('2d');
 
-  function Lasers(spec){
-    var that = {};
-    that.totalTime = 0;
+  var lasers = [];
 
-    that.list = spec.activeLasers;
+  var shoot = {
+    limit: 300,
+    last: 0
+  };
 
-    that.create = function(elapsedTime, ship){
-      if(that.totalTime > 75){
+  var lifeTime = 1000;
 
-        ASTEROIDGAME.sounds.shoot();
+  function create(elapsedTime, ship) {
+    if(shoot.last > shoot.limit) {
+      shoot.last = 0;
 
-        that.totalTime =0;
-        that.lastTimeStamp = elapsedTime;
-        spec.activeLasers.push({
-          image : ASTEROIDGAME.images['/img/laser.png'],
-          center : {  x : ship.center.x-(Math.cos(ship.rotation)*((canvas.width*0.06)/2)),
-                      y : ship.center.y-(Math.sin(ship.rotation)*((canvas.width*0.06)/2))},
-          width : 30, height : 2,
-          direction : ship.rotation,
-          moveRate : 800,     // pixels per second
-        });
+      lasers.push(laser({
+        center: {
+          x: ship.center.x-(Math.cos(ship.rotation)*((canvas.width*0.06)/2)),
+          y: ship.center.y-(Math.sin(ship.rotation)*((canvas.width*0.06)/2))
+        },
+        image: ASTEROIDGAME.images['/img/laser.png'],
+        direction: ship.rotation
+      }));
+
+      ASTEROIDGAME.sounds.shoot();
+
+    } else {
+      shoot.last += elapsedTime;
+    }
+  }
+
+  function update(elapsedTime) {
+    for(var i in lasers) {
+      lasers[i].update(elapsedTime);
+
+      if(lasers[i].alive > lifeTime) {
+        lasers.splice(i,1);
       }
-      else{
-        that.totalTime+=elapsedTime;
-      }
+    }
+  }
+
+  function render(elapsedTime) {
+    for(var i in lasers) {
+      lasers[i].draw(elapsedTime);
+    }
+  }
+
+  function laser(spec){
+    var that = {
+      center: {
+        x: spec.center.x,
+        y: spec.center.y,
+      },
+      image: spec.image,
+      direction: spec.direction,
+      get width() { return canvas.width*0.02; },
+      get height() { return canvas.width*0.002; },
+      // width: 30,
+      // height: 2,
+      moveRate: 800,
+      alive: 0
     };
 
     that.update = function(elapsedTime){
+      that.center.x -= Math.cos(that.direction) * that.moveRate * (elapsedTime / 1000);
+      that.center.y -= Math.sin(that.direction) * that.moveRate * (elapsedTime / 1000);
 
-      for(var L in spec.activeLasers){
-        var laser = spec.activeLasers[L];
-        laser.center.x -= Math.cos(laser.direction) * laser.moveRate * (elapsedTime / 1000);
-        laser.center.y -= Math.sin(laser.direction) * laser.moveRate * (elapsedTime / 1000);
+      that.alive += elapsedTime;
 
-        if(laser.center.y<0 || laser.center.y>canvas.height || laser.center.x<0 || laser.center.x>canvas.width){
-          spec.activeLasers.splice(L, 1);
-        }
-
-      }
+      ASTEROIDGAME.graphics.wrapAround(that.center, {width: that.width, height: that.height});
     };
 
     that.draw = function(){
+      context.save();
 
-      var sizeX = canvas.width*0.02;
-      var sizeY = canvas.width*0.002;
-      for(var L in spec.activeLasers){
-        var laser = spec.activeLasers[L];
-        context.save();
-        context.translate(laser.center.x , laser.center.y );
-        context.rotate(laser.direction);
-        context.translate(-laser.center.x , -laser.center.y );
-        context.drawImage(
-          laser.image,
-          laser.center.x - sizeX/2,
-          laser.center.y - sizeY/2,
-          sizeX, sizeY
-        );
+      context.translate(that.center.x , that.center.y );
+      context.rotate(that.direction);
+      context.translate(-that.center.x , -that.center.y );
 
-        context.beginPath();
-        context.arc(laser.center.x, laser.center.y, laser.width/2, 0, 2*Math.PI);
-        context.stroke();
+      context.drawImage(
+        that.image,
+        that.center.x - that.width/2,
+        that.center.y - that.height/2,
+        that.width, that.height
+      );
 
-        context.restore();
-      }
+      context.beginPath();
+      context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
+      context.stroke();
+
+      context.restore();
     };
 
     return that;
   }
 
-  return Lasers;
+  return {
+    list: lasers,
+    create: create,
+    update: update,
+    render: render
+  };
 }());

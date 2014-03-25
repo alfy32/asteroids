@@ -25,9 +25,17 @@ ASTEROIDGAME.graphics = (function() {
     canvas.height = window.innerHeight;
   }
 
+  function wrapAround(center, dimensions) {
+    if(center.x + dimensions.width < 0) center.x = canvas.width + dimensions.width;
+    if(center.y + dimensions.height < 0) center.y = canvas.height + dimensions.height;
+
+    if(center.x - dimensions.width > canvas.width) center.x = -dimensions.width;
+    if(center.y - dimensions.height > canvas.height) center.y = -dimensions.height;
+  }
 
   return {
     clear : clear,
     resize: resize,
+    wrapAround: wrapAround
   };
 }());

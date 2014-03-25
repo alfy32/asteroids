@@ -97,22 +97,12 @@ ASTEROIDGAME.graphics.Ship = (function() {
       that.center.x += that.velocity.x * (elapsedTime/1000);
       that.center.y += that.velocity.y * (elapsedTime/1000);
 
-      wrapAround(that.center);
+      ASTEROIDGAME.graphics.wrapAround(that.center, {width: that.width, height: that.height});
 
       for(var p in spec.particles){
         spec.particles[p].update(elapsedTime);
       }
     };
-
-    function wrapAround(center) {
-      var size = that.width;
-
-      if(center.x + size/2 < 0) center.x = canvas.width + size/2;
-      if(center.y + size/2 < 0) center.y = canvas.height + size/2;
-
-      if(center.x - size/2 > canvas.width) center.x = -size/2;
-      if(center.y - size/2 > canvas.height) center.y = -size/2;
-    }
 
     that.draw = function() {
       context.save();

@@ -9,8 +9,8 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myKeyboard = ASTEROIDGAME.input.Keyboard(),
     myShip = null,
     cancelNextRequest = false,
-    myLasers = null,
-    myAsteroids = null,
+    myLasers = ASTEROIDGAME.graphics.lasers,
+    myAsteroids = ASTEROIDGAME.graphics.asteroids,
     myCollisions = ASTEROIDGAME.collision;
 
   function initialize() {
@@ -30,13 +30,6 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       particles: []
     });
 
-    myLasers = ASTEROIDGAME.graphics.Lasers({
-      activeLasers : []
-    });
-
-    console.log(ASTEROIDGAME.graphics);
-
-    myAsteroids = ASTEROIDGAME.graphics.asteroids;
     myAsteroids.create('large');
     myAsteroids.create('large');
     myAsteroids.create('large');
@@ -127,7 +120,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myAsteroids.render();
 
     myLasers.update(ASTEROIDGAME.elapsedTime);
-    myLasers.draw();
+    myLasers.render();
 
     myShip.update(ASTEROIDGAME.elapsedTime);
     myShip.draw();
