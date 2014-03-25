@@ -48,3 +48,13 @@ The following are the required project elements:
   * Ends when the user moves the mouse or presses any keyboard key.
   * During Attract Mode the AI player must be able to clear one full level of asteroids, taking at least 60 seconds to do so.
 * All pages, code, and assets must be served from a NodeJS server.
+
+### Development Milestones
+
+The following are the development milestones we developed in class:
+
+1. Ship Rendering & Movement : by 3/21/2014
+2. Asteroids moving, collision detection : 3/28/2014
+3. Particle system, projectiles doing things : 4/4/2014
+
+These are to help push you to work on the game before it is due, they don't necessarily provide enough to suggest you'll get the game done if you only complete the milestones by those dates.  Work early and often on this game.  Bring issue to class and let's discuss them as a group, allowing everyone to benefit from the experience.  I'm quite excited for this game, I'm looking forward to some great work!
