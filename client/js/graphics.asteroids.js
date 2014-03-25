@@ -12,9 +12,9 @@ ASTEROIDGAME.graphics.asteroids = (function() {
   var explosionLifeTime = 500; // ms
 
   var sprite = {
-    large: {width: 200, height: 200, top: 0, speed: 30},
-    medium: {width: 100, height: 100, top: 200, speed: 40},
-    small: {width: 50, height: 50, top: 300, speed: 50},
+    large: {width: 200, height: 200, top: 0, speed: 70},
+    medium: {width: 100, height: 100, top: 200, speed: 100},
+    small: {width: 50, height: 50, top: 300, speed: 150},
     numberOfImages: 8
   };
 

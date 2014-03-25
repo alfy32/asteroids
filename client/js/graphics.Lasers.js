@@ -9,7 +9,7 @@ ASTEROIDGAME.graphics.lasers = (function() {
   var lasers = [];
 
   var shoot = {
-    limit: 300,
+    limit: 400,
     last: 0
   };
 
