@@ -25,7 +25,7 @@ Pay attention to the rotating asteroids (you'll be in 2D, not 3D), the backgroun
 
 The following are the required project elements:
 
-* Must substantially implement the Asteroids game play. This is a ship that starts in the center and has a bunch of asteroids float around it, with the player trying to clear the screen, and every once in a while a UFO shows up that randomly shoots bullets around.  No friction on the player ship!
+* Must substantially implement the Asteroids game play. This is a ship that starts in the center and has a bunch of asteroids float around it, with the player trying to clear the screen, and every once in a while a UFO shows up that randomly shoots bullets around. **No friction on the player ship!**
   * Player starts with three lives.
   * Hyperspace ability, smartly place the ship in a "safe" location.
   * You can decide how many and how often the ship can fire, but it better be at least 4 active missiles.
@@ -34,7 +34,7 @@ The following are the required project elements:
   * Utilize three different asteroid sizes.  Largest break into three, middle break into four.
 * Use HTML5 2D Canvas rendering.  The example is in 3D, but you are working in 2D.
 * Must utilize particle effects; again look at the example gameplay clip.
-* Must use sound effects.
+* Must use sound effects. Let's plan on Google Chrome as the only browser that has to be supported for sound.
 * Presentation must include at least the following:
   * Menu: New Game, Controls, High Scores, Credits
   * During Game Play
@@ -42,7 +42,12 @@ The following are the required project elements:
     * Current Level
     * Number of Lives Left
   * User ability to change controls.
-* High Scores are persistent between gameplay sessions, persisting to the server.
+* High Scores are persistent between gameplay sessions, persisting to the server, and surviving server restarts (i.e., save the scores to a file and read when the server starts).  Use the following web service API definition:
+  * GET : /v1/high-scores
+    * Returns all scores from the server in a JSON format.  You may choose the specific JSON format.
+  * POST : /v1/high-scores?name={name}&score={score}
+    * Sends a new score to the server.  The server should only keep the top ten high scores.
+  * Feel free to add additional APIs to suit your particular needs, but you most implement the above two.
 * AI Component:  Attract Mode.
   * Begins after 10 seconds of inactivity on the Main Menu.
   * Ends when the user moves the mouse or presses any keyboard key.
