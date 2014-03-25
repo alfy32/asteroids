@@ -23,10 +23,10 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       image : ASTEROIDGAME.images['/img/longBrownShip.png'],
       center : { x : (Math.floor(window.innerWidth/2)), y : (Math.floor(window.innerHeight/2))},
       width : 50, height : 50,
-      rotation : 3.14,
-      direction : 3.14,
+      rotation : Math.PI,
+      direction : Math.PI,
       moveRate : 500,     // pixels per second
-      rotateRate : 6.14159,  // Radians per second
+      rotateRate : 2*Math.PI,  // Radians per second
       particles: []
     });
 
@@ -99,15 +99,14 @@ ASTEROIDGAME.screens['game-play'] = (function() {
 
     ASTEROIDGAME.graphics.clear();
 
-    var collisions = myCollisions.checkCollision([myShip], myAsteroids.list);
+    var asteroidHit = myCollisions.checkAsteroidCollision(myShip, myAsteroids.list);
 
-    if(collisions.length) {
-      for(var i in collisions) {
-        collisions[i].item2.explode();
-      }
+    if(asteroidHit) {
+      asteroidHit.explode();
+      myShip.explode();
     }
 
-    var laserHits = myCollisions.checkLaserCollision(myLasers.list, myAsteroids.list);
+    var laserHits = myCollisions.checkLaserAsteroidCollision(myLasers.list, myAsteroids.list);
 
     if(laserHits.length) {
       for(var i in laserHits) {

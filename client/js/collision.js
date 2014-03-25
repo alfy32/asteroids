@@ -32,16 +32,28 @@ ASTEROIDGAME.collision = (function() {
     return distance < radius1 + radius2;
   }
 
-  function checkLaserCollision(lasers, asteroids) {
+  function checkAsteroidCollision(ship, asteroids) {
+    for(var i in asteroids) {
+      if(collision(ship, asteroids[i])) {
+        return asteroids[i];
+      }
+    }
+
+    return false;
+  }
+
+  function checkLaserAsteroidCollision(lasers, asteroids) {
     var collisions = [];
 
-    for(var laser in lasers) {
-      for(var asteroid in asteroids) {
+    for(var asteroid in asteroids) {
+      for(var laser in lasers) {
         if(laserAsteroidCollision(lasers[laser], asteroids[asteroid])) {
           collisions.push({
             laser: lasers[laser],
             asteroid: asteroids[asteroid]
           });
+          // break so that a laser can only destroy one asteroid.
+          break;
         }
       }
     }
@@ -60,6 +72,7 @@ ASTEROIDGAME.collision = (function() {
 
   return {
     checkCollision: checkCollision,
-    checkLaserCollision: checkLaserCollision
+    checkLaserAsteroidCollision: checkLaserAsteroidCollision,
+    checkAsteroidCollision: checkAsteroidCollision
   };
 }());

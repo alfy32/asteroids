@@ -93,6 +93,10 @@ ASTEROIDGAME.graphics.Ship = (function() {
       spec.particles.push(particleFire);
     }
 
+    that.explode = function () {
+      console.log('You\'re dead. You hit an asteroid');
+    };
+
     that.update = function(elapsedTime){
       that.center.x += that.velocity.x * (elapsedTime/1000);
       that.center.y += that.velocity.y * (elapsedTime/1000);
