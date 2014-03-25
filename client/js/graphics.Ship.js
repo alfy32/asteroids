@@ -13,102 +13,93 @@ ASTEROIDGAME.graphics.Ship = (function() {
         y: spec.center.y
       },
       get width() { return canvas.width * 0.06; },
-      direction: spec.direction,
+      get height() { return canvas.width * 0.06; },
+      velocity: {
+        x: 0,
+        y: 0
+      },
+      moveRate: spec.moveRate,
+      image: spec.image,
       rotation: spec.rotation,
       moving: false
     };
 
-    that.rotateRight = function(elapsedTime) {
+    that.rotateRight = function (elapsedTime) {
       that.rotation += spec.rotateRate * (elapsedTime / 1000);
     };
 
-    that.rotateLeft = function(elapsedTime) {
+    that.rotateLeft = function (elapsedTime) {
       that.rotation -= spec.rotateRate * (elapsedTime / 1000);
     };
 
-    that.moveLeft = function(elapsedTime) {
-      that.center.x  -= spec.moveRate * (elapsedTime / 1000);
-      if(that.center.x <0){
-        that.center.x  = canvas.width;
-      }
-    };
-
-    that.moveRight = function(elapsedTime) {
-      that.center.x  += spec.moveRate * (elapsedTime / 1000);
-      if(that.center.x >canvas.width){
-        that.center.x  = 0;
-      }
-    };
-
-    that.moveUp = function(elapsedTime) {
-      //console.log('Rotation' + that.rotation);
-      //that.center.y-= spec.moveRate * (elapsedTime / 1000);
-      that.moving =true;
-      that.direction = that.rotation;
+    that.accelerate = function (elapsedTime) {
+      that.velocity.x += that.moveRate * -Math.cos(that.rotation) * (elapsedTime/1000);
+      that.velocity.y += that.moveRate * -Math.sin(that.rotation) * (elapsedTime/1000);
 
       ASTEROIDGAME.sounds.thrust();
 
+      createParticles();
+    };
+
+    var particlesToCreate = {
+      smoke: 5,
+      fire: 20
+    };
+
+    function createParticles() {
       //create particles for blast off
-      var particlesSmoke = ASTEROIDGAME.particleSystems.createSystem( {
-        image : ASTEROIDGAME.images['/img/smoke.png'],
-        center: { x : that.center.x+(Math.cos(that.rotation)*((canvas.width*0.05)/2)),
-                  y : that.center.y+(Math.sin(that.rotation)*((canvas.width*0.05)/2))},
+      var particlesSmoke = ASTEROIDGAME.particleSystems.createSystem({
+        image: ASTEROIDGAME.images['/img/smoke.png'],
+        center: {
+          x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.05)/2)),
+          y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.05)/2))
+        },
         speed: {mean: 0.05, stdev: 0.01},
         lifetime: {mean: 200, stdev: 20}
       });
 
-      for(var i=0; i<5; ++i){
+      for(var i = 0; i < particlesToCreate.smoke; ++i){
         particlesSmoke.create();
       }
 
-      var particleFire = ASTEROIDGAME.particleSystems.createSystem( {
-          image : ASTEROIDGAME.images['/img/fire.png'],
-          center: { x : that.center.x+(Math.cos(that.rotation)*((canvas.width*0.03)/2)),
-                    y : that.center.y+(Math.sin(that.rotation)*((canvas.width*0.03)/2))},
-          speed: {mean: 0.05, stdev: 0.01},
-          lifetime: {mean: 300, stdev: 100}
-        });
-      for(var i=0; i<20; ++i){
+      var particleFire = ASTEROIDGAME.particleSystems.createSystem({
+        image: ASTEROIDGAME.images['/img/fire.png'],
+        center: {
+          x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.03)/2)),
+          y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.03)/2))
+        },
+        speed: {mean: 0.05, stdev: 0.01},
+        lifetime: {mean: 300, stdev: 100}
+      });
+
+      for(var i = 0;  i < particlesToCreate.fire; ++i){
         particleFire.create();
       }
 
       spec.particles.push(particlesSmoke);
       spec.particles.push(particleFire);
-    };
-
-    that.moveDown = function(elapsedTime) {
-      that.center.y+= spec.moveRate * (elapsedTime / 1000);
-      if(that.center.y>canvas.height){
-        that.center.y= 0;
-      }
-    };
-
-    that.moveTo = function(center) {
-      spec.center = center;
-    };
+    }
 
     that.update = function(elapsedTime){
-      if(that.moving){
-        that.center.x  -= Math.cos(that.direction) * spec.moveRate * (elapsedTime / 1000);
-        that.center.y-= Math.sin(that.direction) * spec.moveRate * (elapsedTime / 1000);
-        if(that.center.y<0){
-          that.center.y= canvas.height;
-        }
-        if(that.center.y>canvas.height){
-          that.center.y= 0;
-        }
-        if(that.center.x >canvas.width){
-          that.center.x  = 0;
-        }
+      that.center.x += that.velocity.x * (elapsedTime/1000);
+      that.center.y += that.velocity.y * (elapsedTime/1000);
 
-        if(that.center.x <0){
-          that.center.x  = canvas.width;
-        }
-      }
+      wrapAround(that.center);
+
       for(var p in spec.particles){
         spec.particles[p].update(elapsedTime);
       }
     };
+
+    function wrapAround(center) {
+      var size = that.width;
+
+      if(center.x + size/2 < 0) center.x = canvas.width + size/2;
+      if(center.y + size/2 < 0) center.y = canvas.height + size/2;
+
+      if(center.x - size/2 > canvas.width) center.x = -size/2;
+      if(center.y - size/2 > canvas.height) center.y = -size/2;
+    }
 
     that.draw = function() {
       context.save();

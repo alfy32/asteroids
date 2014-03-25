@@ -53,11 +53,11 @@ ASTEROIDGAME.screens['game-play'] = (function() {
 
     myKeyboard.registerCommand(KeyEvent.DOM_VK_LEFT, myShip.rotateLeft);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_RIGHT, myShip.rotateRight);
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, myShip.moveUp);
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, myShip.accelerate);
 
     myKeyboard.registerCommand(KeyEvent.DOM_VK_A, myShip.rotateLeft);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_D, myShip.rotateRight);
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_W, myShip.moveUp);
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_W, myShip.accelerate);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, myLasers.create);
 
     myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {
