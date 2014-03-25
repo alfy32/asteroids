@@ -1,5 +1,5 @@
 /*jslint browser: true, white: true, plusplus: true */
-/*global ASTEROIDGAME, console, KeyEvent, requestAnimationFrame, performance */
+/*global ASTEROIDGAME, Random, console, KeyEvent, requestAnimationFrame, performance */
 
 ASTEROIDGAME.screens['game-play'] = (function() {
   'use strict';
@@ -9,7 +9,8 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myKeyboard = ASTEROIDGAME.input.Keyboard(),
     myShip = null,
     cancelNextRequest = false,
-    myLasers = null;
+    myLasers = null,
+    myAsteroids = null;
 
   function initialize() {
     console.log('game initializing...');
@@ -31,6 +32,15 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myLasers = ASTEROIDGAME.graphics.Lasers({
       activeLasers : []
     });
+
+    console.log(ASTEROIDGAME.graphics);
+
+    myAsteroids = ASTEROIDGAME.graphics.asteroids;
+    myAsteroids.create();
+    myAsteroids.create();
+    myAsteroids.create();
+    myAsteroids.create();
+
     //
     // Create the keyboard input handler and register the keyboard commands
     //myKeyboard.registerCommand(KeyEvent.DOM_VK_A, myShip.moveLeft);
@@ -90,6 +100,9 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myMouse.update(ASTEROIDGAME.elapsedTime);
 
     ASTEROIDGAME.graphics.clear();
+
+    myAsteroids.update(ASTEROIDGAME.elapsedTime);
+    myAsteroids.draw();
 
     myLasers.update(ASTEROIDGAME.elapsedTime);
     myLasers.draw();
