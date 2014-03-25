@@ -6,6 +6,8 @@ ASTEROIDGAME.graphics.Ship = (function() {
   var canvas = document.getElementById('canvas-main');
   var context = canvas.getContext('2d');
 
+  var MAX_VELOCITY = 800;
+
   function Ship(spec) {
     var that = {
       center: {
@@ -33,13 +35,24 @@ ASTEROIDGAME.graphics.Ship = (function() {
     };
 
     that.accelerate = function (elapsedTime) {
-      that.velocity.x += that.moveRate * -Math.cos(that.rotation) * (elapsedTime/1000);
-      that.velocity.y += that.moveRate * -Math.sin(that.rotation) * (elapsedTime/1000);
+      var newVelocity = {
+        x: that.velocity.x + that.moveRate * -Math.cos(that.rotation) * (elapsedTime/1000),
+        y: that.velocity.y + that.moveRate * -Math.sin(that.rotation) * (elapsedTime/1000)
+      };
+
+      if(!overMaxVelocity(newVelocity)) {
+        that.velocity.x = newVelocity.x;
+        that.velocity.y = newVelocity.y;
+      }
 
       ASTEROIDGAME.sounds.thrust();
 
       createParticles();
     };
+
+    function overMaxVelocity(velocity) {
+      return Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y) > MAX_VELOCITY;
+    }
 
     var particlesToCreate = {
       smoke: 5,

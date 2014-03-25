@@ -25,7 +25,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       width : 50, height : 50,
       rotation : 3.14,
       direction : 3.14,
-      moveRate : 300,     // pixels per second
+      moveRate : 500,     // pixels per second
       rotateRate : 6.14159,  // Radians per second
       particles: []
     });
