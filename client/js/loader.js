@@ -30,6 +30,7 @@ window.addEventListener('load', function() {
         'preload!/js/graphics.asteroids.js',
         'preload!/js/graphics.Ship.js',
         'preload!/js/graphics.Lazers.js',
+        'preload!/js/collision.js',
         'preload!/js/input.js',
         'preload!/js/game.js',
         'preload!/js/mainmenu.js',

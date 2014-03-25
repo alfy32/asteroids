@@ -10,7 +10,8 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myShip = null,
     cancelNextRequest = false,
     myLasers = null,
-    myAsteroids = null;
+    myAsteroids = null,
+    myCollisions = ASTEROIDGAME.collision;
 
   function initialize() {
     console.log('game initializing...');
@@ -100,6 +101,12 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myMouse.update(ASTEROIDGAME.elapsedTime);
 
     ASTEROIDGAME.graphics.clear();
+
+    var collisions = myCollisions.checkCollision([myShip], myAsteroids.list);
+
+    if(collisions.length) {
+      console.log(collisions);
+    }
 
     myAsteroids.update(ASTEROIDGAME.elapsedTime);
     myAsteroids.draw();

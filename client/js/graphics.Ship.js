@@ -7,12 +7,16 @@ ASTEROIDGAME.graphics.Ship = (function() {
   var context = canvas.getContext('2d');
 
   function Ship(spec) {
-    var that = {};
-    that.centerX = spec.center.x;
-    that.centerY = spec.center.y;
-    that.direction = spec.direction;
-    that.rotation = spec.rotation;
-    that.moving = false;
+    var that = {
+      center: {
+        x: spec.center.x,
+        y: spec.center.y
+      },
+      get width() { return canvas.width * 0.06; },
+      direction: spec.direction,
+      rotation: spec.rotation,
+      moving: false
+    };
 
     that.rotateRight = function(elapsedTime) {
       that.rotation += spec.rotateRate * (elapsedTime / 1000);
@@ -23,30 +27,30 @@ ASTEROIDGAME.graphics.Ship = (function() {
     };
 
     that.moveLeft = function(elapsedTime) {
-      that.centerX  -= spec.moveRate * (elapsedTime / 1000);
-      if(that.centerX <0){
-        that.centerX  = canvas.width;
+      that.center.x  -= spec.moveRate * (elapsedTime / 1000);
+      if(that.center.x <0){
+        that.center.x  = canvas.width;
       }
     };
 
     that.moveRight = function(elapsedTime) {
-      that.centerX  += spec.moveRate * (elapsedTime / 1000);
-      if(that.centerX >canvas.width){
-        that.centerX  = 0;
+      that.center.x  += spec.moveRate * (elapsedTime / 1000);
+      if(that.center.x >canvas.width){
+        that.center.x  = 0;
       }
     };
 
     that.moveUp = function(elapsedTime) {
       //console.log('Rotation' + that.rotation);
-      //that.centerY-= spec.moveRate * (elapsedTime / 1000);
+      //that.center.y-= spec.moveRate * (elapsedTime / 1000);
       that.moving =true;
       that.direction = that.rotation;
 
       //create particles for blast off
       var particlesSmoke = ASTEROIDGAME.particleSystems.createSystem( {
         image : ASTEROIDGAME.images['/img/smoke.png'],
-        center: { x : that.centerX+(Math.cos(that.rotation)*((canvas.width*0.05)/2)),
-                  y : that.centerY+(Math.sin(that.rotation)*((canvas.width*0.05)/2))},
+        center: { x : that.center.x+(Math.cos(that.rotation)*((canvas.width*0.05)/2)),
+                  y : that.center.y+(Math.sin(that.rotation)*((canvas.width*0.05)/2))},
         speed: {mean: 0.05, stdev: 0.01},
         lifetime: {mean: 200, stdev: 20}
       });
@@ -57,8 +61,8 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
       var particleFire = ASTEROIDGAME.particleSystems.createSystem( {
           image : ASTEROIDGAME.images['/img/fire.png'],
-          center: { x : that.centerX+(Math.cos(that.rotation)*((canvas.width*0.03)/2)),
-                    y : that.centerY+(Math.sin(that.rotation)*((canvas.width*0.03)/2))},
+          center: { x : that.center.x+(Math.cos(that.rotation)*((canvas.width*0.03)/2)),
+                    y : that.center.y+(Math.sin(that.rotation)*((canvas.width*0.03)/2))},
           speed: {mean: 0.05, stdev: 0.01},
           lifetime: {mean: 300, stdev: 100}
         });
@@ -71,9 +75,9 @@ ASTEROIDGAME.graphics.Ship = (function() {
     };
 
     that.moveDown = function(elapsedTime) {
-      that.centerY+= spec.moveRate * (elapsedTime / 1000);
-      if(that.centerY>canvas.height){
-        that.centerY= 0;
+      that.center.y+= spec.moveRate * (elapsedTime / 1000);
+      if(that.center.y>canvas.height){
+        that.center.y= 0;
       }
     };
 
@@ -83,20 +87,20 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
     that.update = function(elapsedTime){
       if(that.moving){
-        that.centerX  -= Math.cos(that.direction) * spec.moveRate * (elapsedTime / 1000);
-        that.centerY-= Math.sin(that.direction) * spec.moveRate * (elapsedTime / 1000);
-        if(that.centerY<0){
-          that.centerY= canvas.height;
+        that.center.x  -= Math.cos(that.direction) * spec.moveRate * (elapsedTime / 1000);
+        that.center.y-= Math.sin(that.direction) * spec.moveRate * (elapsedTime / 1000);
+        if(that.center.y<0){
+          that.center.y= canvas.height;
         }
-        if(that.centerY>canvas.height){
-          that.centerY= 0;
+        if(that.center.y>canvas.height){
+          that.center.y= 0;
         }
-        if(that.centerX >canvas.width){
-          that.centerX  = 0;
+        if(that.center.x >canvas.width){
+          that.center.x  = 0;
         }
 
-        if(that.centerX <0){
-          that.centerX  = canvas.width;
+        if(that.center.x <0){
+          that.center.x  = canvas.width;
         }
       }
       for(var p in spec.particles){
@@ -106,16 +110,16 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
     that.draw = function() {
       context.save();
-      var size = canvas.width*0.06;
-      context.translate(that.centerX , that.centerY);
+
+      context.translate(that.center.x , that.center.y);
       context.rotate(that.rotation);
-      context.translate(-that.centerX , -that.centerY);
+      context.translate(-that.center.x , -that.center.y);
 
       context.drawImage(
         spec.image,
-        that.centerX  - size/2,
-        that.centerY- size/2,
-        size, size);
+        that.center.x  - that.width/2,
+        that.center.y- that.width/2,
+        that.width, that.width);
 
       context.restore();
 

@@ -59,6 +59,8 @@ ASTEROIDGAME.graphics.asteroids = (function() {
         x: spec.center.x,
         y: spec.center.y
       },
+      width: sprite[spec.size].width,
+      height: sprite[spec.size].height,
       velocity: {
         x: spec.direction.x * sprite[spec.size].speed,
         y: spec.direction.y * sprite[spec.size].speed
@@ -132,6 +134,7 @@ ASTEROIDGAME.graphics.asteroids = (function() {
   }
 
   return {
+    list: asteroids,
     create: create,
     update: update,
     draw: draw
