@@ -20,6 +20,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
         x: 0,
         y: 0
       },
+      lives: spec.lives,
       moveRate: spec.moveRate,
       image: spec.image,
       rotation: spec.rotation,
@@ -94,8 +95,26 @@ ASTEROIDGAME.graphics.Ship = (function() {
     }
 
     that.explode = function () {
-      console.log('You\'re dead. You hit an asteroid');
+      if(that.lives>1){
+        that.lives--;
+        console.log('You hit an asteroid, lives left: '+ that.lives);
+        //that.relocateShip();        
+        return false;
+      }
+      else{
+        console.log("You're Dead, Game over");
+        return true;
+      }
     };
+    that.respawn = function(quadLoc){
+      that.center.x= quadLoc.xCenter;
+      that.center.y= quadLoc.yCenter;
+      that.velocity.x=0;
+      that.velocity.y=0;
+
+      console.log('relocating ship');
+    }
+
 
     that.update = function(elapsedTime){
       that.center.x += that.velocity.x * (elapsedTime/1000);
@@ -108,7 +127,10 @@ ASTEROIDGAME.graphics.Ship = (function() {
       }
     };
 
-    that.draw = function() {
+    that.render = function() {
+
+      $('#lives').html("Lives: " + that.lives);
+
       context.save();
 
       context.translate(that.center.x , that.center.y);

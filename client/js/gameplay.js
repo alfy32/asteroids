@@ -11,7 +11,8 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     cancelNextRequest = false,
     myLasers = ASTEROIDGAME.graphics.lasers,
     myAsteroids = ASTEROIDGAME.graphics.asteroids,
-    myCollisions = ASTEROIDGAME.collision;
+    myCollisions = ASTEROIDGAME.collision,
+    myQuadrants = ASTEROIDGAME.quadrants;
 
   function initialize() {
     console.log('game initializing...');
@@ -27,8 +28,13 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       direction : Math.PI,
       moveRate : 500,     // pixels per second
       rotateRate : 2*Math.PI,  // Radians per second
-      particles: []
+      particles: [],
+      lives: 5
     });
+    myQuadrants.reset();
+    myQuadrants.create();
+    myLasers.reset();
+    myAsteroids.reset();
 
     myAsteroids.create('large');
     myAsteroids.create('large');
@@ -59,7 +65,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       cancelNextRequest = true;
       //
       // Then, return to the main menu
-      ASTEROIDGAME.game.showScreen('main-menu');
+      ASTEROIDGAME.game.showScreen('high-scores');
     });
 
     ASTEROIDGAME.graphics.resize();
@@ -103,7 +109,10 @@ ASTEROIDGAME.screens['game-play'] = (function() {
 
     if(asteroidHit) {
       asteroidHit.explode();
-      myShip.explode();
+
+      cancelNextRequest = myShip.explode(); //returns true if no more lives left
+      myShip.respawn(myQuadrants.getLeastPopulated());
+
     }
 
     var laserHits = myCollisions.checkLaserAsteroidCollision(myLasers.list, myAsteroids.list);
@@ -118,14 +127,20 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myAsteroids.update(ASTEROIDGAME.elapsedTime);
     myAsteroids.render();
 
+    myQuadrants.update(ASTEROIDGAME.elapsedTime, myAsteroids.list);
+    //myQuadrants.render();
+
     myLasers.update(ASTEROIDGAME.elapsedTime);
     myLasers.render();
 
     myShip.update(ASTEROIDGAME.elapsedTime);
-    myShip.draw();
+    myShip.render();
 
     if (!cancelNextRequest) {
       requestAnimationFrame(gameLoop);
+    }
+    else{
+      ASTEROIDGAME.game.showScreen('game-over');
     }
   }
 
@@ -140,6 +155,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myShip.moving = false;
     myKeyboard.clear();
     requestAnimationFrame(gameLoop);
+
   }
 
   function cancel(){

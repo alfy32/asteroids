@@ -34,7 +34,9 @@ ASTEROIDGAME.graphics.lasers = (function() {
       shoot.last += elapsedTime;
     }
   }
-
+  function reset(){
+    lasers.length=0;
+  }
   function update(elapsedTime) {
     for(var i in lasers) {
       lasers[i].update(elapsedTime);
@@ -104,6 +106,7 @@ ASTEROIDGAME.graphics.lasers = (function() {
     list: lasers,
     create: create,
     update: update,
-    render: render
+    render: render,
+    reset: reset
   };
 }());

@@ -37,7 +37,10 @@ ASTEROIDGAME.graphics.asteroids = (function() {
       sizeRatio: 0.08
     }));
   }
-
+  function reset(){
+    asteroids.length=0;
+    explosions.length=0;
+  }
   function update(elapsedTime) {
     for(var i in asteroids) {
       asteroids[i].update(elapsedTime);
@@ -199,6 +202,7 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     list: asteroids,
     create: create,
     update: update,
-    render: render
+    render: render,
+    reset: reset
   };
 }());
