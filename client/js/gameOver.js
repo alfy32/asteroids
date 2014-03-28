@@ -5,7 +5,7 @@ ASTEROIDGAME.screens['game-over'] = (function() {
   'use strict';
 
   function initialize() {
-
+    
   }
 
   function run() {
