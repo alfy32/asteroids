@@ -1,10 +1,10 @@
 To do List:
 **Goal: finish on Friday, April 4th**
-Ship: 
+Ship:
   * fix particle system Kade
 
 Asteroids: Alan
-  * fix create, spawn outside canvas
+  * ~~fix create, spawn outside canvas~~
 
 Controls: Kade
   * add menu so you user can change controls
@@ -20,14 +20,14 @@ Hyperspace: Kade
   * add particle system
 
 UFOs: Alan
-  * big saucer 
+  * big saucer
     * shoots randomly and poorly
     * stops appearing after score of 40,000
   * small saucer
     * fires frequently at the ship
     * fires more accurately as score increase, angle range of shots decreases
 
-Levels: 
+Levels:
   * level 1:
   * level 2:
   * level 3:

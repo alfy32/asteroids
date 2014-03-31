@@ -24,12 +24,21 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     small: 50
   };
 
+  function getStartingPosition() {
+    var center = { x: -100, y: -100 };
+
+    if(Random.nextRange(0,1)) {
+      center.y = Random.nextRange(100, canvas.height - 100);
+    } else {
+      center.x = Random.nextRange(100, canvas.width - 100);
+    }
+
+    return center;
+  }
+
   function create(size) {
     asteroids.push(asteroid({
-      center: {
-        x: Random.nextRange(100, canvas.width - 100),
-        y: Random.nextRange(100, canvas.height - 100)
-      },
+      center: getStartingPosition(),
       direction: Random.nextCircleVector(),
       image: ASTEROIDGAME.images['/img/asteroid-sprite.png'],
       size: size,
