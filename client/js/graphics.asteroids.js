@@ -40,16 +40,17 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     asteroids.push(asteroid({
       center: getStartingPosition(),
       direction: Random.nextCircleVector(),
-      image: ASTEROIDGAME.images['/img/asteroid-sprite.png'],
+      image: ASTEROIDGAME.images['/img/asteroid.png'],
       size: size,
-      power: 100,
       sizeRatio: 0.08
     }));
   }
-  function reset(){
-    asteroids.length=0;
-    explosions.length=0;
+
+  function reset() {
+    asteroids.length = 0;
+    explosions.length = 0;
   }
+
   function update(elapsedTime) {
     for(var i in asteroids) {
       asteroids[i].update(elapsedTime);
@@ -84,18 +85,20 @@ ASTEROIDGAME.graphics.asteroids = (function() {
         x: spec.center.x,
         y: spec.center.y
       },
-      width: sprite[spec.size].width,
-      height: sprite[spec.size].height,
+      width: drawSize[spec.size],
+      height: drawSize[spec.size],
       velocity: {
         x: spec.direction.x * sprite[spec.size].speed,
         y: spec.direction.y * sprite[spec.size].speed
       },
       image: spec.image,
       size: spec.size,
-      power: spec.power,
       sizeRatio: spec.sizeRatio,
-      imageNumber: Random.nextRange(0,sprite.numberOfImages-1)
+      rotation: Random.nextRange(0, 2*Math.PI),
+      rotateRate: Random.nextGaussian(0.2, 0.1)
     };
+
+    console.log(that);
 
     function addExplosion(center) {
       var particleSystem = ASTEROIDGAME.particleSystems.createSystem( {
@@ -124,9 +127,8 @@ ASTEROIDGAME.graphics.asteroids = (function() {
             y: center.y
           },
           direction: Random.nextCircleVector(),
-          image: ASTEROIDGAME.images['/img/asteroid-sprite.png'],
+          image: ASTEROIDGAME.images['/img/asteroid.png'],
           size: size,
-          power: 100,
           sizeRatio: 0.08
         }));
     }
@@ -152,21 +154,8 @@ ASTEROIDGAME.graphics.asteroids = (function() {
       }
     };
 
-    that.accelerate = function (elapsedTime) {
-      that.velocity.x += that.power * (elapsedTime/1000);
-      that.velocity.y += that.power * (elapsedTime/1000);
-    };
-
-    // var lastImageChange = 0;
-    // var imageChangeRate = 50;
-
     that.update = function(elapsedTime){
-      // lastImageChange += elapsedTime;
-
-      // if(lastImageChange > imageChangeRate) {
-      //   lastImageChange -= imageChangeRate;
-      //   that.imageNumber = (that.imageNumber + 1) % sprite.numberOfImages;
-      // }
+      that.rotation += that.rotateRate * (elapsedTime/1000);
 
       that.center.x += that.velocity.x * (elapsedTime/1000);
       that.center.y += that.velocity.y * (elapsedTime/1000);
@@ -175,21 +164,17 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     };
 
     that.draw = function() {
-      var size = drawSize[that.size];
-
       context.save();
 
-      context.translate(that.center.y , that.center.y);
+      context.translate(that.center.x , that.center.y);
       context.rotate(that.rotation);
-      context.translate(-that.center.y , -that.center.y);
+      context.translate(-that.center.x , -that.center.y);
 
       context.drawImage(
         that.image,
-        imageLeft(), sprite[that.size].top,
-        sprite[that.size].width, sprite[that.size].height,
-        that.center.x - size/2,
-        that.center.y - size/2,
-        size, size);
+        that.center.x - that.width/2,
+        that.center.y - that.height/2,
+        that.width, that.height);
 
       context.beginPath();
       context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
@@ -197,12 +182,6 @@ ASTEROIDGAME.graphics.asteroids = (function() {
 
       context.restore();
     };
-
-    function imageLeft() {
-      return that.imageNumber * sprite[that.size].width;
-    }
-
-    // large 200, 190, 160
 
     return that;
   }

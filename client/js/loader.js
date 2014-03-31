@@ -25,6 +25,7 @@ window.addEventListener('load', function() {
   Modernizr.load([
     {
       load : [
+        // Javascript
         'preload!/js/jquery-1.11.0.min.js',
         'preload!/js/particle-system.js',
         'preload!/js/graphics.js',
@@ -42,12 +43,13 @@ window.addEventListener('load', function() {
         'preload!/js/help.js',
         'preload!/js/about.js',
         'preload!/js/random.js',
+        // Images
         'preload!/img/longBrownShip.png',
         'preload!/img/laser.png',
         'preload!/img/fire.png',
         'preload!/img/smoke.png',
-        'preload!/img/asteroid-sprite.png',
-
+        'preload!/img/asteroid.png',
+        // Sounds
         'preload!/js/sounds.js',
         'preload!/audio/bangLarge.wav',
         'preload!/audio/bangMedium.wav',
