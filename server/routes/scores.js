@@ -1,6 +1,6 @@
 /* jshint node: true*/
 'use strict';
-var fs      = require('fs');
+var fs = require('fs');
 
 module.exports = function(app) {
   app.get('/scores', getScores);
@@ -8,7 +8,7 @@ module.exports = function(app) {
 };
 
 function postScores(req, res){
-  console.log("inside postScores" + req.body.scores);
+  //console.log("inside postScores" + req.body.scores);
 
   fs.writeFile('highScores.json', req.body.scores, function (err) {
     if (err){
@@ -23,7 +23,7 @@ function postScores(req, res){
 }
 
 function getScores(req, res) {
-  console.log("inside getScores" + req.query.scores);
+  //console.log("inside getScores" + req.query.scores);
 
   fs.readFile('highScores.json', function (err, data) {
     if (err){
@@ -39,10 +39,4 @@ function getScores(req, res) {
   });
 
 }
-  /*
-  res.send({
-    success: true,
-    scores: 'Put Scores Here.'
-  });
-*/
 

@@ -76,7 +76,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       cancelNextRequest = true;
       //
       // Then, return to the main menu
-      ASTEROIDGAME.game.showScreen('game-over');
+      //ASTEROIDGAME.game.showScreen('game-over');
     });
 
     ASTEROIDGAME.graphics.resize();

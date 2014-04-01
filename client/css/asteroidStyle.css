@@ -35,6 +35,9 @@ body{
 .controls{
   display:none;
 }
+.enterName{
+  display:none;
+}
 .main-menu{
   display:block;
 }
@@ -163,7 +166,23 @@ body{
   background-color: rgba(0,0,0, .8);
   border-color: #3399FF;
 }
+.labelHighScore {
+  font-size: 20px;
 
+}
+.labelHighScore input{
+  
+  border-radius: 2px;
+  color: #3399FF;
+  font-size: 20px;
+  text-align: center;
+    margin-top: -4px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+  
+  background-color: rgba(0,0,0, .8);
+  border-color: #3399FF;
+}
 #canvas-main{
   position: absolute;
   width: 100%;

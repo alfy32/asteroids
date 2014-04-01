@@ -15,7 +15,7 @@ ASTEROIDGAME.screens['main-menu'] = (function() {
 
     $('#id-quit').click(function (e) {
       ASTEROIDGAME.screens['game-play'].cancel();
-      ASTEROIDGAME.game.showScreen('game-over');
+      //ASTEROIDGAME.game.showScreen('game-over');
     });
 
     function showScreen(screen) {

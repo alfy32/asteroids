@@ -14,7 +14,7 @@ Scoring: Kade
   * ~~track player score~~
   * ~~extra life added every 10,000 points~~
   * ~~show in game~~
-  * high Scores, persistence with fs
+  * ~~high Scores, persistence with fs~~
     
 Hyperspace: Kade
   * ~~add control button, S and down arrow~~

@@ -44,32 +44,23 @@ ASTEROIDGAME.game = (function() {
   //
   //------------------------------------------------------------------
   function initialize() {
-    console.log("start ajax");
-    $.ajax({
-      url: '/scores',
-      type: 'GET',
-      data: {scores: JSON.stringify(ASTEROIDGAME.highScores)},
-      success: function(result){
-        console.log(result);
-      }
-    });
-    
-    $.ajax({
-      url: '/scores',
-      type: 'POST',
-      data: {scores: JSON.stringify(ASTEROIDGAME.highScores)},
-      success: function(result){
-        console.log(result);
-      }
-    });
+   
+   //get high scores from server
     $.ajax({
       url: '/scores',
       type: 'GET',
       success: function(result){
-        console.log(JSON.parse(result));
-      }
+                  ASTEROIDGAME.highScores = JSON.parse(result);
+                  console.log(ASTEROIDGAME.highScores);
+
+                  for(var i in ASTEROIDGAME.highScores){
+                    var S = ASTEROIDGAME.highScores[i];
+                    $('.showScores').append('<h2>' + S.name + ": " + S.score + "</h2>");
+                  }
+              }
     });
 
+    
     var screen = null;
     //
     // Go through each of the screens and tell them to initialize
