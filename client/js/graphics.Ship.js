@@ -98,7 +98,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
       if(that.lives>1){
         that.lives--;
         console.log('You hit an asteroid, lives left: '+ that.lives);
-        //that.relocateShip();        
+        //that.relocateShip();
         return false;
       }
       else{
@@ -143,11 +143,11 @@ ASTEROIDGAME.graphics.Ship = (function() {
         that.center.y- that.width/2,
         that.width, that.width);
 
-      context.beginPath();
-      context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
-      context.stroke();
+      // context.beginPath();
+      // context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
+      // context.stroke();
 
-      context.restore();
+      // context.restore();
 
       for(var p in spec.particles){
 
