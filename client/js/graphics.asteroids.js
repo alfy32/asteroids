@@ -7,9 +7,6 @@ ASTEROIDGAME.graphics.asteroids = (function() {
   var context = canvas.getContext('2d');
 
   var asteroids = [];
-  var explosions = [];
-
-  var explosionLifeTime = 500; // ms
 
   var sprite = {
     large: {width: 200, height: 200, top: 0, speed: 70},
@@ -48,34 +45,17 @@ ASTEROIDGAME.graphics.asteroids = (function() {
 
   function reset() {
     asteroids.length = 0;
-    explosions.length = 0;
   }
 
   function update(elapsedTime) {
     for(var i in asteroids) {
       asteroids[i].update(elapsedTime);
     }
-
-    for(var i in explosions) {
-      explosions[i].alive += elapsedTime;
-
-      if(explosions[i].alive > explosionLifeTime)
-        explosions.splice(i, 1);
-      else {
-        explosions[i].system.create();
-        explosions[i].system.create();
-        explosions[i].system.update(elapsedTime);
-      }
-    }
   }
 
   function render() {
     for(var i in asteroids) {
       asteroids[i].draw();
-    }
-
-    for(var i in explosions) {
-      explosions[i].system.render();
     }
   }
 
@@ -98,28 +78,6 @@ ASTEROIDGAME.graphics.asteroids = (function() {
       rotateRate: Random.nextGaussian(0.2, 0.1)
     };
 
-    console.log(that);
-
-    function addExplosion(center) {
-      var particleSystem = ASTEROIDGAME.particleSystems.createSystem( {
-        image : ASTEROIDGAME.images['/img/fire.png'],
-        center: {
-          x: center.x,
-          y: center.y
-        },
-        speed: {mean: 0.1, stdev: 0.05},
-        lifetime: {mean: 30000, stdev: 100}
-      });
-
-      for(var i = 0; i < 20; i++)
-        particleSystem.create();
-
-      explosions.push({
-        system: particleSystem,
-        alive: 0
-      });
-    }
-
     function addAsteroid(center, size) {
       asteroids.push(asteroid({
           center: {
@@ -134,7 +92,7 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     }
 
     that.explode = function () {
-      addExplosion(that.center);
+      ASTEROIDGAME.graphics.explosions.round(that.center);
       ASTEROIDGAME.sounds.explode[that.size]();
 
       if(that.size == 'large') {

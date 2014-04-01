@@ -1,4 +1,4 @@
-/*global ASTEROIDGAME */
+/*global ASTEROIDGAME, Random */
 
 ASTEROIDGAME.graphics.UFO = (function() {
   'use strict';
@@ -6,121 +6,101 @@ ASTEROIDGAME.graphics.UFO = (function() {
   var canvas = document.getElementById('canvas-main');
   var context = canvas.getContext('2d');
 
+  var bullets = [];
+
+  function create() {
+    return UFO({
+      center: {
+        x: -10,
+        y: 100
+      }
+    });
+  }
+
   function UFO(spec) {
     var that = {
       center: {
         x: spec.center.x,
         y: spec.center.y
       },
-      get width() { return canvas.width * 0.06; },
-      get height() { return canvas.width * 0.06; },
+      get width() { return canvas.width * 0.04; },
+      get height() { return canvas.width * 0.03; },
       velocity: {
-        x: 10,
-        y: 10
+        x: 50,
+        y: 50
       },
-      moveRate: spec.moveRate,
       image: ASTEROIDGAME.images['/img/ufo.png'],
       rotation: 0,
-      moving: false
+      moving: false,
+      audio: ASTEROIDGAME.audio['/audio/saucerBig.wav']
     };
 
-    that.rotateRight = function (elapsedTime) {
-      that.rotation += spec.rotateRate * (elapsedTime / 1000);
+    // that.audio.loop = true;
+    // that.audio.play();
+
+    that.goDownLeft = function () {
+      that.velocity.x = -Math.abs(that.velocity.x);
+      that.velocity.y = Math.abs(that.velocity.y);
     };
 
-    that.rotateLeft = function (elapsedTime) {
-      that.rotation -= spec.rotateRate * (elapsedTime / 1000);
+    that.goDownRight = function () {
+      that.velocity.x = Math.abs(that.velocity.x);
+      that.velocity.y = Math.abs(that.velocity.y);
     };
 
-    // that.accelerate = function (elapsedTime) {
-    //   var newVelocity = {
-    //     x: that.velocity.x + that.moveRate * -Math.cos(that.rotation) * (elapsedTime/1000),
-    //     y: that.velocity.y + that.moveRate * -Math.sin(that.rotation) * (elapsedTime/1000)
-    //   };
-
-    //   if(!overMaxVelocity(newVelocity)) {
-    //     that.velocity.x = newVelocity.x;
-    //     that.velocity.y = newVelocity.y;
-    //   }
-
-    //   ASTEROIDGAME.sounds.thrust();
-
-    //   createParticles();
-    // };
-
-    // function overMaxVelocity(velocity) {
-    //   return Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y) > MAX_VELOCITY;
-    // }
-
-    var particlesToCreate = {
-      smoke: 5,
-      fire: 20
+    that.goUpLeft = function () {
+      that.velocity.x = -Math.abs(that.velocity.x);
+      that.velocity.y = -Math.abs(that.velocity.y);
     };
 
-    function createParticles() {
-      //create particles for blast off
-      var particlesSmoke = ASTEROIDGAME.particleSystems.createSystem({
-        image: ASTEROIDGAME.images['/img/smoke.png'],
-        center: {
-          x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.05)/2)),
-          y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.05)/2))
-        },
-        speed: {mean: 0.05, stdev: 0.01},
-        lifetime: {mean: 200, stdev: 20}
-      });
+    that.goUpRight = function () {
+      that.velocity.x = Math.abs(that.velocity.x);
+      that.velocity.y = -Math.abs(that.velocity.y);
+    };
 
-      for(var i = 0; i < particlesToCreate.smoke; ++i){
-        particlesSmoke.create();
-      }
-
-      var particleFire = ASTEROIDGAME.particleSystems.createSystem({
-        image: ASTEROIDGAME.images['/img/fire.png'],
-        center: {
-          x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.03)/2)),
-          y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.03)/2))
-        },
-        speed: {mean: 0.05, stdev: 0.01},
-        lifetime: {mean: 300, stdev: 100}
-      });
-
-      for(var i = 0;  i < particlesToCreate.fire; ++i){
-        particleFire.create();
-      }
-
-      spec.particles.push(particlesSmoke);
-      spec.particles.push(particleFire);
-    }
+    that.shoot = function () {
+      bullets.push(bullet({
+        center: that.center,
+        velocity: Random.nextCircleVector()
+      }));
+    };
 
     that.explode = function () {
-      if(that.lives>1){
-        that.lives--;
-        console.log('You hit an asteroid, lives left: '+ that.lives);
-        //that.relocateShip();
-        return false;
-      }
-      else{
-        console.log("You're Dead, Game over");
-        return true;
-      }
+      that.audio.loop = false;
+      ASTEROIDGAME.graphics.explosions.round(that.center);
+      ASTEROIDGAME.sounds.explode[that.size]();
     };
-    that.respawn = function(quadLoc){
-      that.center.x= quadLoc.xCenter;
-      that.center.y= quadLoc.yCenter;
-      that.velocity.x=0;
-      that.velocity.y=0;
 
-      console.log('relocating ship');
-    }
+    var lastMove = {
+      time: 0,
+      func: [ 'goDownRight', 'goUpRight' ],
+      funcNum: 0
+    };
 
+    var lastShot = 0;
 
     that.update = function(elapsedTime){
+      lastMove.time += elapsedTime;
+
+      if(lastMove.time > 2000) {
+        lastMove.time = 0;
+        lastMove.funcNum = (lastMove.funcNum+1) % 2;
+        that[lastMove.func[lastMove.funcNum]]();
+      }
+
+      lastShot += elapsedTime;
+      if(lastShot > 2500) {
+        lastShot = 0;
+        that.shoot();
+      }
+
       that.center.x += that.velocity.x * (elapsedTime/1000);
       that.center.y += that.velocity.y * (elapsedTime/1000);
 
       ASTEROIDGAME.graphics.wrapAround(that.center, {width: that.width, height: that.height});
 
-      for(var p in spec.particles){
-        spec.particles[p].update(elapsedTime);
+      for(var i in bullets) {
+        bullets[i].update(elapsedTime);
       }
     };
 
@@ -134,12 +114,50 @@ ASTEROIDGAME.graphics.UFO = (function() {
       context.drawImage(
         that.image,
         that.center.x  - that.width/2,
-        that.center.y- that.width/2,
-        that.width, that.width);
+        that.center.y- that.height/2,
+        that.width, that.height);
+
+      context.restore();
+
+      for(var i in bullets) {
+        bullets[i].draw();
+      }
+    };
+
+    return that;
+  }
+
+  function bullet(spec) {
+    var that = {
+      center: {
+        x: spec.center.x,
+        y: spec.center.y
+      },
+      radius: 2,
+      velocity: {
+        x: 100 * spec.velocity.x,
+        y: 100 * spec.velocity.y
+      },
+      alive: 0
+    };
+
+    that.update = function (elapsedTime) {
+      that.center.x += that.velocity.x * (elapsedTime/1000);
+      that.center.y += that.velocity.y * (elapsedTime/1000);
+    };
+
+    that.draw = function() {
+      context.save();
+
+      context.fillStyle = 'green';
 
       context.beginPath();
-      context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
-      context.stroke();
+      context.arc(
+        that.center.x, that.center.y,
+        that.radius,
+        0, 2*Math.PI
+      );
+      context.fill();
 
       context.restore();
     };
@@ -147,5 +165,5 @@ ASTEROIDGAME.graphics.UFO = (function() {
     return that;
   }
 
-  return UFO;
+  return create;
 }());
