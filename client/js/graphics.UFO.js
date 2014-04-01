@@ -6,15 +6,32 @@ ASTEROIDGAME.graphics.UFO = (function() {
   var canvas = document.getElementById('canvas-main');
   var context = canvas.getContext('2d');
 
-  var bullets = [];
+  var ufo = {
+    small: UFO({center: {x: -10, y: 100}}),
+    big: UFO({center: {x: -10, y: canvas.height - 100}}),
+    size: 'small',
+    render: false
+  };
 
-  function create() {
-    return UFO({
-      center: {
-        x: -10,
-        y: 100
-      }
-    });
+  function getCurrentUFO() {
+    if(ufo.render) return ufo[ufo.size];
+    else return false;
+  }
+
+  function update(elapsedTime) {
+    if(ASTEROIDGAME.score.score > 1000) ufo.render = true;
+
+    if(ufo.render) {
+      ufo[ufo.size].update(elapsedTime);
+      ASTEROIDGAME.graphics.UFO.bullets.update(elapsedTime);
+    }
+  }
+
+  function render() {
+    if(ufo.render) {
+      ufo[ufo.size].render();
+      ASTEROIDGAME.graphics.UFO.bullets.render();
+    }
   }
 
   function UFO(spec) {
@@ -59,10 +76,11 @@ ASTEROIDGAME.graphics.UFO = (function() {
     };
 
     that.shoot = function () {
-      bullets.push(bullet({
+      ASTEROIDGAME.sounds.shoot();
+      ASTEROIDGAME.graphics.UFO.bullets.create({
         center: that.center,
         velocity: Random.nextCircleVector()
-      }));
+      });
     };
 
     that.explode = function () {
@@ -98,10 +116,6 @@ ASTEROIDGAME.graphics.UFO = (function() {
       that.center.y += that.velocity.y * (elapsedTime/1000);
 
       ASTEROIDGAME.graphics.wrapAround(that.center, {width: that.width, height: that.height});
-
-      for(var i in bullets) {
-        bullets[i].update(elapsedTime);
-      }
     };
 
     that.render = function() {
@@ -118,52 +132,14 @@ ASTEROIDGAME.graphics.UFO = (function() {
         that.width, that.height);
 
       context.restore();
-
-      for(var i in bullets) {
-        bullets[i].draw();
-      }
     };
 
     return that;
   }
 
-  function bullet(spec) {
-    var that = {
-      center: {
-        x: spec.center.x,
-        y: spec.center.y
-      },
-      radius: 2,
-      velocity: {
-        x: 100 * spec.velocity.x,
-        y: 100 * spec.velocity.y
-      },
-      alive: 0
-    };
-
-    that.update = function (elapsedTime) {
-      that.center.x += that.velocity.x * (elapsedTime/1000);
-      that.center.y += that.velocity.y * (elapsedTime/1000);
-    };
-
-    that.draw = function() {
-      context.save();
-
-      context.fillStyle = 'green';
-
-      context.beginPath();
-      context.arc(
-        that.center.x, that.center.y,
-        that.radius,
-        0, 2*Math.PI
-      );
-      context.fill();
-
-      context.restore();
-    };
-
-    return that;
-  }
-
-  return create;
+  return {
+    update: update,
+    render: render,
+    getCurrentUFO: getCurrentUFO
+  };
 }());
