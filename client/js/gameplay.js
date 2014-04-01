@@ -58,15 +58,24 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     //myKeyboard.registerCommand(KeyEvent.DOM_VK_S, myShip.moveDown);
     //myKeyboard.registerCommand(KeyEvent.DOM_VK_Q, myShip.rotateLeft);
     //myKeyboard.registerCommand(KeyEvent.DOM_VK_E, myShip.rotateRight);
-
+    myKeyboard.clearRegister();
     myKeyboard.registerCommand(KeyEvent.DOM_VK_LEFT, myShip.rotateLeft);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_RIGHT, myShip.rotateRight);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, myShip.accelerate);
-
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_A, myShip.rotateLeft);
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_D, myShip.rotateRight);
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_W, myShip.accelerate);
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_DOWN, myShip.hyperspace);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, myLasers.create);
+
+    
+    
+    
+    var controls = ASTEROIDGAME.screens['controls'].controls();
+
+    myKeyboard.registerCommand(controls.left, myShip.rotateLeft);
+    myKeyboard.registerCommand(controls.right, myShip.rotateRight);
+    myKeyboard.registerCommand(controls.forward, myShip.accelerate);
+    myKeyboard.registerCommand(controls.shoot, myLasers.create);
+    myKeyboard.registerCommand(controls.hyperspace, myShip.hyperspace);
+    
 
     myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {
       //
@@ -74,7 +83,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       cancelNextRequest = true;
       //
       // Then, return to the main menu
-      ASTEROIDGAME.game.showScreen('high-scores');
+      ASTEROIDGAME.game.showScreen('game-over');
     });
 
     ASTEROIDGAME.graphics.resize();
@@ -109,7 +118,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     ASTEROIDGAME.elapsedTime = time - ASTEROIDGAME.lastTimeStamp;
     ASTEROIDGAME.lastTimeStamp = time;
 
-    myKeyboard.update(ASTEROIDGAME.elapsedTime, myShip);
+    myKeyboard.update(ASTEROIDGAME.elapsedTime, myShip, myQuadrants);
     myMouse.update(ASTEROIDGAME.elapsedTime);
 
     ASTEROIDGAME.graphics.clear();

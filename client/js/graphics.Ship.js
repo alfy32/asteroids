@@ -35,6 +35,9 @@ ASTEROIDGAME.graphics.Ship = (function() {
       that.rotation -= spec.rotateRate * (elapsedTime / 1000);
     };
 
+    that.hyperspace = function (elapsedTime, ship, quadrants) {
+      ship.respawn(quadrants.getLeastPopulated());
+    };
     that.accelerate = function (elapsedTime) {
       var newVelocity = {
         x: that.velocity.x + that.moveRate * -Math.cos(that.rotation) * (elapsedTime/1000),

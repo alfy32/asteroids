@@ -93,7 +93,7 @@ ASTEROIDGAME.input = (function() {
       key;
 
     function keyPress(e) { //87 -w, 83 - s, 68-d, 65-a, 69-e, 81-q
-      //console.log(e.keyCode);
+      console.log(e.keyCode);
       that.keys[e.keyCode] = e.timeStamp;
       
     }
@@ -116,16 +116,18 @@ ASTEROIDGAME.input = (function() {
     that.registerCommand = function(key, handler) {
       that.handlers.push({ key : key, handler : handler});
     };
-
+    that.clearRegister = function(){
+      that.handlers.length = 0;
+    };
     // ------------------------------------------------------------------
     //
     // Allows the client to invoke all the handlers for the registered key/handlers.
     //
     // ------------------------------------------------------------------
-    that.update = function(elapsedTime, ship) {
+    that.update = function(elapsedTime, ship, quadrants) {
       for (key = 0; key < that.handlers.length; key++) {
         if (typeof that.keys[that.handlers[key].key] !== 'undefined') {
-          that.handlers[key].handler(elapsedTime, ship);
+          that.handlers[key].handler(elapsedTime, ship, quadrants);
         }
       }
     };
@@ -144,7 +146,7 @@ ASTEROIDGAME.input = (function() {
 
   return {
     Keyboard : Keyboard,
-    Mouse : Mouse
+    Mouse : Mouse,
   };
 }());
 
