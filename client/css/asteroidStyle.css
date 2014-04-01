@@ -7,6 +7,7 @@ body{
   background-size: cover;
   background-color: #000000;
   font-family:Lucida Console;
+  height: 100%;
 }
 #nav {
   text-align: center;
@@ -118,13 +119,20 @@ body{
   text-align: center;
    text-shadow: -1px 0 #3399FF , 0 1px #3399FF , 1px 0 #3399FF , 0 -1px #3399FF ;
 }
+.gameInfo li{
+  display: inline;
+  font-size: 150%;
+  margin-left: 10%;
+}
 .info{
+
   color: #000000;
   letter-spacing: 10px;
   background-color: rgba(0,0,0, .8);
   padding-top: 2%;
   padding-bottom: 2%;
   width: 50%;
+  height: 80%;  
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -152,7 +160,7 @@ body{
     margin-bottom: 5px;
     margin-left: 10px;
   width: 20px;
-  background-color: rgba(51,153,255, .1);
+  background-color: rgba(0,0,0, .8);
   border-color: #3399FF;
 }
 

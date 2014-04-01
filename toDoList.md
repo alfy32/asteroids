@@ -15,6 +15,11 @@ Scoring: Kade
   * high Scores, persistence with fs
   * extra life added every 10,000 points
   * show in game
+    * Large Asteroids: 20
+    * Medium Asteroids: 50
+    * Small Asteroids: 100
+    * Large Saucer: 200
+    * Small Saucer: 1000
 Hyperspace: Kade
   * add control button, S and down arrow
   * add particle system

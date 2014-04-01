@@ -7,7 +7,9 @@ ASTEROIDGAME.graphics.Ship = (function() {
   var context = canvas.getContext('2d');
 
   var MAX_VELOCITY = 800;
-
+  var HYPER_WAIT_TIME = 160;
+  var lastHyperspaceTime = 200;
+  
   function Ship(spec) {
     var that = {
       center: {
@@ -36,7 +38,17 @@ ASTEROIDGAME.graphics.Ship = (function() {
     };
 
     that.hyperspace = function (elapsedTime, ship, quadrants) {
-      ship.respawn(quadrants.getLeastPopulated());
+      console.log(elapsedTime);
+      if(lastHyperspaceTime >HYPER_WAIT_TIME){
+        lastHyperspaceTime =0;
+        ship.respawn({
+          yCenter: Random.nextRange(100, canvas.height - 100),
+          xCenter: Random.nextRange(100, canvas.width - 100)
+        });
+      }
+      else{
+        lastHyperspaceTime+=elapsedTime;
+      }
     };
     that.accelerate = function (elapsedTime) {
       var newVelocity = {
@@ -132,7 +144,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
     that.render = function() {
 
-      $('#lives').html("Lives: " + that.lives);
+      $('#lives').html("Lives:" + that.lives);
 
       context.save();
 
