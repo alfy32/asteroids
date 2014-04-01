@@ -52,7 +52,7 @@ ASTEROIDGAME.collision = (function() {
             laser: lasers[laser],
             asteroid: asteroids[asteroid]
           });
-         
+
           // break so that a laser can only destroy one asteroid.
           break;
         }
@@ -74,6 +74,7 @@ ASTEROIDGAME.collision = (function() {
   return {
     checkCollision: checkCollision,
     checkLaserAsteroidCollision: checkLaserAsteroidCollision,
-    checkAsteroidCollision: checkAsteroidCollision
+    checkAsteroidCollision: checkAsteroidCollision,
+    collision: collision
   };
 }());

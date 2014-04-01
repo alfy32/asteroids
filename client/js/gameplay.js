@@ -1,5 +1,7 @@
 /*jslint browser: true, white: true, plusplus: true */
-/*global ASTEROIDGAME, Random, console, KeyEvent, requestAnimationFrame, performance */
+/*global ASTEROIDGAME, console, KeyEvent, requestAnimationFrame */
+
+var performance = performance || Date;
 
 ASTEROIDGAME.screens['game-play'] = (function() {
   'use strict';
@@ -35,23 +37,21 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       particles: [],
       lives: 5
     });
-  
+
     myQuadrants.reset();
-    
+
     myLasers.reset();
     myAsteroids.reset();
     myLevels.reset();
     myScore.reset();
     myScore.render();
-    
+
     myLevels.create(myAsteroids, 4);
     myQuadrants.create();
 
-    myUFO = ASTEROIDGAME.graphics.UFO();
-    
     //
     // Create the keyboard input handler and register the keyboard commands
-   
+
     myKeyboard.clearRegister();
     myKeyboard.registerCommand(KeyEvent.DOM_VK_LEFT, myShip.rotateLeft);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_RIGHT, myShip.rotateRight);
@@ -66,7 +66,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myKeyboard.registerCommand(controls.forward, myShip.accelerate);
     myKeyboard.registerCommand(controls.shoot, myLasers.create);
     myKeyboard.registerCommand(controls.hyperspace, myShip.hyperspace);
-    
+
 
     myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {
       //
@@ -132,15 +132,23 @@ ASTEROIDGAME.screens['game-play'] = (function() {
         //update and render score
         myScore.update('asteroid', laserHits[i].asteroid, myShip);
         myScore.render();
-        
+
         laserHits[i].asteroid.explode();
         myLasers.list.splice(myLasers.list.indexOf(laserHits[i].laser), 1);
       }
     }
+
+    var ufo = myUFO.getCurrentUFO();
+
+    if(ufo) {
+      var ufoHits = myCollisions.collision(ufo, myShip);
+
+      if(ufoHits) console.log(ufoHits);
+    }
     /**************************************************
     /   update level after destroying all asteroids
     **************************************************/
-    if(myAsteroids.list.length==0){
+    if(myAsteroids.list.length === 0) {
       myLevels.update(myAsteroids);
       myLevels.render();
     }
@@ -167,7 +175,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myExplosions.render();
 
     /**************************************************
-    /   Check for end game 
+    /   Check for end game
     **************************************************/
     if (!cancelNextRequest) {
       requestAnimationFrame(gameLoop);

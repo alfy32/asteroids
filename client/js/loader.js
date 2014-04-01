@@ -26,6 +26,23 @@ window.addEventListener('load', function() {
   Modernizr.load([
     {
       load : [
+        // Images
+        'preload!/img/longBrownShip.png',
+        'preload!/img/laser.png',
+        'preload!/img/fire.png',
+        'preload!/img/smoke.png',
+        'preload!/img/asteroid.png',
+        'preload!/img/ufo.png',
+
+        // Sounds
+        'preload!/js/sounds.js',
+        'preload!/audio/bangLarge.wav',
+        'preload!/audio/bangMedium.wav',
+        'preload!/audio/bangSmall.wav',
+        'preload!/audio/fire.wav',
+        'preload!/audio/thrust.wav',
+        'preload!/audio/saucerBig.wav',
+
         // Javascript
         'preload!/js/jquery-1.11.0.min.js',
         'preload!/js/particle-system.js',
@@ -34,6 +51,7 @@ window.addEventListener('load', function() {
         'preload!/js/graphics.Ship.js',
         'preload!/js/graphics.lasers.js',
         'preload!/js/graphics.UFO.js',
+        'preload!/js/graphics.UFO.bullets.js',
         'preload!/js/graphics.explosions.js',
         'preload!/js/collision.js',
         'preload!/js/quadrants.js',
@@ -47,22 +65,9 @@ window.addEventListener('load', function() {
         'preload!/js/gameOver.js',
         'preload!/js/controls.js',
         'preload!/js/about.js',
-        'preload!/js/random.js',
-        // Images
-        'preload!/img/longBrownShip.png',
-        'preload!/img/laser.png',
-        'preload!/img/fire.png',
-        'preload!/img/smoke.png',
-        'preload!/img/asteroid.png',
-        'preload!/img/ufo.png',
-        // Sounds
-        'preload!/js/sounds.js',
-        'preload!/audio/bangLarge.wav',
-        'preload!/audio/bangMedium.wav',
-        'preload!/audio/bangSmall.wav',
-        'preload!/audio/fire.wav',
-        'preload!/audio/thrust.wav',
-        'preload!/audio/saucerBig.wav'
+        'preload!/js/random.js'
+
+
       ],
       complete : function() {
         console.log('All files requested for loading...');
