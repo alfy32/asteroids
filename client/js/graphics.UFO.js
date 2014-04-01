@@ -1,14 +1,12 @@
 /*global ASTEROIDGAME */
 
-ASTEROIDGAME.graphics.Ship = (function() {
+ASTEROIDGAME.graphics.UFO = (function() {
   'use strict';
 
   var canvas = document.getElementById('canvas-main');
   var context = canvas.getContext('2d');
 
-  var MAX_VELOCITY = 800;
-
-  function Ship(spec) {
+  function UFO(spec) {
     var that = {
       center: {
         x: spec.center.x,
@@ -17,13 +15,12 @@ ASTEROIDGAME.graphics.Ship = (function() {
       get width() { return canvas.width * 0.06; },
       get height() { return canvas.width * 0.06; },
       velocity: {
-        x: 0,
-        y: 0
+        x: 10,
+        y: 10
       },
-      lives: spec.lives,
       moveRate: spec.moveRate,
-      image: spec.image,
-      rotation: spec.rotation,
+      image: ASTEROIDGAME.images['/img/ufo.png'],
+      rotation: 0,
       moving: false
     };
 
@@ -35,25 +32,25 @@ ASTEROIDGAME.graphics.Ship = (function() {
       that.rotation -= spec.rotateRate * (elapsedTime / 1000);
     };
 
-    that.accelerate = function (elapsedTime) {
-      var newVelocity = {
-        x: that.velocity.x + that.moveRate * -Math.cos(that.rotation) * (elapsedTime/1000),
-        y: that.velocity.y + that.moveRate * -Math.sin(that.rotation) * (elapsedTime/1000)
-      };
+    // that.accelerate = function (elapsedTime) {
+    //   var newVelocity = {
+    //     x: that.velocity.x + that.moveRate * -Math.cos(that.rotation) * (elapsedTime/1000),
+    //     y: that.velocity.y + that.moveRate * -Math.sin(that.rotation) * (elapsedTime/1000)
+    //   };
 
-      if(!overMaxVelocity(newVelocity)) {
-        that.velocity.x = newVelocity.x;
-        that.velocity.y = newVelocity.y;
-      }
+    //   if(!overMaxVelocity(newVelocity)) {
+    //     that.velocity.x = newVelocity.x;
+    //     that.velocity.y = newVelocity.y;
+    //   }
 
-      ASTEROIDGAME.sounds.thrust();
+    //   ASTEROIDGAME.sounds.thrust();
 
-      createParticles();
-    };
+    //   createParticles();
+    // };
 
-    function overMaxVelocity(velocity) {
-      return Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y) > MAX_VELOCITY;
-    }
+    // function overMaxVelocity(velocity) {
+    //   return Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y) > MAX_VELOCITY;
+    // }
 
     var particlesToCreate = {
       smoke: 5,
@@ -128,9 +125,6 @@ ASTEROIDGAME.graphics.Ship = (function() {
     };
 
     that.render = function() {
-
-      $('#lives').html("Lives: " + that.lives);
-
       context.save();
 
       context.translate(that.center.x , that.center.y);
@@ -138,27 +132,20 @@ ASTEROIDGAME.graphics.Ship = (function() {
       context.translate(-that.center.x , -that.center.y);
 
       context.drawImage(
-        spec.image,
+        that.image,
         that.center.x  - that.width/2,
         that.center.y- that.width/2,
         that.width, that.width);
 
-      // context.beginPath();
-      // context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
-      // context.stroke();
+      context.beginPath();
+      context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
+      context.stroke();
 
       context.restore();
-
-      for(var p in spec.particles){
-
-        if(spec.particles[p].render()){
-          spec.particles.splice(p,1);
-        }
-      }
     };
 
     return that;
   }
 
-  return Ship;
+  return UFO;
 }());

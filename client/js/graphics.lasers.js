@@ -92,9 +92,9 @@ ASTEROIDGAME.graphics.lasers = (function() {
         that.width, that.height
       );
 
-      context.beginPath();
-      context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
-      context.stroke();
+      // context.beginPath();
+      // context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
+      // context.stroke();
 
       context.restore();
     };
