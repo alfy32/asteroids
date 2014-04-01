@@ -10,7 +10,7 @@ ASTEROIDGAME.screens['main-menu'] = (function() {
 
     $('#id-new-game').click(showScreen('game-play'));
     $('#id-high-scores').click(showScreen('high-scores'));
-    $('#id-help').click(showScreen('help'));
+    $('#id-controls').click(showScreen('controls'));
     $('#id-about').click(showScreen('about'));
 
     $('#id-quit').click(function (e) {

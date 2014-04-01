@@ -40,7 +40,7 @@ window.addEventListener('load', function() {
         'preload!/js/gameplay.js',
         'preload!/js/highscores.js',
         'preload!/js/gameOver.js',
-        'preload!/js/help.js',
+        'preload!/js/controls.js',
         'preload!/js/about.js',
         'preload!/js/random.js',
         // Images

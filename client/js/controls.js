@@ -1,7 +1,7 @@
 /*jslint browser: true, white: true, plusplus: true */
 /*global ASTEROIDGAME */
 
-ASTEROIDGAME.screens['help'] = (function() {
+ASTEROIDGAME.screens['controls'] = (function() {
   'use strict';
 
   function initialize() {

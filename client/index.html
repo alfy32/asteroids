@@ -22,7 +22,7 @@
         <ul class="menu">
           <li><button class="custButton" id="id-new-game">New Game</button></li>
           <li><button class="custButton" id="id-high-scores">High Scores</button></li>
-          <li><button class="custButton" id="id-help">Help</button></li>
+          <li><button class="custButton" id="id-controls">Controls</button></li>
           <li><button class="custButton" id="id-about">About</button></li>
         </ul>
       </div>
@@ -30,13 +30,13 @@
 
     <div class="game-play">
       <button class="quitButton" id="id-quit">Quit</button>
-      <h2 class="info" id="lives">Lives: 0</h2>
+      <h2 class="gameInfo" id="lives">Lives: 0</h2>
       <canvas id="canvas-main"></canvas>
     </div>
 
     <div class="high-scores">
       <div class="info">
-      <h1 class="info">High Scores</h1>
+      <h1>High Scores</h1>
         <h2>10000</h2>
         <h2>9000</h2>
         <h2>8000</h2>
@@ -45,20 +45,28 @@
     </div>
     <div class="game-over">
       <div class="info">
-        <h1 class="info">Game Over</h1>
+        <h1>Game Over</h1>
         <h2>Your Score: 1 million</h2>
       </div>
     </div>
-    <div class="help">
-      <h1 class="info">Help</h1>
-      <h2 class="info">This is some help on how to play the game</p>
+    <div class="controls">
+      <div class = "info">
+      <h1 >Controls</h1>
+      <div><label>Forward</label><input id="forward" type="text"></div>
+      <div><label>Left</label><input id="left" type="text"></div>
+      <div><label>Right</label><input id="right" type="text"></div>
+      <div><label>Hyperspace</label><input id ="hyperspace" type="text"></div>
+      <div><label>Shoot</label><input id="shoot" type="test"></div>
+      </div>
     </div>
 
     <div class="about">
-      <h1 class="info">About</h1>
-      <h2 class="info" >Developed by</h2>
-      <h2 class="info">Alan Christensen and Kade Nethercott</h2>
-
+      <div class = "info">
+        <h1>About</h1>
+        <h2>Developed by</h2>
+        <h2>Alan Christensen</h2>
+        <h2>Kade Nethercott</h2>
+      </div>
     </div>
   </div>
 </body>

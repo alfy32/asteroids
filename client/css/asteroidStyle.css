@@ -31,7 +31,7 @@ body{
 .about{
   display:none;
 }
-.help{
+.controls{
   display:none;
 }
 .main-menu{
@@ -111,14 +111,28 @@ body{
   text-shadow: 2px 2px 5px #888888;
 }
 
-.info{
+.gameInfo{
   color: #000000;
   letter-spacing: 10px;
 
   text-align: center;
    text-shadow: -1px 0 #3399FF , 0 1px #3399FF , 1px 0 #3399FF , 0 -1px #3399FF ;
 }
-
+.info{
+  color: #000000;
+  letter-spacing: 10px;
+  background-color: rgba(0,0,0, .8);
+  padding-top: 2%;
+  padding-bottom: 2%;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #3399FF;
+  text-shadow: -1.5px 0 #3399FF , 0 1px #3399FF , 1.5px 0 #3399FF , 0 -1px #3399FF ;
+}
 #canvas-main{
   position: absolute;
   width: 100%;
