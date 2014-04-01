@@ -14,7 +14,9 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myUFO = ASTEROIDGAME.graphics.UFO,
     myCollisions = ASTEROIDGAME.collision,
     myQuadrants = ASTEROIDGAME.quadrants,
-    myExplosions = ASTEROIDGAME.graphics.explosions;
+    myExplosions = ASTEROIDGAME.graphics.explosions,
+    myLevels=ASTEROIDGAME.levels,
+    myScore = ASTEROIDGAME.score;
 
   function initialize() {
     console.log('game initializing...');
@@ -33,26 +35,23 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       particles: [],
       lives: 5
     });
+  
     myQuadrants.reset();
-    myQuadrants.create();
+    
     myLasers.reset();
     myAsteroids.reset();
-
-    myAsteroids.create('large');
-    myAsteroids.create('large');
-    myAsteroids.create('large');
-    myAsteroids.create('large');
+    myLevels.reset();
+    myScore.reset();
+    myScore.render();
+    
+    myLevels.create(myAsteroids, 4);
+    myQuadrants.create();
 
     myUFO = ASTEROIDGAME.graphics.UFO();
-
+    
     //
     // Create the keyboard input handler and register the keyboard commands
-    //myKeyboard.registerCommand(KeyEvent.DOM_VK_A, myShip.moveLeft);
-    //myKeyboard.registerCommand(KeyEvent.DOM_VK_D, myShip.moveRight);
-    //myKeyboard.registerCommand(KeyEvent.DOM_VK_W, myShip.moveUp);
-    //myKeyboard.registerCommand(KeyEvent.DOM_VK_S, myShip.moveDown);
-    //myKeyboard.registerCommand(KeyEvent.DOM_VK_Q, myShip.rotateLeft);
-    //myKeyboard.registerCommand(KeyEvent.DOM_VK_E, myShip.rotateRight);
+   
     myKeyboard.clearRegister();
     myKeyboard.registerCommand(KeyEvent.DOM_VK_LEFT, myShip.rotateLeft);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_RIGHT, myShip.rotateRight);
@@ -60,9 +59,6 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myKeyboard.registerCommand(KeyEvent.DOM_VK_DOWN, myShip.hyperspace);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, myLasers.create);
 
-    
-    
-    
     var controls = ASTEROIDGAME.screens['controls'].controls();
 
     myKeyboard.registerCommand(controls.left, myShip.rotateLeft);
@@ -117,7 +113,9 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myMouse.update(ASTEROIDGAME.elapsedTime);
 
     ASTEROIDGAME.graphics.clear();
-
+    /**************************************************
+    /   Collision detection and Score update
+    **************************************************/
     var asteroidHit = myCollisions.checkAsteroidCollision(myShip, myAsteroids.list);
 
     if(asteroidHit) {
@@ -125,18 +123,31 @@ ASTEROIDGAME.screens['game-play'] = (function() {
 
       cancelNextRequest = myShip.explode(); //returns true if no more lives left
       myShip.respawn(myQuadrants.getLeastPopulated());
-
     }
 
     var laserHits = myCollisions.checkLaserAsteroidCollision(myLasers.list, myAsteroids.list);
 
     if(laserHits.length) {
       for(var i in laserHits) {
+        //update and render score
+        myScore.update('asteroid', laserHits[i].asteroid, myShip);
+        myScore.render();
+        
         laserHits[i].asteroid.explode();
         myLasers.list.splice(myLasers.list.indexOf(laserHits[i].laser), 1);
       }
     }
+    /**************************************************
+    /   update level after destroying all asteroids
+    **************************************************/
+    if(myAsteroids.list.length==0){
+      myLevels.update(myAsteroids);
+      myLevels.render();
+    }
 
+    /**************************************************
+    /   update and render Asteroids, Lasers, Quadrant, UFOs, Explosions
+    **************************************************/
     myAsteroids.update(ASTEROIDGAME.elapsedTime);
     myAsteroids.render();
 
@@ -155,6 +166,9 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myExplosions.update(ASTEROIDGAME.elapsedTime);
     myExplosions.render();
 
+    /**************************************************
+    /   Check for end game 
+    **************************************************/
     if (!cancelNextRequest) {
       requestAnimationFrame(gameLoop);
     }

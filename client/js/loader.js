@@ -4,7 +4,8 @@ var ASTEROIDGAME = {
   audio : {},
   images : {},
   screens : {},
-
+  playerScore: 0,
+  highScores: [],
   status : {
     preloadRequest : 0,
     preloadComplete : 0
@@ -38,6 +39,8 @@ window.addEventListener('load', function() {
         'preload!/js/quadrants.js',
         'preload!/js/input.js',
         'preload!/js/game.js',
+        'preload!/js/levels.js',
+        'preload!/js/score.js',
         'preload!/js/mainmenu.js',
         'preload!/js/gameplay.js',
         'preload!/js/highscores.js',

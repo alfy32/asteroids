@@ -42,7 +42,7 @@ ASTEROIDGAME.collision = (function() {
     return false;
   }
 
-  function checkLaserAsteroidCollision(lasers, asteroids) {
+  function checkLaserAsteroidCollision(lasers, asteroids, score) {
     var collisions = [];
 
     for(var asteroid in asteroids) {
@@ -52,6 +52,7 @@ ASTEROIDGAME.collision = (function() {
             laser: lasers[laser],
             asteroid: asteroids[asteroid]
           });
+         
           // break so that a laser can only destroy one asteroid.
           break;
         }

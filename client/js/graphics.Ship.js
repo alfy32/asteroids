@@ -9,7 +9,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
   var MAX_VELOCITY = 800;
   var HYPER_WAIT_TIME = 160;
   var lastHyperspaceTime = 200;
-  
+
   function Ship(spec) {
     var that = {
       center: {
@@ -108,7 +108,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
       spec.particles.push(particlesSmoke);
       spec.particles.push(particleFire);
     }
-
+    
     that.explode = function () {
       if(that.lives>1){
         that.lives--;
@@ -121,6 +121,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
         return true;
       }
     };
+    
     that.respawn = function(quadLoc){
       that.center.x= quadLoc.xCenter;
       that.center.y= quadLoc.yCenter;

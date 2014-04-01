@@ -93,7 +93,7 @@ ASTEROIDGAME.input = (function() {
       key;
 
     function keyPress(e) { //87 -w, 83 - s, 68-d, 65-a, 69-e, 81-q
-      console.log(e.keyCode);
+      //console.log(e.keyCode);
       that.keys[e.keyCode] = e.timeStamp;
       
     }
