@@ -7,21 +7,17 @@ Asteroids: Alan
   * ~~fix create, spawn outside canvas~~
 
 Controls: Kade
-  * add menu so you user can change controls
+  * ~~add menu so you user can change controls~~
 
 Scoring: Kade
-  * create points system
-  * track player score
+  * ~~create points system~~ 
+  * ~~track player score~~
+  * ~~extra life added every 10,000 points~~
+  * ~~show in game~~
   * high Scores, persistence with fs
-  * extra life added every 10,000 points
-  * show in game
-    * Large Asteroids: 20
-    * Medium Asteroids: 50
-    * Small Asteroids: 100
-    * Large Saucer: 200
-    * Small Saucer: 1000
+    
 Hyperspace: Kade
-  * add control button, S and down arrow
+  * ~~add control button, S and down arrow~~
   * add particle system
 
 UFOs: Alan
@@ -32,10 +28,10 @@ UFOs: Alan
     * fires frequently at the ship
     * fires more accurately as score increase, angle range of shots decreases
 
-Levels:
-  * level 1:
-  * level 2:
-  * level 3:
+Levels: Kade
+  * ~~level 1:~~
+  * ~~level 2:~~
+  * ~~level 3:~~
 AI:
   Take 60 seconds to clear the level
   movement: towards safest spot

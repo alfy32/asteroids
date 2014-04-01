@@ -1,12 +1,7 @@
 
 
 ASTEROIDGAME.score = (function(){
-  /** Large Asteroids: 20
-    * Medium Asteroids: 50
-    * Small Asteroids: 100
-    * Large Saucer: 200
-    * Small Saucer: 1000
-    */
+  
     var LG_ASTEROID = 20,
     MED_ASTEROID= 50,
     SM_ASTEROID= 100,

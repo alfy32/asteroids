@@ -20,6 +20,7 @@ app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 app.use(app.router);
 app.use(express.static('client'));
+app.use(express.bodyParser());
 
 // development only
 if ('development' == app.get('env')) {

@@ -35,15 +35,15 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       particles: [],
       lives: 5
     });
-  
-    myQuadrants.reset();
     
+    ASTEROIDGAME.playerScore=0;  
+    myQuadrants.reset();
     myLasers.reset();
     myAsteroids.reset();
     myLevels.reset();
     myScore.reset();
     myScore.render();
-    
+
     myLevels.create(myAsteroids, 4);
     myQuadrants.create();
 
