@@ -32,6 +32,7 @@ window.addEventListener('load', function() {
         'preload!/js/graphics.asteroids.js',
         'preload!/js/graphics.Ship.js',
         'preload!/js/graphics.lasers.js',
+        'preload!/js/graphics.UFO.js',
         'preload!/js/collision.js',
         'preload!/js/quadrants.js',
         'preload!/js/input.js',
@@ -49,6 +50,7 @@ window.addEventListener('load', function() {
         'preload!/img/fire.png',
         'preload!/img/smoke.png',
         'preload!/img/asteroid.png',
+        'preload!/img/ufo.png',
         // Sounds
         'preload!/js/sounds.js',
         'preload!/audio/bangLarge.wav',

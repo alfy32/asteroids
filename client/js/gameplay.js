@@ -11,6 +11,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     cancelNextRequest = false,
     myLasers = ASTEROIDGAME.graphics.lasers,
     myAsteroids = ASTEROIDGAME.graphics.asteroids,
+    myUFO = ASTEROIDGAME.graphics.UFO,
     myCollisions = ASTEROIDGAME.collision,
     myQuadrants = ASTEROIDGAME.quadrants;
 
@@ -40,6 +41,14 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myAsteroids.create('large');
     myAsteroids.create('large');
     myAsteroids.create('large');
+
+    myUFO = ASTEROIDGAME.graphics.UFO( {
+      center : { x : (Math.floor(window.innerWidth/2)), y : (Math.floor(window.innerHeight/2))},
+      direction : Math.PI,
+      moveRate : 500,     // pixels per second
+      rotateRate : 2*Math.PI,  // Radians per second
+      particles: []
+    });
 
     //
     // Create the keyboard input handler and register the keyboard commands
@@ -135,6 +144,9 @@ ASTEROIDGAME.screens['game-play'] = (function() {
 
     myShip.update(ASTEROIDGAME.elapsedTime);
     myShip.render();
+
+    myUFO.update(ASTEROIDGAME.elapsedTime);
+    myUFO.render();
 
     if (!cancelNextRequest) {
       requestAnimationFrame(gameLoop);
