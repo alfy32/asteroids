@@ -33,6 +33,7 @@ window.addEventListener('load', function() {
         'preload!/js/graphics.Ship.js',
         'preload!/js/graphics.lasers.js',
         'preload!/js/graphics.UFO.js',
+        'preload!/js/graphics.explosions.js',
         'preload!/js/collision.js',
         'preload!/js/quadrants.js',
         'preload!/js/input.js',
@@ -57,7 +58,8 @@ window.addEventListener('load', function() {
         'preload!/audio/bangMedium.wav',
         'preload!/audio/bangSmall.wav',
         'preload!/audio/fire.wav',
-        'preload!/audio/thrust.wav'
+        'preload!/audio/thrust.wav',
+        'preload!/audio/saucerBig.wav'
       ],
       complete : function() {
         console.log('All files requested for loading...');
