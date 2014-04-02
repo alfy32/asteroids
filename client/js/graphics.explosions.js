@@ -24,9 +24,18 @@ ASTEROIDGAME.graphics.explosions = (function() {
     explosions.length = 0;
   }
 
-  function round(center) {
-    var explosion = ASTEROIDGAME.particleSystems.createSystem( {
-      image : ASTEROIDGAME.images['/img/fire.png'],
+  function asteroid(center) {
+    var grayBlast = ASTEROIDGAME.particleSystems.createSystem( {
+      image : ASTEROIDGAME.images['/img/grayBlast.png'],
+      center: {
+        x: center.x,
+        y: center.y
+      } ,
+      speed: {mean: 0.1, stdev: 0.05},
+      lifetime: {mean: 1000, stdev: 100}
+    });
+    var smoke = ASTEROIDGAME.particleSystems.createSystem( {
+      image : ASTEROIDGAME.images['/img/smoke.png'],
       center: {
         x: center.x,
         y: center.y
@@ -35,17 +44,116 @@ ASTEROIDGAME.graphics.explosions = (function() {
       lifetime: {mean: 1000, stdev: 100}
     });
 
-    for(var i = 0; i < 20; i++)
-      explosion.create();
+    for(var i = 0; i < 20; i++){
+      grayBlast.create();
+      smoke.create();
+    }
 
-    explosions.push(explosion);
+    explosions.push(grayBlast);
+    explosions.push(smoke);
   }
+  function UFO(center) {
+    var fire = ASTEROIDGAME.particleSystems.createSystem( {
+      image : ASTEROIDGAME.images['/img/brightPurple.png'],
+      center: {
+        x: center.x,
+        y: center.y
+      } ,
+      speed: {mean: 0.1, stdev: 0.05},
+      lifetime: {mean: 1000, stdev: 100}
+    });
+    var smoke = ASTEROIDGAME.particleSystems.createSystem( {
+      image : ASTEROIDGAME.images['/img/smoke.png'],
+      center: {
+        x: center.x,
+        y: center.y
+      } ,
+      speed: {mean: 0.1, stdev: 0.05},
+      lifetime: {mean: 1000, stdev: 100}
+    });
+    for(var i = 0; i < 20; i++)
+      smoke.create();
+    for(var i = 0; i < 60; i++)
+      fire.create();
+
+    explosions.push(fire);
+    explosions.push(smoke);
+  }
+
+  function ship(center) {
+    var red = ASTEROIDGAME.particleSystems.createSystem( {
+      image : ASTEROIDGAME.images['/img/brightRed.png'],
+      center: {
+        x: center.x,
+        y: center.y
+      } ,
+      speed: {mean: 0.1, stdev: 0.05},
+      lifetime: {mean: 1000, stdev: 100}
+    });
+
+    var smoke = ASTEROIDGAME.particleSystems.createSystem( {
+      image : ASTEROIDGAME.images['/img/smoke.png'],
+      center: {
+        x: center.x,
+        y: center.y
+      } ,
+      speed: {mean: 0.1, stdev: 0.05},
+      lifetime: {mean: 1000, stdev: 100}
+    });
+    for(var i = 0; i < 20; i++)
+      smoke.create();
+    for(var i = 0; i < 60; i++)
+      red.create();
+
+    explosions.push(red);
+    explosions.push(smoke);
+  }
+
+  function hyperspace(center) {
+    var blue = ASTEROIDGAME.particleSystems.createSystem( {
+      image : ASTEROIDGAME.images['/img/blueFire.png'],
+      center: {
+        x: center.x,
+        y: center.y
+      } ,
+      speed: {mean: 0.1, stdev: 0},
+      lifetime: {mean: 500, stdev: 0}
+    });
+
+
+    for(var i = 0; i < 500; i++)
+      blue.create();
+
+    explosions.push(blue);
+  }
+  function respawn(center) {
+    var green = ASTEROIDGAME.particleSystems.createSystem( {
+      image : ASTEROIDGAME.images['/img/brightOrange.png'],
+      center: {
+        x: center.x,
+        y: center.y
+      } ,
+      speed: {mean: 0.1, stdev: 0},
+      lifetime: {mean: 500, stdev: 0}
+    });
+
+
+    for(var i = 0; i < 500; i++)
+      green.create();
+
+    explosions.push(green);
+  }
+
 
   return {
     update: update,
     render: render,
     reset: reset,
-    round: round
+    asteroid: asteroid,
+    UFO: UFO, 
+    ship: ship,
+    hyperspace: hyperspace,
+    respawn: respawn
   };
 
 }());

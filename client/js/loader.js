@@ -28,8 +28,18 @@ window.addEventListener('load', function() {
       load : [
         // Images
         'preload!/img/longBrownShip.png',
+        'preload!/img/milleniumFalcon.png',
+        'preload!/img/wingShip.png',
+        'preload!/img/redShip.png',
         'preload!/img/laser.png',
         'preload!/img/fire.png',
+        'preload!/img/blueFire.png',
+        'preload!/img/purpleFire.png',
+        'preload!/img/brightRed.png',
+        'preload!/img/brightPurple.png',
+        'preload!/img/brightGreen.png',
+        'preload!/img/brightOrange.png',
+        'preload!/img/grayBlast.png',
         'preload!/img/smoke.png',
         'preload!/img/asteroid.png',
         'preload!/img/ufo.png',

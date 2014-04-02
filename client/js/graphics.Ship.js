@@ -41,6 +41,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
       console.log(elapsedTime);
       if(lastHyperspaceTime >HYPER_WAIT_TIME){
         lastHyperspaceTime =0;
+        ASTEROIDGAME.graphics.explosions.hyperspace(ship.center);
         ship.respawn({
           yCenter: Random.nextRange(100, canvas.height - 100),
           xCenter: Random.nextRange(100, canvas.width - 100)
@@ -71,17 +72,17 @@ ASTEROIDGAME.graphics.Ship = (function() {
     }
 
     var particlesToCreate = {
-      smoke: 5,
+      smoke: 20,
       fire: 100
     };
 
     function createParticles() {
       //create particles for blast off
       var particlesSmoke = ASTEROIDGAME.particleSystems.createSystem({
-        image: ASTEROIDGAME.images['/img/smoke.png'],
+        image: ASTEROIDGAME.images['/img/purpleFire.png'],
         center: {
-          x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.08)/2)),
-          y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.08)/2))
+          x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.03)/2)),
+          y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.03)/2))
         },
         direction: that.rotation,
         speed: {mean: 0.5, stdev: 0.05},
@@ -93,7 +94,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
       }
 
       var particleFire = ASTEROIDGAME.particleSystems.createSystem({
-        image: ASTEROIDGAME.images['/img/fire.png'],
+        image: ASTEROIDGAME.images['/img/blueFire.png'],
         center: {
           x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.03)/2)),
           y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.03)/2))
@@ -112,7 +113,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
     }
 
     that.explode = function () {
-      ASTEROIDGAME.graphics.explosions.round(that.center);
+      ASTEROIDGAME.graphics.explosions.ship(that.center);
       if(that.lives>1){
         that.lives--;
         console.log('You hit an asteroid, lives left: '+ that.lives);
@@ -126,6 +127,8 @@ ASTEROIDGAME.graphics.Ship = (function() {
     };
 
     that.respawn = function(quadLoc){
+
+      ASTEROIDGAME.graphics.explosions.respawn({ x: quadLoc.xCenter, y:quadLoc.yCenter});
       that.center.x= quadLoc.xCenter;
       that.center.y= quadLoc.yCenter;
       that.velocity.x=0;

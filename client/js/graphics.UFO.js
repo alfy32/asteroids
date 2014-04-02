@@ -49,13 +49,13 @@ ASTEROIDGAME.graphics.UFO = (function() {
         x: spec.center.x,
         y: spec.center.y
       },
-      get width() { return canvas.width * 0.04; },
-      get height() { return canvas.width * 0.03; },
+      get width() { return canvas.width * 0.1; },
+      get height() { return canvas.width * 0.08; },
       velocity: {
         x: 50,
         y: 50
       },
-      image: ASTEROIDGAME.images['/img/ufo.png'],
+      image: ASTEROIDGAME.images['/img/milleniumFalcon.png'], // ASTEROIDGAME.images['/img/wingShip.png'],
       rotation: 0,
       moving: false,
       audio: ASTEROIDGAME.audio['/audio/saucerBig.wav']
@@ -94,7 +94,7 @@ ASTEROIDGAME.graphics.UFO = (function() {
 
     that.explode = function () {
       that.audio.loop = false;
-      ASTEROIDGAME.graphics.explosions.round(that.center);
+      ASTEROIDGAME.graphics.explosions.UFO(that.center);
       ASTEROIDGAME.sounds.explode[ufo.size]();
       ufo.killed = true;
     };

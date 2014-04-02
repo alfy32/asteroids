@@ -28,7 +28,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
 
 
     myShip = ASTEROIDGAME.graphics.Ship( {
-      image : ASTEROIDGAME.images['/img/longBrownShip.png'],
+      image : ASTEROIDGAME.images['/img/redShip.png'],
       center : { x : (Math.floor(window.innerWidth/2)), y : (Math.floor(window.innerHeight/2))},
       width : 50, height : 50,
       rotation : Math.PI,

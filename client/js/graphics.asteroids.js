@@ -92,7 +92,7 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     }
 
     that.explode = function () {
-      ASTEROIDGAME.graphics.explosions.round(that.center);
+      ASTEROIDGAME.graphics.explosions.asteroid(that.center);
       ASTEROIDGAME.sounds.explode[that.size]();
 
       if(that.size == 'large') {
