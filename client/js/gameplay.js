@@ -51,6 +51,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myLevels.reset();
     myScore.reset();
     myScore.render();
+    myLevels.render();
 
     myLevels.create(myAsteroids, 4);
     myQuadrants.create();

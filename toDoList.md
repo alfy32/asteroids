@@ -1,5 +1,6 @@
 To do List:
 **Goal: finish on Friday, April 4th**
+
 Ship:
   * fix particle system Kade
 
@@ -32,6 +33,7 @@ Levels: Kade
   * ~~level 1:~~
   * ~~level 2:~~
   * ~~level 3:~~
+
 AI:
   Take 60 seconds to clear the level
   movement: towards safest spot

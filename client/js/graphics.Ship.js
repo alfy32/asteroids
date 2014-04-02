@@ -72,7 +72,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
     var particlesToCreate = {
       smoke: 5,
-      fire: 20
+      fire: 100
     };
 
     function createParticles() {
@@ -80,11 +80,12 @@ ASTEROIDGAME.graphics.Ship = (function() {
       var particlesSmoke = ASTEROIDGAME.particleSystems.createSystem({
         image: ASTEROIDGAME.images['/img/smoke.png'],
         center: {
-          x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.05)/2)),
-          y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.05)/2))
+          x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.08)/2)),
+          y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.08)/2))
         },
-        speed: {mean: 0.05, stdev: 0.01},
-        lifetime: {mean: 200, stdev: 20}
+        direction: that.rotation,
+        speed: {mean: 0.5, stdev: 0.05},
+        lifetime: {mean: 200, stdev: 10}
       });
 
       for(var i = 0; i < particlesToCreate.smoke; ++i){
@@ -97,8 +98,9 @@ ASTEROIDGAME.graphics.Ship = (function() {
           x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.03)/2)),
           y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.03)/2))
         },
-        speed: {mean: 0.05, stdev: 0.01},
-        lifetime: {mean: 300, stdev: 100}
+        direction: that.rotation,
+        speed: {mean: 0.5, stdev: 0.05},
+        lifetime: {mean: 200, stdev: 10}
       });
 
       for(var i = 0;  i < particlesToCreate.fire; ++i){

@@ -20,12 +20,19 @@ ASTEROIDGAME.particleSystems = (function(){
     //------------------------------------------------------------------
 
     that.create = function() {
+      var dir = Random.nextCircleVector();
+      if(spec.direction){
+        dir = {
+                x: Math.cos(spec.direction + Random.nextGaussian(0, .1)),
+                y: Math.sin(spec.direction + Random.nextGaussian(0, .1))
+              }
+      }
 
       var p = {
           image: spec.image,
-          size: Random.nextGaussian(10, 4),
+          size: Random.nextGaussian(10, 7),
           center: {x: spec.center.x, y: spec.center.y},
-          direction: Random.nextCircleVector(),
+          direction: dir,
           speed: Random.nextGaussian(spec.speed.mean, spec.speed.stdev), // pixels per second
           rotation: 0,
           lifetime: Random.nextGaussian(spec.lifetime.mean, spec.lifetime.stdev), // How long the particle should live, in seconds
