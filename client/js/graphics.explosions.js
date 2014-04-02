@@ -110,6 +110,23 @@ ASTEROIDGAME.graphics.explosions = (function() {
   }
 
   function hyperspace(center) {
+    var orange = ASTEROIDGAME.particleSystems.createSystem( {
+      image : ASTEROIDGAME.images['/img/brightOrange.png'],
+      center: {
+        x: center.x,
+        y: center.y
+      } ,
+      speed: {mean: 0.1, stdev: 0},
+      lifetime: {mean: 500, stdev: 0}
+    });
+
+
+    for(var i = 0; i < 500; i++)
+      orange.create();
+
+    explosions.push(orange);
+  }
+  function respawn(center) {
     var blue = ASTEROIDGAME.particleSystems.createSystem( {
       image : ASTEROIDGAME.images['/img/blueFire.png'],
       center: {
@@ -125,23 +142,6 @@ ASTEROIDGAME.graphics.explosions = (function() {
       blue.create();
 
     explosions.push(blue);
-  }
-  function respawn(center) {
-    var green = ASTEROIDGAME.particleSystems.createSystem( {
-      image : ASTEROIDGAME.images['/img/brightOrange.png'],
-      center: {
-        x: center.x,
-        y: center.y
-      } ,
-      speed: {mean: 0.1, stdev: 0},
-      lifetime: {mean: 500, stdev: 0}
-    });
-
-
-    for(var i = 0; i < 500; i++)
-      green.create();
-
-    explosions.push(green);
   }
 
 

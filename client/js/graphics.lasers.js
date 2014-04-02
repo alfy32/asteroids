@@ -24,7 +24,7 @@ ASTEROIDGAME.graphics.lasers = (function() {
           x: ship.center.x-(Math.cos(ship.rotation)*((canvas.width*0.06)/2)),
           y: ship.center.y-(Math.sin(ship.rotation)*((canvas.width*0.06)/2))
         },
-        image: ASTEROIDGAME.images['/img/laser.png'],
+        image: ASTEROIDGAME.images['/img/redLaser.png'],
         direction: ship.rotation
       }));
 
@@ -61,7 +61,7 @@ ASTEROIDGAME.graphics.lasers = (function() {
       },
       image: spec.image,
       direction: spec.direction,
-      get width() { return canvas.width*0.02; },
+      get width() { return canvas.width*0.03; },
       get height() { return canvas.width*0.002; },
       // width: 30,
       // height: 2,
