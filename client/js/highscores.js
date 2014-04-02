@@ -11,6 +11,15 @@ ASTEROIDGAME.screens['high-scores'] = (function() {
   function run() {
     //
     // empty high score display
+    $.ajax({
+      url: '/scores',
+      type: 'GET',
+      success: function(result){
+                  ASTEROIDGAME.highScores = JSON.parse(result);
+                  console.log(ASTEROIDGAME.highScores);
+              }
+    });
+
     $('.showScores').empty();
 
     //show top 10 high scores
