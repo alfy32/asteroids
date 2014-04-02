@@ -3,78 +3,93 @@
 ASTEROIDGAME.collision = (function() {
   'use strict';
 
-  function checkCollision(collection1, collection2) {
-    var collisions = [];
-
-    for(var item1 in collection1) {
-      for(var item2 in collection2) {
-        if(collision(collection1[item1], collection2[item2])) {
-          collisions.push({
-            item1: collection1[item1],
-            item2: collection2[item2]
-          });
-        }
-      }
-    }
-
-    return collisions;
-  }
-
-  function collision(item1, item2) {
-    var x = item1.center.x - item2.center.x;
-    var y = item1.center.y - item2.center.y;
+  function circleCircle(circle1, circle2, cb) {
+    var x = circle1.center.x - circle2.center.x;
+    var y = circle1.center.y - circle2.center.y;
 
     var distance = Math.sqrt(x*x + y*y);
 
-    var radius1 = item1.width/2;
-    var radius2 = item2.width/2;
+    var radius1 = circle1.width/2;
+    var radius2 = circle2.width/2;
 
-    return distance < radius1 + radius2;
+    if(distance < radius1 + radius2) {
+      if(cb) cb(circle1, circle2);
+      return true;
+    }
+    else return false;
   }
 
-  function checkAsteroidCollision(ship, asteroids) {
-    for(var i in asteroids) {
-      if(collision(ship, asteroids[i])) {
-        return asteroids[i];
+  function circlePoint(circle, point, cb) {
+    var x = circle.center.x - point.center.x;
+    var y = circle.center.y - point.center.y;
+
+    var distance = Math.sqrt(x*x + y*y);
+
+    var radius = circle.width/2;
+
+    if(distance < radius) {
+      if(cb) cb(circle, point);
+      return true;
+    }
+    else return false;
+  }
+
+  function circleCircles(circle, circles, cb) {
+    for(var i in circles) {
+      if(circleCircle(circle, circles[i], cb)) {
+        return true;
       }
     }
-
     return false;
   }
 
-  function checkLaserAsteroidCollision(lasers, asteroids, score) {
-    var collisions = [];
-
-    for(var asteroid in asteroids) {
-      for(var laser in lasers) {
-        if(laserAsteroidCollision(lasers[laser], asteroids[asteroid])) {
-          collisions.push({
-            laser: lasers[laser],
-            asteroid: asteroids[asteroid]
-          });
-
-          // break so that a laser can only destroy one asteroid.
-          break;
+  function circlesCircles(circles1, circles2, cb) {
+    for(var item1 in circles1) {
+      for(var item2 in circles2) {
+        if(circleCircle(circles1[item1], circles2[item2], cb)) {
+          return true;
         }
       }
     }
-
-    return collisions;
+    return false;
   }
 
-  function laserAsteroidCollision(laser, asteroid) {
-    var x = laser.center.x - asteroid.center.x;
-    var y = laser.center.y - asteroid.center.y;
+  function circlesPoints(circles, points, cb) {
+    for(var i in circles) {
+      for(var j in points) {
+        if(circlePoint(circles[i], points[j], cb)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
-    var distance = Math.sqrt(x*x + y*y);
+  function circlesPoint(circles, point, cb) {
+    for(var i in circles) {
+      if(circlePoint(circles[i], point, cb)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
-    return distance < asteroid.width/2;
+  function circlePoints(circle, points, cb) {
+    for(var i in points) {
+      if(circlePoint(circle, points[i], cb)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   return {
-    checkCollision: checkCollision,
-    checkLaserAsteroidCollision: checkLaserAsteroidCollision,
-    checkAsteroidCollision: checkAsteroidCollision,
-    collision: collision
+    circleCircle: circleCircle,
+    circlePoint: circlePoint,
+    circleCircles: circleCircles,
+    circlesCircles: circlesCircles,
+    circlesPoints: circlesPoints,
+    circlesPoint: circlesPoint,
+    circlePoints: circlePoints
   };
 }());

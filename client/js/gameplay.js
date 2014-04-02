@@ -14,6 +14,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myLasers = ASTEROIDGAME.graphics.lasers,
     myAsteroids = ASTEROIDGAME.graphics.asteroids,
     myUFO = ASTEROIDGAME.graphics.UFO,
+    myBullets = ASTEROIDGAME.graphics.UFO.bullets,
     myCollisions = ASTEROIDGAME.collision,
     myQuadrants = ASTEROIDGAME.quadrants,
     myExplosions = ASTEROIDGAME.graphics.explosions,
@@ -38,12 +39,15 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       lives: 5
     });
 
-    
-    ASTEROIDGAME.playerScore=0;  
+
+    ASTEROIDGAME.playerScore=0;
     myQuadrants.reset();
 
     myLasers.reset();
+    myUFO.reset();
+    myBullets.reset();
     myAsteroids.reset();
+    myExplosions.reset();
     myLevels.reset();
     myScore.reset();
     myScore.render();
@@ -118,35 +122,49 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     /**************************************************
     /   Collision detection and Score update
     **************************************************/
-    var asteroidHit = myCollisions.checkAsteroidCollision(myShip, myAsteroids.list);
+    myCollisions.circleCircles(myShip, myAsteroids.list,
+      function (ship, asteroid) {
+        asteroid.explode();
+        cancelNextRequest = myShip.explode(); //returns true if no more lives left
+        myShip.respawn(myQuadrants.getLeastPopulated());
+      });
 
-    if(asteroidHit) {
-      asteroidHit.explode();
-
-      cancelNextRequest = myShip.explode(); //returns true if no more lives left
-      myShip.respawn(myQuadrants.getLeastPopulated());
-    }
-
-    var laserHits = myCollisions.checkLaserAsteroidCollision(myLasers.list, myAsteroids.list);
-
-    if(laserHits.length) {
-      for(var i in laserHits) {
+    myCollisions.circlesPoints(myAsteroids.list, myLasers.list,
+      function (asteroid, laser) {
         //update and render score
-        myScore.update('asteroid', laserHits[i].asteroid, myShip);
+        myScore.update('asteroid', asteroid, myShip);
         myScore.render();
 
-        laserHits[i].asteroid.explode();
-        myLasers.list.splice(myLasers.list.indexOf(laserHits[i].laser), 1);
-      }
-    }
+        asteroid.explode();
+        myLasers.list.splice(myLasers.list.indexOf(laser), 1);
+      });
 
     var ufo = myUFO.getCurrentUFO();
 
     if(ufo) {
-      var ufoHits = myCollisions.collision(ufo, myShip);
+      myCollisions.circleCircle(ufo, myShip,
+        function (ufo, ship) {
+          ufo.explode();
 
-      if(ufoHits) console.log(ufoHits);
+          cancelNextRequest = ship.explode(); //returns true if no more lives left
+          myShip.respawn(myQuadrants.getLeastPopulated());
+        });
+
+      myCollisions.circlePoints(ufo, myLasers.list,
+        function (ufo, laser) {
+          ufo.explode();
+          myLasers.list.splice(myLasers.list.indexOf(laser), 1);
+        });
     }
+
+    myCollisions.circlePoints(myShip, myBullets.list,
+      function (ship, bullet) {
+        myBullets.list.splice(myBullets.list.indexOf(bullet),1);
+
+        cancelNextRequest = ship.explode(); //returns true if no more lives left
+        ship.respawn(myQuadrants.getLeastPopulated());
+      });
+
     /**************************************************
     /   update level after destroying all asteroids
     **************************************************/

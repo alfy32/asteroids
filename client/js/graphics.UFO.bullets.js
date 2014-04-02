@@ -20,6 +20,10 @@ ASTEROIDGAME.graphics.UFO.bullets = (function() {
     }
   }
 
+  function reset() {
+    bullets.length = 0;
+  }
+
   function create(spec) {
     bullets.push(bullet(spec));
   }
@@ -72,8 +76,10 @@ ASTEROIDGAME.graphics.UFO.bullets = (function() {
   }
 
   return {
+    list: bullets,
     update: update,
     render: render,
+    reset: reset,
     create: create
   };
 }());

@@ -108,8 +108,9 @@ ASTEROIDGAME.graphics.Ship = (function() {
       spec.particles.push(particlesSmoke);
       spec.particles.push(particleFire);
     }
-    
+
     that.explode = function () {
+      ASTEROIDGAME.graphics.explosions.round(that.center);
       if(that.lives>1){
         that.lives--;
         console.log('You hit an asteroid, lives left: '+ that.lives);
@@ -121,7 +122,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
         return true;
       }
     };
-    
+
     that.respawn = function(quadLoc){
       that.center.x= quadLoc.xCenter;
       that.center.y= quadLoc.yCenter;

@@ -20,6 +20,10 @@ ASTEROIDGAME.graphics.explosions = (function() {
     }
   }
 
+  function reset() {
+    explosions.length = 0;
+  }
+
   function round(center) {
     var explosion = ASTEROIDGAME.particleSystems.createSystem( {
       image : ASTEROIDGAME.images['/img/fire.png'],
@@ -40,6 +44,7 @@ ASTEROIDGAME.graphics.explosions = (function() {
   return {
     update: update,
     render: render,
+    reset: reset,
     round: round
   };
 

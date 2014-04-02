@@ -10,7 +10,9 @@ ASTEROIDGAME.graphics.UFO = (function() {
     small: UFO({center: {x: -10, y: 100}}),
     big: UFO({center: {x: -10, y: canvas.height - 100}}),
     size: 'small',
-    render: false
+    render: false,
+    score: 1,
+    killed: false
   };
 
   function getCurrentUFO() {
@@ -19,7 +21,8 @@ ASTEROIDGAME.graphics.UFO = (function() {
   }
 
   function update(elapsedTime) {
-    if(ASTEROIDGAME.score.score > 1000) ufo.render = true;
+    if(ASTEROIDGAME.score.score > ufo.score) ufo.render = true;
+    if(ufo.killed) ufo.render = false;
 
     if(ufo.render) {
       ufo[ufo.size].update(elapsedTime);
@@ -32,6 +35,12 @@ ASTEROIDGAME.graphics.UFO = (function() {
       ufo[ufo.size].render();
       ASTEROIDGAME.graphics.UFO.bullets.render();
     }
+  }
+
+  function reset() {
+    ufo.size = 'small';
+    ufo.render = false;
+    ufo.killed = false;
   }
 
   function UFO(spec) {
@@ -86,7 +95,8 @@ ASTEROIDGAME.graphics.UFO = (function() {
     that.explode = function () {
       that.audio.loop = false;
       ASTEROIDGAME.graphics.explosions.round(that.center);
-      ASTEROIDGAME.sounds.explode[that.size]();
+      ASTEROIDGAME.sounds.explode[ufo.size]();
+      ufo.killed = true;
     };
 
     var lastMove = {
@@ -140,6 +150,7 @@ ASTEROIDGAME.graphics.UFO = (function() {
   return {
     update: update,
     render: render,
+    reset: reset,
     getCurrentUFO: getCurrentUFO
   };
 }());
