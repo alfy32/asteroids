@@ -27,10 +27,13 @@ ASTEROIDGAME.particleSystems = (function(){
                 y: Math.sin(spec.direction + Random.nextGaussian(0, .1))
               }
       }
-
+      var S = Random.nextGaussian(10, 7);
+      if(spec.size){
+        S=Random.nextGaussian(spec.size.mean, spec.size.stdev);
+      }
       var p = {
           image: spec.image,
-          size: Random.nextGaussian(10, 7),
+          size: S,
           center: {x: spec.center.x, y: spec.center.y},
           direction: dir,
           speed: Random.nextGaussian(spec.speed.mean, spec.speed.stdev), // pixels per second

@@ -31,10 +31,12 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
     that.rotateRight = function (elapsedTime) {
       that.rotation += spec.rotateRate * (elapsedTime / 1000);
+      createSideParticles(that.rotation +1.2);
     };
 
     that.rotateLeft = function (elapsedTime) {
       that.rotation -= spec.rotateRate * (elapsedTime / 1000);
+      createSideParticles(that.rotation -1.2);
     };
 
     that.hyperspace = function (elapsedTime, ship, quadrants) {
@@ -75,7 +77,28 @@ ASTEROIDGAME.graphics.Ship = (function() {
       smoke: 20,
       fire: 100
     };
+    function createSideParticles(rotation){
+      var particleFire = ASTEROIDGAME.particleSystems.createSystem({
+        image: ASTEROIDGAME.images['/img/blueFire.png'],
+        center: {
+          x: that.center.x+(Math.cos(rotation)*((canvas.width*0.015)/2)),
+          y: that.center.y+(Math.sin(rotation)*((canvas.width*0.015)/2))
+        },
+        direction: rotation,
+        size: {
+          mean: 7,
+          stdev: 2
+        },
+        speed: {mean: 0.3, stdev: 0.05},
+        lifetime: {mean: 70, stdev: 5}
+      });
 
+      for(var i = 0;  i < particlesToCreate.fire; ++i){
+        particleFire.create();
+      }
+
+      spec.particles.push(particleFire);
+    }
     function createParticles() {
       //create particles for blast off
       var particlesSmoke = ASTEROIDGAME.particleSystems.createSystem({
