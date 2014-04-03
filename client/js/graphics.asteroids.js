@@ -16,9 +16,9 @@ ASTEROIDGAME.graphics.asteroids = (function() {
   };
 
   var drawSize = {
-    large: 130,
-    medium: 100,
-    small: 50
+    large: 200,
+    medium: 130,
+    small: 75
   };
 
   function getStartingPosition() {
