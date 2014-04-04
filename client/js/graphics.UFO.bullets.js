@@ -42,6 +42,11 @@ ASTEROIDGAME.graphics.UFO.bullets = (function() {
       alive: 0,
       lifeTime: 800
     };
+    
+    var distance = canvas.height * 3/4;
+    var speed = Math.sqrt(that.velocity.x*that.velocity.x + that.velocity.y*that.veloctiy.y)/1000;
+    
+    that.lifeTime = distance/speed;
 
     that.update = function (elapsedTime) {
       that.alive += elapsedTime;
