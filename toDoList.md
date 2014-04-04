@@ -23,10 +23,10 @@ Hyperspace: Kade
 
 UFOs: Alan
   * big saucer
-    * shoots randomly and poorly
-    * stops appearing after score of 40,000
+    * ~~shoots randomly and poorly~~
+    * ~~stops appearing after score of 40,000~~
   * small saucer
-    * fires frequently at the ship
+    * ~~fires frequently at the ship~~
     * fires more accurately as score increase, angle range of shots decreases
 
 Levels: Kade

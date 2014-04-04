@@ -59,6 +59,7 @@ window.addEventListener('load', function() {
         // Javascript
         'preload!/js/jquery-1.11.0.min.js',
         'preload!/js/particle-system.js',
+        'preload!/js/random.js',
         'preload!/js/graphics.js',
         'preload!/js/graphics.asteroids.js',
         'preload!/js/graphics.Ship.js',
@@ -77,8 +78,7 @@ window.addEventListener('load', function() {
         'preload!/js/highscores.js',
         'preload!/js/gameOver.js',
         'preload!/js/controls.js',
-        'preload!/js/about.js',
-        'preload!/js/random.js'
+        'preload!/js/about.js'
 
 
       ],

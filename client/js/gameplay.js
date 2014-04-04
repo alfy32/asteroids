@@ -38,7 +38,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       particles: [],
       lives: 5
     });
-
+    myUFO.setShip(myShip);
 
     ASTEROIDGAME.playerScore=0;
     myQuadrants.reset();
@@ -154,6 +154,8 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       myCollisions.circlePoints(ufo, myLasers.list,
         function (ufo, laser) {
           ufo.explode();
+          myScore.update('saucer', ufo, myShip);
+          myScore.render();
           myLasers.list.splice(myLasers.list.indexOf(laser), 1);
         });
     }
