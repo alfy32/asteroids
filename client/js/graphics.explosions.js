@@ -43,6 +43,15 @@ ASTEROIDGAME.graphics.explosions = (function() {
       speed: {mean: 0.1, stdev: 0.05},
       lifetime: {mean: 1000, stdev: 100}
     });
+    var grayGreen = ASTEROIDGAME.particleSystems.createSystem( {
+      image : ASTEROIDGAME.images['/img/grayGreenBlast.png'],
+      center: {
+        x: center.x,
+        y: center.y
+      } ,
+      speed: {mean: 0.1, stdev: 0.05},
+      lifetime: {mean: 1000, stdev: 100}
+    });
     var green = ASTEROIDGAME.particleSystems.createSystem( {
       image : ASTEROIDGAME.images['/img/brightGreen.png'],
       center: {
@@ -52,12 +61,20 @@ ASTEROIDGAME.graphics.explosions = (function() {
       speed: {mean: 0.1, stdev: 0.05},
       lifetime: {mean: 1000, stdev: 100}
     });
-    for(var i = 0; i < 20; i++){
-      grayBlast.create();
+    for(var i = 0; i < 40; i++){
       smoke.create();
+    }
+    for(var i = 0; i < 15; i++){
+       grayBlast.create();
+      grayGreen.create();
+    }
+     
+    for(var i = 0; i < 8; i++){
+    
       green.create();
     }
     explosions.push(green);
+    explosions.push(grayGreen);
     explosions.push(grayBlast);
     explosions.push(smoke);
     

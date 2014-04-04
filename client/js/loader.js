@@ -42,6 +42,7 @@ window.addEventListener('load', function() {
         'preload!/img/brightPurple.png',
         'preload!/img/brightGreen.png',
         'preload!/img/brightOrange.png',
+        'preload!/img/grayGreenBlast.png',
         'preload!/img/grayBlast.png',
         'preload!/img/smoke.png',
         'preload!/img/asteroid.png',
