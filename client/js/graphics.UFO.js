@@ -6,14 +6,29 @@ ASTEROIDGAME.graphics.UFO = (function() {
   var canvas = document.getElementById('canvas-main');
   var context = canvas.getContext('2d');
 
+  var path = [
+    {x: -10, y: 100, dir1: 'goDownRight', dir2: 'goUpRight' },
+    {x: 100, y: -10, dir1: 'goDownRight', dir2: 'goDownLeft' },
+    {get x() { return canvas.width-300; }, y: -10, dir1: 'goDownLeft', dir2: 'goDownRight' },
+    {get x() { return canvas.width+10; }, y: 100, dir1: 'goDownLeft', dir2: 'goUpLeft' },
+    {get x() { return canvas.width+10; }, get y() { return canvas.height-300; }, dir1: 'goUpLeft', dir2: 'goDownLeft' },
+    {get x() { return canvas.width-300; }, get y() { return canvas.height-10; }, dir1: 'goUpLeft', dir2: 'goUpRight' },
+    {x: 100, get y() { return canvas.height+10; }, dir1: 'goUpRight', dir2: 'goUpLeft' },
+    {x: -10, get y() { return canvas.height-300; }, dir1: 'goUpLeft', dir2: 'goDownLeft' }
+  ];
+
   var ufo = {
     small: UFO({center: {x: -10, y: 100}}),
-    big: UFO({center: {x: -10, y: canvas.height - 100}}),
+    large: UFO({center: {x: -10, y: canvas.height - 100}}),
     size: 'small',
     render: false,
-    score: 1,
-    killed: false
+    scoreInterval: 1000,
+    score: 0,
+    lastScore: 0,
+    killed: false,
+    currPath: path[Random.nextRange(0, path.length-1)]
   };
+
 
   function getCurrentUFO() {
     if(ufo.render) return ufo[ufo.size];
@@ -21,7 +36,22 @@ ASTEROIDGAME.graphics.UFO = (function() {
   }
 
   function update(elapsedTime) {
-    if(ASTEROIDGAME.score.score > ufo.score) ufo.render = true;
+    ufo.score += ASTEROIDGAME.score.score - ufo.lastScore;
+    ufo.lastScore = ASTEROIDGAME.score.score;
+
+    if(ufo.score > ufo.scoreInterval) {
+      ufo.score = 0;
+      ufo.render = true;
+      ufo.killed = false;
+
+      if(ufo.size == 'small' && ASTEROIDGAME.score.score < 40000) ufo.size = 'large';
+      else ufo.size = 'small';
+
+      ufo.currPath = path[Random.nextRange(0, path.length-1)];
+      ufo[ufo.size].center.x = ufo.currPath.x;
+      ufo[ufo.size].center.y = ufo.currPath.y;
+    }
+
     if(ufo.killed) ufo.render = false;
 
     if(ufo.render) {
@@ -58,7 +88,9 @@ ASTEROIDGAME.graphics.UFO = (function() {
       image: ASTEROIDGAME.images['/img/milleniumFalcon.png'], // ASTEROIDGAME.images['/img/wingShip.png'],
       rotation: 0,
       moving: false,
-      audio: ASTEROIDGAME.audio['/audio/saucerBig.wav']
+      audio: ASTEROIDGAME.audio['/audio/saucerBig.wav'],
+      lifeTime: 500,
+      alive: 0
     };
 
     // that.audio.loop = true;
@@ -84,7 +116,20 @@ ASTEROIDGAME.graphics.UFO = (function() {
       that.velocity.y = -Math.abs(that.velocity.y);
     };
 
-    that.shoot = function () {
+    that.shootRandom = function () {
+      var velocity = {
+        x: 1,
+        y: 0
+      };
+
+      ASTEROIDGAME.sounds.shoot();
+      ASTEROIDGAME.graphics.UFO.bullets.create({
+        center: that.center,
+        velocity: velocity
+      });
+    };
+
+    that.shootBetter = function () {
       ASTEROIDGAME.sounds.shoot();
       ASTEROIDGAME.graphics.UFO.bullets.create({
         center: that.center,
@@ -101,25 +146,33 @@ ASTEROIDGAME.graphics.UFO = (function() {
 
     var lastMove = {
       time: 0,
-      func: [ 'goDownRight', 'goUpRight' ],
+      func: [ 'dir1', 'dir2' ],
       funcNum: 0
     };
 
     var lastShot = 0;
 
     that.update = function(elapsedTime){
+      that.alive += (elapsedTime/1000);
+      if(that.alive > that.lifeTime) {
+        that.alive = 0;
+        ufo.killed = true;
+      }
+
       lastMove.time += elapsedTime;
 
       if(lastMove.time > 2000) {
         lastMove.time = 0;
         lastMove.funcNum = (lastMove.funcNum+1) % 2;
-        that[lastMove.func[lastMove.funcNum]]();
+
+        that[ufo.currPath[lastMove.func[lastMove.funcNum]]]();
       }
 
       lastShot += elapsedTime;
       if(lastShot > 2500) {
         lastShot = 0;
-        that.shoot();
+        if(that.size == 'small') that.shootBetter();
+        else that.shootRandom();
       }
 
       that.center.x += that.velocity.x * (elapsedTime/1000);

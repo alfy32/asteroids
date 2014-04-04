@@ -69,6 +69,11 @@ ASTEROIDGAME.graphics.lasers = (function() {
       alive: 0
     };
 
+    var distance = canvas.height * 3/4;
+    var speed = that.moveRate/1000;
+
+    lifeTime = distance/speed;
+
     that.update = function(elapsedTime){
       that.center.x -= Math.cos(that.direction) * that.moveRate * (elapsedTime / 1000);
       that.center.y -= Math.sin(that.direction) * that.moveRate * (elapsedTime / 1000);
