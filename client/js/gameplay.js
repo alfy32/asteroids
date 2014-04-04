@@ -38,7 +38,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       particles: [],
       lives: 5
     });
-
+    myUFO.setShip(myShip);
 
     ASTEROIDGAME.playerScore=0;
     myQuadrants.reset();
