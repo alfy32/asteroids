@@ -16,6 +16,8 @@ ASTEROIDGAME.graphics.lasers = (function() {
   var lifeTime = 1000;
 
   function create(elapsedTime, ship) {
+    shoot.last += elapsedTime;
+    
     if(shoot.last > shoot.limit) {
       shoot.last = 0;
 
@@ -29,14 +31,13 @@ ASTEROIDGAME.graphics.lasers = (function() {
       }));
 
       ASTEROIDGAME.sounds.shoot();
-
-    } else {
-      shoot.last += elapsedTime;
     }
   }
-  function reset(){
-    lasers.length=0;
+  
+  function reset() {
+    lasers.length = 0;
   }
+  
   function update(elapsedTime) {
     for(var i in lasers) {
       lasers[i].update(elapsedTime);
