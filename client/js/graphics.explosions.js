@@ -43,14 +43,24 @@ ASTEROIDGAME.graphics.explosions = (function() {
       speed: {mean: 0.1, stdev: 0.05},
       lifetime: {mean: 1000, stdev: 100}
     });
-
+    var green = ASTEROIDGAME.particleSystems.createSystem( {
+      image : ASTEROIDGAME.images['/img/brightGreen.png'],
+      center: {
+        x: center.x,
+        y: center.y
+      } ,
+      speed: {mean: 0.1, stdev: 0.05},
+      lifetime: {mean: 1000, stdev: 100}
+    });
     for(var i = 0; i < 20; i++){
       grayBlast.create();
       smoke.create();
+      green.create();
     }
-
+    explosions.push(green);
     explosions.push(grayBlast);
     explosions.push(smoke);
+    
   }
   function UFO(center) {
     var fire = ASTEROIDGAME.particleSystems.createSystem( {
