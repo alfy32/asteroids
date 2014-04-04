@@ -35,6 +35,10 @@ ASTEROIDGAME.graphics.UFO = (function() {
     else return false;
   }
 
+  function setShip(ship) {
+    ufo.ship = ship;
+  }
+
   function update(elapsedTime) {
     ufo.score += ASTEROIDGAME.score.score - ufo.lastScore;
     ufo.lastScore = ASTEROIDGAME.score.score;
@@ -79,8 +83,8 @@ ASTEROIDGAME.graphics.UFO = (function() {
         x: spec.center.x,
         y: spec.center.y
       },
-      get width() { return canvas.width * 0.1; },
-      get height() { return canvas.width * 0.08; },
+      get width() { return canvas.width * (ufo.size == 'small' ? 0.1 :  0.15); },
+      get height() { return canvas.width * (ufo.size == 'small' ? 0.08 : 0.1); },
       velocity: {
         x: 50,
         y: 50
@@ -117,23 +121,33 @@ ASTEROIDGAME.graphics.UFO = (function() {
     };
 
     that.shootRandom = function () {
-      var velocity = {
-        x: 1,
-        y: 0
-      };
-
       ASTEROIDGAME.sounds.shoot();
       ASTEROIDGAME.graphics.UFO.bullets.create({
         center: that.center,
-        velocity: velocity
+        velocity: Random.nextCircleVector()
       });
     };
+
+    function unitizeVector(vector) {
+      var magnitude = Math.sqrt(vector.x*vector.x + vector.y*vector.y);
+      return {
+        x: vector.x / magnitude,
+        y: vector.y / magnitude
+      };
+    }
+
+    function getDirectionVector(from, to) {
+      return unitizeVector({
+        x: to.x - from.x,
+        y: to.y - from.y
+      });
+    }
 
     that.shootBetter = function () {
       ASTEROIDGAME.sounds.shoot();
       ASTEROIDGAME.graphics.UFO.bullets.create({
         center: that.center,
-        velocity: Random.nextCircleVector()
+        velocity: getDirectionVector(that.center, ufo.ship.center)
       });
     };
 
@@ -171,7 +185,7 @@ ASTEROIDGAME.graphics.UFO = (function() {
       lastShot += elapsedTime;
       if(lastShot > 2500) {
         lastShot = 0;
-        if(that.size == 'small') that.shootBetter();
+        if(ufo.size == 'small') that.shootBetter();
         else that.shootRandom();
       }
 
@@ -204,6 +218,7 @@ ASTEROIDGAME.graphics.UFO = (function() {
     update: update,
     render: render,
     reset: reset,
-    getCurrentUFO: getCurrentUFO
+    getCurrentUFO: getCurrentUFO,
+    setShip: setShip
   };
 }());
