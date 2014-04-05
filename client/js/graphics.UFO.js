@@ -18,11 +18,11 @@ ASTEROIDGAME.graphics.UFO = (function() {
   ];
 
   var ufo = {
-    small: UFO({center: {x: -10, y: 100}}),
-    large: UFO({center: {x: -10, y: canvas.height - 100}}),
+    small: UFO({center: {x: -10, y: 100},img: '/img/milleniumFalcon.png'}),
+    large: UFO({center: {x: -10, y: canvas.height - 100}, img: '/img/deathStar.png'}),
     size: 'small',
     render: false,
-    scoreInterval: 1000,
+    scoreInterval: 20,
     score: 0,
     lastScore: 0,
     killed: false,
@@ -84,12 +84,12 @@ ASTEROIDGAME.graphics.UFO = (function() {
         y: spec.center.y
       },
       get width() { return canvas.width * (ufo.size == 'small' ? 0.1 :  0.15); },
-      get height() { return canvas.width * (ufo.size == 'small' ? 0.08 : 0.1); },
+      get height() { return canvas.width * (ufo.size == 'small' ? 0.08 : 0.15); },
       velocity: {
         x: 50,
         y: 50
       },
-      image: ASTEROIDGAME.images['/img/milleniumFalcon.png'], // ASTEROIDGAME.images['/img/wingShip.png'],
+      image: ASTEROIDGAME.images[spec.img], // ASTEROIDGAME.images['/img/wingShip.png'],
       rotation: 0,
       moving: false,
       audio: ASTEROIDGAME.audio['/audio/saucerBig.wav'],
@@ -153,7 +153,7 @@ ASTEROIDGAME.graphics.UFO = (function() {
 
     that.explode = function () {
       that.audio.loop = false;
-      ASTEROIDGAME.graphics.explosions.UFO(that.center);
+      ASTEROIDGAME.graphics.explosions.UFO(that.center, ufo.size);
       ASTEROIDGAME.sounds.explode[ufo.size]();
       ufo.killed = true;
     };

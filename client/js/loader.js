@@ -29,6 +29,7 @@ window.addEventListener('load', function() {
         // Images
         'preload!/img/longBrownShip.png',
         'preload!/img/milleniumFalcon.png',
+        'preload!/img/deathStar.png',
         'preload!/img/wingShip.png',
         'preload!/img/redShip.png',
         'preload!/img/laser.png',
@@ -42,6 +43,7 @@ window.addEventListener('load', function() {
         'preload!/img/brightPurple.png',
         'preload!/img/brightGreen.png',
         'preload!/img/brightOrange.png',
+        'preload!/img/brightYellow.png',
         'preload!/img/grayGreenBlast.png',
         'preload!/img/grayBlast.png',
         'preload!/img/smoke.png',

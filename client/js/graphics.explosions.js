@@ -79,7 +79,8 @@ ASTEROIDGAME.graphics.explosions = (function() {
     explosions.push(smoke);
     
   }
-  function UFO(center) {
+  function UFO(center, size) {
+    if(size=='small'){
     var fire = ASTEROIDGAME.particleSystems.createSystem( {
       image : ASTEROIDGAME.images['/img/brightPurple.png'],
       center: {
@@ -89,6 +90,18 @@ ASTEROIDGAME.graphics.explosions = (function() {
       speed: {mean: 0.1, stdev: 0.05},
       lifetime: {mean: 1000, stdev: 100}
     });
+  }
+  else{
+    var fire = ASTEROIDGAME.particleSystems.createSystem( {
+      image : ASTEROIDGAME.images['/img/brightYellow.png'],
+      center: {
+        x: center.x,
+        y: center.y
+      } ,
+      speed: {mean: 0.1, stdev: 0.05},
+      lifetime: {mean: 1000, stdev: 100}
+    });
+  }
     var smoke = ASTEROIDGAME.particleSystems.createSystem( {
       image : ASTEROIDGAME.images['/img/smoke.png'],
       center: {
