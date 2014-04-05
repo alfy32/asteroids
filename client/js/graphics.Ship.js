@@ -31,12 +31,15 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
     that.rotateRight = function (elapsedTime) {
       that.rotation += spec.rotateRate * (elapsedTime / 1000);
+
       createSideParticles(that.rotation +1.2);
+      //ASTEROIDGAME.sounds.thrust();
     };
 
     that.rotateLeft = function (elapsedTime) {
       that.rotation -= spec.rotateRate * (elapsedTime / 1000);
       createSideParticles(that.rotation -1.2);
+      //ASTEROIDGAME.sounds.thrust();
     };
 
     that.hyperspace = function (elapsedTime, ship, quadrants) {
@@ -65,7 +68,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
         that.velocity.y = newVelocity.y;
       }
 
-      ASTEROIDGAME.sounds.thrust();
+      //ASTEROIDGAME.sounds.thrust();
 
       createParticles();
     };
@@ -138,6 +141,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
     that.explode = function () {
       ASTEROIDGAME.graphics.explosions.ship(that.center);
+      ASTEROIDGAME.sounds.explode.medium();
       if(that.lives>1){
         that.lives--;
         console.log('You hit an asteroid, lives left: '+ that.lives);
@@ -151,7 +155,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
     };
 
     that.respawn = function(quadLoc){
-
+      ASTEROIDGAME.sounds.hyperspace();
       ASTEROIDGAME.graphics.explosions.respawn({ x: quadLoc.xCenter, y:quadLoc.yCenter});
       that.center.x= quadLoc.xCenter;
       that.center.y= quadLoc.yCenter;

@@ -50,18 +50,21 @@ window.addEventListener('load', function() {
         'preload!/img/asteroid.png',
         'preload!/img/ufo.png',
 
-        // Sounds
+                 // Sounds
         'preload!/js/sounds.js',
         'preload!/audio/bangLarge.wav',
         'preload!/audio/bangMedium.wav',
         'preload!/audio/bangSmall.wav',
         'preload!/audio/fire.wav',
         'preload!/audio/thrust.wav',
-        'preload!/audio/hyperSpace.wav',
+        'preload!/audio/blast1.wav',
+        'preload!/audio/hyperSpace2.wav',
         'preload!/audio/laserShot2.wav',
         'preload!/audio/saucerBig.wav',
         'preload!/audio/backGroundMusic.wav',
         'preload!/audio/blastOff.wav',
+        'preload!/audio/takeOff.wav',
+        'preload!/audio/explosion.wav',
 
         // Javascript
         'preload!/js/jquery-1.11.0.min.js',
@@ -86,6 +89,7 @@ window.addEventListener('load', function() {
         'preload!/js/gameOver.js',
         'preload!/js/controls.js',
         'preload!/js/about.js'
+
 
 
       ],

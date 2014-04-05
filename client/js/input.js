@@ -94,12 +94,23 @@ ASTEROIDGAME.input = (function() {
 
     function keyPress(e) { //87 -w, 83 - s, 68-d, 65-a, 69-e, 81-q
       //console.log(e.keyCode);
+      
       that.keys[e.keyCode] = e.timeStamp;
       
     }
 
     function keyRelease(e) {
-        delete that.keys[e.keyCode];
+      for (var h in that.handlers) {
+        if(that.handlers[h].key== e.keyCode){
+          if (typeof that.keys[that.handlers[h].key] !== 'undefined') {
+            if(that.handlers[h].sound) { 
+              that.handlers[h].sound.stop();
+            }
+          }
+        }
+      }
+
+      delete that.keys[e.keyCode];
 
     }
     that.clear =  function(){
@@ -113,8 +124,15 @@ ASTEROIDGAME.input = (function() {
     // Allows the client code to register a keyboard handler
     //
     // ------------------------------------------------------------------
-    that.registerCommand = function(key, handler) {
-      that.handlers.push({ key : key, handler : handler});
+    that.registerCommand = function(key, handler, sound) {
+
+      if(sound){
+
+        that.handlers.push({ key : key, handler : handler, sound: sound});
+      }
+      else{
+        that.handlers.push({ key : key, handler : handler});
+      }
     };
     that.clearRegister = function(){
       that.handlers.length = 0;
@@ -128,6 +146,8 @@ ASTEROIDGAME.input = (function() {
       for (key = 0; key < that.handlers.length; key++) {
         if (typeof that.keys[that.handlers[key].key] !== 'undefined') {
           that.handlers[key].handler(elapsedTime, ship, quadrants);
+          if(that.handlers[key].sound)  
+            that.handlers[key].sound.play();
         }
       }
     };

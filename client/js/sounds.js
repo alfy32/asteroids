@@ -22,18 +22,37 @@ ASTEROIDGAME.sounds = (function() {
     },
   };
 
-  function thrust() {
-    ASTEROIDGAME.audio['/audio/thrust.wav'].play();
+  var thrust  ={
+    //ASTEROIDGAME.audio['/audio/thrust.wav'].play();
+    play:  function(){
+          ASTEROIDGAME.audio['/audio/takeOff.wav'].addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+          }, false);
+          console.log('play takeOff ***');
+          ASTEROIDGAME.audio['/audio/takeOff.wav'].play();
+    },
+    stop: function(){
+      ASTEROIDGAME.audio['/audio/takeOff.wav'].pause();
+      ASTEROIDGAME.audio['/audio/takeOff.wav'].currentTime=0;
+    }
   }
   function hyperspace(){
-    ASTEROIDGAME.audio['/audio/hyperSpace.wav'].play();
+    ASTEROIDGAME.audio['/audio/hyperSpace2.wav'].play();
   }
-  function backgroundMusic(){
-    ASTEROIDGAME.audio['/audio/backGroundMusic.wav'].addEventListener('ended', function() {
-      this.currentTime = 0;
-      this.play();
-    }, false);
-    ASTEROIDGAME.audio['/audio/backGroundMusic.wav'].play();
+  var backGroundMusic = {
+    //started in initialize game.js
+  play:  function(){
+          ASTEROIDGAME.audio['/audio/backGroundMusic.wav'].addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+          }, false);
+          ASTEROIDGAME.audio['/audio/backGroundMusic.wav'].play();
+  },
+  stop: function(){
+      ASTEROIDGAME.audio['/audio/backGroundMusic.wav'].pause();
+      ASTEROIDGAME.audio['/audio/backGroundMusic.wav'].currentTime=0;
+    }
   }
   return {
     shootSHIP: shootSHIP,
@@ -41,6 +60,6 @@ ASTEROIDGAME.sounds = (function() {
     explode: explode,
     thrust: thrust,
     hyperspace: hyperspace,
-    backgroundMusic: backgroundMusic
+    backGroundMusic: backGroundMusic
   };
 }());

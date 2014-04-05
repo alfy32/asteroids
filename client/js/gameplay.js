@@ -60,17 +60,17 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     // Create the keyboard input handler and register the keyboard commands
 
     myKeyboard.clearRegister();
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_LEFT, myShip.rotateLeft);
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_RIGHT, myShip.rotateRight);
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, myShip.accelerate);
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_LEFT, myShip.rotateLeft, ASTEROIDGAME.sounds.thrust);
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_RIGHT, myShip.rotateRight, ASTEROIDGAME.sounds.thrust);
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, myShip.accelerate, ASTEROIDGAME.sounds.thrust);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_DOWN, myShip.hyperspace);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, myLasers.create);
 
     var controls = ASTEROIDGAME.screens['controls'].controls();
 
-    myKeyboard.registerCommand(controls.left, myShip.rotateLeft);
-    myKeyboard.registerCommand(controls.right, myShip.rotateRight);
-    myKeyboard.registerCommand(controls.forward, myShip.accelerate);
+    myKeyboard.registerCommand(controls.left, myShip.rotateLeft, ASTEROIDGAME.sounds.thrust);
+    myKeyboard.registerCommand(controls.right, myShip.rotateRight,ASTEROIDGAME.sounds.thrust);
+    myKeyboard.registerCommand(controls.forward, myShip.accelerate, ASTEROIDGAME.sounds.thrust);
     myKeyboard.registerCommand(controls.shoot, myLasers.create);
     myKeyboard.registerCommand(controls.hyperspace, myShip.hyperspace);
 
@@ -204,11 +204,13 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       requestAnimationFrame(gameLoop);
     }
     else{
+      ASTEROIDGAME.sounds.backGroundMusic.stop();
       ASTEROIDGAME.game.showScreen('game-over');
     }
   }
 
   function run() {
+    ASTEROIDGAME.sounds.backGroundMusic.play();
     console.log('running Game');
     initialize();
 
