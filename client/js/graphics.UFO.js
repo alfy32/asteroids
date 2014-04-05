@@ -22,7 +22,7 @@ ASTEROIDGAME.graphics.UFO = (function() {
     large: UFO({center: {x: -10, y: canvas.height - 100}, img: '/img/deathStar.png'}),
     size: 'small',
     render: false,
-    scoreInterval: 20,
+    scoreInterval: 1000,
     score: 0,
     lastScore: 0,
     killed: false,
@@ -83,8 +83,8 @@ ASTEROIDGAME.graphics.UFO = (function() {
         x: spec.center.x,
         y: spec.center.y
       },
-      get width() { return canvas.width * (ufo.size == 'small' ? 0.1 :  0.15); },
-      get height() { return canvas.width * (ufo.size == 'small' ? 0.08 : 0.15); },
+      get width() { return canvas.width * (ufo.size == 'small' ? 0.1 :  0.13); },
+      get height() { return canvas.width * (ufo.size == 'small' ? 0.08 : 0.13); },
       velocity: {
         x: 50,
         y: 50
@@ -166,6 +166,9 @@ ASTEROIDGAME.graphics.UFO = (function() {
 
     var lastShot = 0;
 
+    that.getSize = function(){
+      return ufo.size;
+    }
     that.update = function(elapsedTime){
       that.alive += (elapsedTime/1000);
       if(that.alive > that.lifeTime) {

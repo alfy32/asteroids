@@ -28,10 +28,10 @@ ASTEROIDGAME.score = (function(){
     }
 
     if(type == 'saucer') {
-      if(object.size == 'small') {
+      if(object.getSize() == 'small') {
         that.score += SM_SAUCER;
       }
-      if(object.size == 'large') {
+      if(object.getSize() == 'large') {
         that.score += LG_SAUCER;
       }
     }
