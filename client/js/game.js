@@ -44,7 +44,7 @@ ASTEROIDGAME.game = (function() {
   //
   //------------------------------------------------------------------
   function initialize() {
-   
+   ASTEROIDGAME.sounds.backgroundMusic();
    //get high scores from server
     $.ajax({
       url: '/scores',

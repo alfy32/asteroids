@@ -57,7 +57,11 @@ window.addEventListener('load', function() {
         'preload!/audio/bangSmall.wav',
         'preload!/audio/fire.wav',
         'preload!/audio/thrust.wav',
+        'preload!/audio/hyperSpace.wav',
+        'preload!/audio/laserShot2.wav',
         'preload!/audio/saucerBig.wav',
+        'preload!/audio/backGroundMusic.wav',
+        'preload!/audio/blastOff.wav',
 
         // Javascript
         'preload!/js/jquery-1.11.0.min.js',

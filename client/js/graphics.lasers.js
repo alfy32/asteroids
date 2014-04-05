@@ -30,7 +30,7 @@ ASTEROIDGAME.graphics.lasers = (function() {
         direction: ship.rotation
       }));
 
-      ASTEROIDGAME.sounds.shoot();
+      ASTEROIDGAME.sounds.shootSHIP();
     }
   }
   

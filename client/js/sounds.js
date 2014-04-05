@@ -3,7 +3,10 @@
 ASTEROIDGAME.sounds = (function() {
   'use strict';
 
-  function shoot() {
+  function shootSHIP() {
+    ASTEROIDGAME.audio['/audio/laserShot2.wav'].play();
+  }
+  function shootUFO() {
     ASTEROIDGAME.audio['/audio/fire.wav'].play();
   }
 
@@ -22,10 +25,22 @@ ASTEROIDGAME.sounds = (function() {
   function thrust() {
     ASTEROIDGAME.audio['/audio/thrust.wav'].play();
   }
-
+  function hyperspace(){
+    ASTEROIDGAME.audio['/audio/hyperSpace.wav'].play();
+  }
+  function backgroundMusic(){
+    ASTEROIDGAME.audio['/audio/backGroundMusic.wav'].addEventListener('ended', function() {
+      this.currentTime = 0;
+      this.play();
+    }, false);
+    ASTEROIDGAME.audio['/audio/backGroundMusic.wav'].play();
+  }
   return {
-    shoot: shoot,
+    shootSHIP: shootSHIP,
+    shootUFO: shootUFO,
     explode: explode,
-    thrust: thrust
+    thrust: thrust,
+    hyperspace: hyperspace,
+    backgroundMusic: backgroundMusic
   };
 }());

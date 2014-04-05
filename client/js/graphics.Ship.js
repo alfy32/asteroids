@@ -43,6 +43,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
       console.log(elapsedTime);
       if(lastHyperspaceTime >HYPER_WAIT_TIME){
         lastHyperspaceTime =0;
+        ASTEROIDGAME.sounds.hyperspace();
         ASTEROIDGAME.graphics.explosions.hyperspace(ship.center);
         ship.respawn({
           yCenter: Random.nextRange(100, canvas.height - 100),

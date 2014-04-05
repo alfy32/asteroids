@@ -121,7 +121,7 @@ ASTEROIDGAME.graphics.UFO = (function() {
     };
 
     that.shootRandom = function () {
-      ASTEROIDGAME.sounds.shoot();
+      ASTEROIDGAME.sounds.shootUFO();
       ASTEROIDGAME.graphics.UFO.bullets.create({
         center: that.center,
         velocity: Random.nextCircleVector()
@@ -144,7 +144,7 @@ ASTEROIDGAME.graphics.UFO = (function() {
     }
 
     that.shootBetter = function () {
-      ASTEROIDGAME.sounds.shoot();
+      ASTEROIDGAME.sounds.shootUFO();
       ASTEROIDGAME.graphics.UFO.bullets.create({
         center: that.center,
         velocity: getDirectionVector(that.center, ufo.ship.center)
