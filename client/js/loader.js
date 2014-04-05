@@ -68,8 +68,8 @@ window.addEventListener('load', function() {
 
         // Javascript
         'preload!/js/jquery-1.11.0.min.js',
-        'preload!/js/particle-system.js',
-        'preload!/js/random.js',
+        'preload!/js/game.particle-system.js',
+        'preload!/js/game.random.js',
         'preload!/js/graphics.js',
         'preload!/js/graphics.asteroids.js',
         'preload!/js/graphics.Ship.js',
@@ -77,18 +77,18 @@ window.addEventListener('load', function() {
         'preload!/js/graphics.UFO.js',
         'preload!/js/graphics.UFO.bullets.js',
         'preload!/js/graphics.explosions.js',
-        'preload!/js/collision.js',
-        'preload!/js/quadrants.js',
-        'preload!/js/input.js',
+        'preload!/js/game.collision.js',
+        'preload!/js/game.quadrants.js',
+        'preload!/js/game.input.js',
         'preload!/js/game.js',
-        'preload!/js/levels.js',
-        'preload!/js/score.js',
-        'preload!/js/mainmenu.js',
-        'preload!/js/gameplay.js',
-        'preload!/js/highscores.js',
-        'preload!/js/gameOver.js',
-        'preload!/js/controls.js',
-        'preload!/js/about.js'
+        'preload!/js/game.levels.js',
+        'preload!/js/game.score.js',
+        'preload!/js/game.play.js',
+        'preload!/js/screens.mainmenu.js',
+        'preload!/js/screens.highscores.js',
+        'preload!/js/screens.gameOver.js',
+        'preload!/js/screens.controls.js',
+        'preload!/js/screens.about.js'
 
 
 
