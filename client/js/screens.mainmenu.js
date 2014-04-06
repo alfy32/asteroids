@@ -5,6 +5,7 @@ ASTEROIDGAME.screens['main-menu'] = (function() {
   'use strict';
 
   var cancelNextRequest = false,
+      startScreen = 'game-play',
     menuAsteroids = ASTEROIDGAME.graphics.asteroids;
 
   function initialize() {
@@ -36,11 +37,18 @@ ASTEROIDGAME.screens['main-menu'] = (function() {
   //
   //------------------------------------------------------------------
   function menuLoop(time) {
+    //console.log('menu looping');
     ASTEROIDGAME.elapsedTime = time - ASTEROIDGAME.lastTimeStamp;
+    ASTEROIDGAME.elapsedEventTime = time - ASTEROIDGAME.lastEventTime;//set in game.js on mousdown, keydown, mousemove
     ASTEROIDGAME.lastTimeStamp = time;
 
     ASTEROIDGAME.graphics.clear();
-   
+
+    if(ASTEROIDGAME.elapsedEventTime > ASTEROIDGAME.AI_TIME_OUT){
+      //console.log('Start AI: ' + ASTEROIDGAME.elapsedEventTime);
+      ASTEROIDGAME.screens['main-menu'].cancel('AI');
+      
+    }
     /**************************************************
     /   update and render Asteroids, Lasers, Quadrant, UFOs, Explosions
     **************************************************/
@@ -56,7 +64,7 @@ ASTEROIDGAME.screens['main-menu'] = (function() {
     else{
       //$('.canvas-menu').css('display','none');
       //$('.canvas-main').css('display','block');
-      ASTEROIDGAME.game.showScreen('game-play');
+        ASTEROIDGAME.game.showScreen(startScreen);
     }
   }
 
@@ -75,8 +83,9 @@ ASTEROIDGAME.screens['main-menu'] = (function() {
 
   }
 
-  function cancel(){
+  function cancel(start){
     cancelNextRequest = true;
+    startScreen = start;
   }
 
   return {

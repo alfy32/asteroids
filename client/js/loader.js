@@ -6,6 +6,8 @@ var ASTEROIDGAME = {
   screens : {},
   playerScore: 0,
   highScores: [],
+  lastEventTime: 0,
+  AI_TIME_OUT: 5000,
   status : {
     preloadRequest : 0,
     preloadComplete : 0
@@ -88,6 +90,7 @@ window.addEventListener('load', function() {
         'preload!/js/screens.highscores.js',
         'preload!/js/screens.gameOver.js',
         'preload!/js/screens.controls.js',
+        'preload!/js/screens.AI.js',
         'preload!/js/screens.about.js'
 
 

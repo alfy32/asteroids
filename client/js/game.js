@@ -46,10 +46,20 @@ ASTEROIDGAME.game = (function() {
   //
   //------------------------------------------------------------------
   function initialize() {
-   
+    $('body').click(function(e){
+
+    });
+    //reset the AI delay time - after 10 seconds then start AI
+    $('*').on('keydown mousedown mousemove', function(e){
+      //console.log(" ** reset AI **");
+      if($('.main').css('display')=='block'){
+        ASTEROIDGAME.lastEventTime = performance.now();
+        ASTEROIDGAME.screens['AI'].cancel();
+      }
+    });
    //get high scores from server
     $('#id-new-game').click(function(e){
-      ASTEROIDGAME.screens['main-menu'].cancel();;
+      ASTEROIDGAME.screens['main-menu'].cancel('game-play');
     });
       
     $('#id-high-scores').click(show('high-scores'));
@@ -58,7 +68,6 @@ ASTEROIDGAME.game = (function() {
 
     $('#id-quit').click(function (e){
       ASTEROIDGAME.screens['game-play'].cancel();
-      //ASTEROIDGAME.game.showScreen('game-over');
     });
 
     function show(screen) {
@@ -79,9 +88,7 @@ ASTEROIDGAME.game = (function() {
                     $('.showScores').append('<h2>' + S.name + ": " + S.score + "</h2>");
                   }
               }
-    });
-
-    
+    });  
     var screen = null;
     //
     // Go through each of the screens and tell them to initialize
@@ -93,7 +100,6 @@ ASTEROIDGAME.game = (function() {
 
     //
     // Make the main-menu screen the active one
-
     showScreen('main-menu');
 
   }

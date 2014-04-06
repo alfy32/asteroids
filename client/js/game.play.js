@@ -113,6 +113,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
   //
   //------------------------------------------------------------------
   function gameLoop(time) {
+    //console.log("game loop");
     ASTEROIDGAME.elapsedTime = time - ASTEROIDGAME.lastTimeStamp;
     ASTEROIDGAME.lastTimeStamp = time;
 
@@ -206,8 +207,6 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     else{
       ASTEROIDGAME.sounds.backGroundMusic.stop();
       ASTEROIDGAME.game.showScreen('game-over');
-      //$('.canvas-main').css('display','none');
-      //$('.canvas-menu').css('display','block');
       ASTEROIDGAME.screens['main-menu'].run();
     }
   }
