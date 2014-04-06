@@ -38,8 +38,9 @@ body{
 .enterName{
   display:none;
 }
-.main-menu{
+.main{
   display:block;
+  z-index: 20;
 }
 .custButton:hover{
   font-family:Lucida Console;
@@ -119,9 +120,9 @@ body{
 .gameInfo{
   color: #000000;
   letter-spacing: 10px;
-
+  z-index: 20;
   text-align: center;
-   text-shadow: -1px 0 #3399FF , 0 1px #3399FF , 1px 0 #3399FF , 0 -1px #3399FF ;
+  text-shadow: -1px 0 #3399FF , 0 1px #3399FF , 1px 0 #3399FF , 0 -1px #3399FF ;
 }
 .gameInfo li{
   display: inline;
@@ -144,6 +145,7 @@ body{
   border-style: solid;
   border-color: #3399FF;
   text-shadow: -1.5px 0 #3399FF , 0 1px #3399FF , 1.5px 0 #3399FF , 0 -1px #3399FF ;
+
 }
 .labelControl {
   text-align: right;
@@ -184,6 +186,7 @@ body{
   background-color: rgba(0,0,0, .8);
   border-color: #3399FF;
 }
+
 #canvas-main{
   position: absolute;
   width: 100%;
@@ -191,10 +194,9 @@ body{
   top: 0px;
   left: 0px;
   text-align: center;
-  z-index: 10;
+  z-index: -5;
 }
 
 .player-lives{
   color: #3399FF;
-  z-index: 40;
 }

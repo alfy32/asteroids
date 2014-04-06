@@ -51,7 +51,7 @@ window.addEventListener('load', function() {
         'preload!/img/ufo.png',
 
                  // Sounds
-        'preload!/js/sounds.js',
+        'preload!/js/game.sounds.js',
         'preload!/audio/bangLarge.wav',
         'preload!/audio/bangMedium.wav',
         'preload!/audio/bangSmall.wav',

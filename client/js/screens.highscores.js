@@ -11,6 +11,7 @@ ASTEROIDGAME.screens['high-scores'] = (function() {
   function run() {
     //
     // empty high score display
+    ASTEROIDGAME.graphics.resize();
     $.ajax({
       url: '/scores',
       type: 'GET',

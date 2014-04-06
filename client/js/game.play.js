@@ -25,7 +25,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     console.log('game initializing...');
 
     window.onresize = ASTEROIDGAME.graphics.resize;
-
+    ASTEROIDGAME.graphics.clear();
 
     myShip = ASTEROIDGAME.graphics.Ship( {
       image : ASTEROIDGAME.images['/img/redShip.png'],
@@ -180,7 +180,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     /   update and render Asteroids, Lasers, Quadrant, UFOs, Explosions
     **************************************************/
     myAsteroids.update(ASTEROIDGAME.elapsedTime);
-    myAsteroids.render();
+    myAsteroids.render('game');
 
     myQuadrants.update(ASTEROIDGAME.elapsedTime, myAsteroids.list);
     // myQuadrants.render();
@@ -206,6 +206,9 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     else{
       ASTEROIDGAME.sounds.backGroundMusic.stop();
       ASTEROIDGAME.game.showScreen('game-over');
+      //$('.canvas-main').css('display','none');
+      //$('.canvas-menu').css('display','block');
+      ASTEROIDGAME.screens['main-menu'].run();
     }
   }
 

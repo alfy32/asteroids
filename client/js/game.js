@@ -24,9 +24,11 @@ ASTEROIDGAME.game = (function() {
 
       if(id =='game-play'){
         $('.main').css('display','none');
+        
       }
       else{
         $('.main').css('display','block');
+
       }
 
       var className = '.' + id;
@@ -46,6 +48,25 @@ ASTEROIDGAME.game = (function() {
   function initialize() {
    
    //get high scores from server
+    $('#id-new-game').click(function(e){
+      ASTEROIDGAME.screens['main-menu'].cancel();;
+    });
+      
+    $('#id-high-scores').click(show('high-scores'));
+    $('#id-controls').click(show('controls'));
+    $('#id-about').click(show('about'));
+
+    $('#id-quit').click(function (e){
+      ASTEROIDGAME.screens['game-play'].cancel();
+      //ASTEROIDGAME.game.showScreen('game-over');
+    });
+
+    function show(screen) {
+      return function (e) {
+        ASTEROIDGAME.game.showScreen(screen);
+      };
+    }
+
     $.ajax({
       url: '/scores',
       type: 'GET',

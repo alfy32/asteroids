@@ -4,34 +4,85 @@
 ASTEROIDGAME.screens['main-menu'] = (function() {
   'use strict';
 
+  var cancelNextRequest = false,
+    menuAsteroids = ASTEROIDGAME.graphics.asteroids;
+
   function initialize() {
-    //
-    // Setup each of menu events for the screens
+    console.log('menu initializing...');
 
-    $('#id-new-game').click(showScreen('game-play'));
-    $('#id-high-scores').click(showScreen('high-scores'));
-    $('#id-controls').click(showScreen('controls'));
-    $('#id-about').click(showScreen('about'));
+    window.onresize = ASTEROIDGAME.graphics.resize;
+    menuAsteroids.reset();
 
-    $('#id-quit').click(function (e) {
-      ASTEROIDGAME.screens['game-play'].cancel();
-      //ASTEROIDGAME.game.showScreen('game-over');
-    });
+    //myLevels.create(myAsteroids, 4);
+    menuAsteroids.create('large');
+    menuAsteroids.create('medium');
+    menuAsteroids.create('small');
+    menuAsteroids.create('large');
+    menuAsteroids.create('medium');
+    menuAsteroids.create('small');
+    menuAsteroids.create('large');
+    menuAsteroids.create('medium');
+    menuAsteroids.create('small');
+    menuAsteroids.create('large');
+    menuAsteroids.create('medium');
+    menuAsteroids.create('small');
+    ASTEROIDGAME.graphics.resize();
 
-    function showScreen(screen) {
-      return function (e) {
-        ASTEROIDGAME.game.showScreen(screen);
-      };
+  }
+
+  //------------------------------------------------------------------
+  //
+  // This is the Game Loop function!
+  //
+  //------------------------------------------------------------------
+  function menuLoop(time) {
+    ASTEROIDGAME.elapsedTime = time - ASTEROIDGAME.lastTimeStamp;
+    ASTEROIDGAME.lastTimeStamp = time;
+
+    ASTEROIDGAME.graphics.clear();
+   
+    /**************************************************
+    /   update and render Asteroids, Lasers, Quadrant, UFOs, Explosions
+    **************************************************/
+    menuAsteroids.update(ASTEROIDGAME.elapsedTime);
+    menuAsteroids.render();
+
+    /**************************************************
+    /   Check for end game
+    **************************************************/
+    if (!cancelNextRequest) {
+      requestAnimationFrame(menuLoop);
+    }
+    else{
+      //$('.canvas-menu').css('display','none');
+      //$('.canvas-main').css('display','block');
+      ASTEROIDGAME.game.showScreen('game-play');
     }
   }
 
   function run() {
+    //ASTEROIDGAME.sounds.backGroundMusic.play();
+    console.log('running menu');
+    initialize();
+
+    ASTEROIDGAME.lastTimeStamp = performance.now();
     //
-    // I know this is empty, there isn't anything to do.
+    // Start the animation loop
+    cancelNextRequest = false;
+   // myShip.moving = false;
+    //myKeyboard.clear();
+    requestAnimationFrame(menuLoop);
+
+  }
+
+  function cancel(){
+    cancelNextRequest = true;
   }
 
   return {
     initialize : initialize,
-    run : run
+    run : run,
+    cancel : cancel
   };
+
 }());

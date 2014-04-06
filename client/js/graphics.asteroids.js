@@ -5,7 +5,6 @@ ASTEROIDGAME.graphics.asteroids = (function() {
 
   var canvas = document.getElementById('canvas-main');
   var context = canvas.getContext('2d');
-
   var asteroids = [];
 
   var sprite = {
@@ -53,9 +52,9 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     }
   }
 
-  function render() {
+  function render(canvasType) {
     for(var i in asteroids) {
-      asteroids[i].draw();
+      asteroids[i].draw(canvasType);
     }
   }
 
@@ -122,22 +121,21 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     };
 
     that.draw = function() {
-      context.save();
 
+      context.save();
       context.translate(that.center.x , that.center.y);
       context.rotate(that.rotation);
       context.translate(-that.center.x , -that.center.y);
 
       context.drawImage(
-        that.image,
-        that.center.x - that.width/2,
-        that.center.y - that.height/2,
-        that.width, that.height);
+      that.image,
+      that.center.x - that.width/2,
+      that.center.y - that.height/2,
+      that.width, that.height);
 
       // context.beginPath();
       // context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
       // context.stroke();
-
       context.restore();
     };
 

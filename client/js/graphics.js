@@ -18,11 +18,13 @@ ASTEROIDGAME.graphics = (function() {
 
   function clear() {
     context.clear();
+    
   }
 
   function resize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+
   }
 
   function wrapAround(center, dimensions) {
