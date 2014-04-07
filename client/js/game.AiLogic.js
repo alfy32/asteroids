@@ -3,7 +3,7 @@ function modFix(rotation){
   return ((rotation%(2*Math.PI))+2*Math.PI)%(2*Math.PI);
 }
 ASTEROIDGAME.AiLogic = (function(){
-
+    var LOOK_AHEAD = 40;
     var left=KeyEvent.DOM_VK_LEFT,
         right=KeyEvent.DOM_VK_RIGHT,
         accelerate=KeyEvent.DOM_VK_UP,
@@ -14,8 +14,8 @@ ASTEROIDGAME.AiLogic = (function(){
         stateRotateLeft= false,
         stateRotateRight= false,
         stateShoot=false,
-        targetAngle = 0,
-        currentAngle = 180;
+        targetAngle = 180,
+        currentAngle = 180,
         currentDirection = 'right';
 
     function update(elapsedTime, asteroids, ufo, ship, lasers, keyBoard){
@@ -53,7 +53,13 @@ ASTEROIDGAME.AiLogic = (function(){
           lastUpdateTime=0;
           //change direction
           //targetAngle = Random.nextRange(0,359)
+          for(var i = 0; i<LOOK_AHEAD; ++i){
+            asteroids.update(elapsedTime);
+          }
           findClosestAsteroid(asteroids, ship);
+          for(var i = 0; i<LOOK_AHEAD; ++i){
+            asteroids.undoUpdate(elapsedTime);
+          }
           //var dir = Random.nextRange(0,99);
           //if(dir<50){currentDirection ='right'}
           //else{currentDirection = 'left'}

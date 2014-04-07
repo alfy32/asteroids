@@ -45,6 +45,11 @@ ASTEROIDGAME.graphics.asteroids = (function() {
       asteroids[i].update(elapsedTime);
     }
   }
+  function undoUpdate(elapsedTime) {
+    for(var i in asteroids) {
+      asteroids[i].undoUpdate(elapsedTime);
+    }
+  }
 
   function render(canvasType) {
     for(var i in asteroids) {
@@ -117,6 +122,14 @@ ASTEROIDGAME.graphics.asteroids = (function() {
       ASTEROIDGAME.graphics.wrapAround(that.center, {width: that.width, height: that.height});
     };
 
+    that.undoUpdate = function(elapsedTime){
+      that.rotation -= that.rotateRate * (elapsedTime/1000);
+
+      that.center.x -= that.velocity.x * (elapsedTime/1000);
+      that.center.y -= that.velocity.y * (elapsedTime/1000);
+
+      ASTEROIDGAME.graphics.wrapAround(that.center, {width: that.width, height: that.height});
+    };
     that.draw = function() {
       var stroke = 'rgba(255, 0, 0, .9)';
       context.save();
@@ -145,6 +158,7 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     list: asteroids,
     create: create,
     update: update,
+    undoUpdate: undoUpdate,
     render: render,
     reset: reset
   };
