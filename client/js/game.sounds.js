@@ -29,7 +29,7 @@ ASTEROIDGAME.sounds = (function() {
             this.currentTime = 0;
             this.play();
           }, false);
-          console.log('play takeOff ***');
+          
           ASTEROIDGAME.audio['/audio/takeOff.wav'].play();
     },
     stop: function(){

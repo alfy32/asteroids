@@ -8,6 +8,7 @@ ASTEROIDGAME.screens['AI'] = (function() {
 
   var aiShip = null,
     cancelNextRequest = false,
+    aiKeyboard = ASTEROIDGAME.input.Keyboard(),
     aiLasers = ASTEROIDGAME.graphics.lasers,
     aiAsteroids = ASTEROIDGAME.graphics.asteroids,
     aiUFO = ASTEROIDGAME.graphics.UFO,
@@ -16,7 +17,8 @@ ASTEROIDGAME.screens['AI'] = (function() {
     aiQuadrants = ASTEROIDGAME.quadrants,
     aiExplosions = ASTEROIDGAME.graphics.explosions,
     aiLevels=ASTEROIDGAME.levels,
-    aiScore = ASTEROIDGAME.score;
+    aiScore = ASTEROIDGAME.score,
+    aiLogic = ASTEROIDGAME.AiLogic;
 
   function initialize() {
     console.log('AI initializing...');
@@ -37,7 +39,15 @@ ASTEROIDGAME.screens['AI'] = (function() {
     });
     aiUFO.setShip(aiShip);
 
+    aiKeyboard.clearRegister();
+    aiKeyboard.registerCommand(KeyEvent.DOM_VK_LEFT, aiShip.rotateLeft, ASTEROIDGAME.sounds.thrust);
+    aiKeyboard.registerCommand(KeyEvent.DOM_VK_RIGHT, aiShip.rotateRight, ASTEROIDGAME.sounds.thrust);
+    aiKeyboard.registerCommand(KeyEvent.DOM_VK_UP, aiShip.accelerate, ASTEROIDGAME.sounds.thrust);
+    aiKeyboard.registerCommand(KeyEvent.DOM_VK_DOWN, aiShip.hyperspace);
+    aiKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, aiLasers.create);
+
     ASTEROIDGAME.playerScore=0;
+    aiLogic.reset();
     aiQuadrants.reset();
     aiLasers.reset();
     aiUFO.reset();
@@ -66,6 +76,7 @@ ASTEROIDGAME.screens['AI'] = (function() {
     ASTEROIDGAME.elapsedTime = time - ASTEROIDGAME.lastTimeStamp;
     ASTEROIDGAME.lastTimeStamp = time;
 
+    aiKeyboard.update(ASTEROIDGAME.elapsedTime, aiShip, aiQuadrants);
     ASTEROIDGAME.graphics.clear();
     /**************************************************
     /   Collision detection and Score update
@@ -125,8 +136,9 @@ ASTEROIDGAME.screens['AI'] = (function() {
       }
 
       /**************************************************
-      /   update and render Asteroids, Lasers, Quadrant, UFOs, Explosions
+      /   update and render AiLogic, Asteroids, Lasers, Quadrant, UFOs, Explosions
       **************************************************/
+      aiLogic.update(ASTEROIDGAME.elapsedTime, aiAsteroids, aiUFO, aiShip, aiLasers, aiKeyboard);
       aiAsteroids.update(ASTEROIDGAME.elapsedTime);
       aiAsteroids.render('game');
 
@@ -153,6 +165,7 @@ ASTEROIDGAME.screens['AI'] = (function() {
     }
     else{
       ASTEROIDGAME.graphics.clear();
+      aiKeyboard.clearRegister();
       ASTEROIDGAME.sounds.backGroundMusic.stop();
       ASTEROIDGAME.game.showScreen('main-menu');
 

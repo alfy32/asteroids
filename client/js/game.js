@@ -22,9 +22,11 @@ ASTEROIDGAME.game = (function() {
 
     if(ASTEROIDGAME.screens.hasOwnProperty(id)){
 
-      if(id =='game-play'){
+      if(id =='game-play' || id == 'AI'){
         $('.main').css('display','none');
-        
+        if(id=='AI'){
+          $('.game-play').css('display','block');
+        }
       }
       else{
         $('.main').css('display','block');
@@ -52,10 +54,8 @@ ASTEROIDGAME.game = (function() {
     //reset the AI delay time - after 10 seconds then start AI
     $('*').on('keydown mousedown mousemove', function(e){
       //console.log(" ** reset AI **");
-      if($('.main').css('display')=='block'){
         ASTEROIDGAME.lastEventTime = performance.now();
         ASTEROIDGAME.screens['AI'].cancel();
-      }
     });
    //get high scores from server
     $('#id-new-game').click(function(e){
@@ -101,7 +101,6 @@ ASTEROIDGAME.game = (function() {
     //
     // Make the main-menu screen the active one
     showScreen('main-menu');
-
   }
 
   return {

@@ -92,16 +92,24 @@ ASTEROIDGAME.input = (function() {
       },
       key;
 
-    function keyPress(e) { //87 -w, 83 - s, 68-d, 65-a, 69-e, 81-q
-      //console.log(e.keyCode);
+    that.keyPress = function(e) { //87 -w, 83 - s, 68-d, 65-a, 69-e, 81-q
       
-      that.keys[e.keyCode] = e.timeStamp;
+      if(e.keyCode){ //User input
+
+        that.keys[e.keyCode] = e.timeStamp;
+      }
+      else{ //AI input
+        that.keys[e] = performance.now();
+      }
       
     }
 
-    function keyRelease(e) {
+    that.keyRelease= function(e) {
+      var k = e;
+      if(e.keyCode){ k = e.keyCode};
+
       for (var h in that.handlers) {
-        if(that.handlers[h].key== e.keyCode){
+        if(that.handlers[h].key== k){
           if (typeof that.keys[that.handlers[h].key] !== 'undefined') {
             if(that.handlers[h].sound) { 
               that.handlers[h].sound.stop();
@@ -109,8 +117,7 @@ ASTEROIDGAME.input = (function() {
           }
         }
       }
-
-      delete that.keys[e.keyCode];
+      delete that.keys[k];
 
     }
     that.clear =  function(){
@@ -135,6 +142,10 @@ ASTEROIDGAME.input = (function() {
       }
     };
     that.clearRegister = function(){
+      for(var h in that.handlers){
+        if(that.handlers[h].sound)  
+          that.handlers[h].sound.stop();
+      }
       that.handlers.length = 0;
     };
     // ------------------------------------------------------------------
@@ -156,8 +167,8 @@ ASTEROIDGAME.input = (function() {
 
     //
     // These are used to keep track of which keys are currently pressed
-    $(document).on('keydown', keyPress.bind(that));
-    $(document).on('keyup', keyRelease.bind(that));
+    $(document).on('keydown', that.keyPress.bind(that));
+    $(document).on('keyup', that.keyRelease.bind(that));
     //window.addEventListener('keydown', keyPress.bind(that));
     //window.addEventListener('keyup', keyRelease.bind(that));
 

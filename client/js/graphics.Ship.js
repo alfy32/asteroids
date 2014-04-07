@@ -31,7 +31,6 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
     that.rotateRight = function (elapsedTime) {
       that.rotation += spec.rotateRate * (elapsedTime / 1000);
-
       createSideParticles(that.rotation +1.2);
       //ASTEROIDGAME.sounds.thrust();
     };

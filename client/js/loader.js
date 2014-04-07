@@ -85,6 +85,7 @@ window.addEventListener('load', function() {
         'preload!/js/game.js',
         'preload!/js/game.levels.js',
         'preload!/js/game.score.js',
+        'preload!/js/game.AiLogic.js',
         'preload!/js/game.play.js',
         'preload!/js/screens.mainmenu.js',
         'preload!/js/screens.highscores.js',
