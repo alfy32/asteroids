@@ -54,9 +54,9 @@ ASTEROIDGAME.AiLogic = (function(){
           //change direction
           //targetAngle = Random.nextRange(0,359)
           findClosestAsteroid(asteroids, ship);
-          var dir = Random.nextRange(0,99);
-          if(dir<50){currentDirection ='right'}
-          else{currentDirection = 'left'}
+          //var dir = Random.nextRange(0,99);
+          //if(dir<50){currentDirection ='right'}
+          //else{currentDirection = 'left'}
           //targetAngle = Random.nextRange(0,359)
           //console.log(targetAngle);
         }
@@ -140,19 +140,21 @@ ASTEROIDGAME.AiLogic = (function(){
             }
           }
           closestAsteroid.AiTarget = true;
-          targetAngle=Math.atan2(closestAsteroid.center.x - ship.center.x, ship.center.y - closestAsteroid.center.y);
-
+          targetAngle=Math.atan2(ship.center.y- closestAsteroid.center.y,ship.center.x - closestAsteroid.center.x);
+            
+          console.log('asteroid: (' + closestAsteroid.center.x + " : " + closestAsteroid.center.y + " ) ");
+          console.log('ship: (' + ship.center.x + " : " + ship.center.y + " ) ");
           console.log('target: ' + targetAngle);
           targetAngle= modFix(targetAngle) * (180/Math.PI);
           //console.log(minDist + " -- " + closestAsteroid.center.x + ":" + closestAsteroid.center.y)
           console.log('new target: ' + targetAngle);
-          /*if(currentAngle-targetAngle > 0){
+          if(currentAngle-targetAngle > 0){
             currentDirection = 'left';
           }
           else{
             currentDirection='right';
           }
-          */
+          
       }
     }
   return {
