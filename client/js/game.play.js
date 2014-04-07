@@ -36,7 +36,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       moveRate : 500,     // pixels per second
       rotateRate : 2*Math.PI,  // Radians per second
       particles: [],
-      lives: 5
+      lives: 3
     });
     myUFO.setShip(myShip);
 
