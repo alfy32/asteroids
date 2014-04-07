@@ -7,17 +7,10 @@ ASTEROIDGAME.graphics.asteroids = (function() {
   var context = canvas.getContext('2d');
   var asteroids = [];
 
-  var sprite = {
-    large: {width: 200, height: 200, top: 0, speed: 70},
-    medium: {width: 100, height: 100, top: 200, speed: 100},
-    small: {width: 50, height: 50, top: 300, speed: 150},
-    numberOfImages: 8
-  };
-
-  var drawSize = {
-    large: 200,
-    medium: 130,
-    small: 75
+  var params = {
+    large: {width: 0.12, height: 0.12, speed: 70},
+    medium: {width: 0.08, height: 0.08, speed: 100},
+    small: {width: 0.04, height: 0.04, speed: 150}
   };
 
   function getStartingPosition() {
@@ -65,11 +58,11 @@ ASTEROIDGAME.graphics.asteroids = (function() {
         x: spec.center.x,
         y: spec.center.y
       },
-      width: drawSize[spec.size],
-      height: drawSize[spec.size],
+      get width() { return canvas.width * params[spec.size].width; },
+      get height() { return canvas.width * params[spec.size].height; },
       velocity: {
-        x: spec.direction.x * sprite[spec.size].speed,
-        y: spec.direction.y * sprite[spec.size].speed
+        x: spec.direction.x * params[spec.size].speed,
+        y: spec.direction.y * params[spec.size].speed
       },
       image: spec.image,
       size: spec.size,
