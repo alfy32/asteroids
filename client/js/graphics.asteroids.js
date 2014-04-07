@@ -99,10 +99,13 @@ ASTEROIDGAME.graphics.asteroids = (function() {
 
         addAsteroid(that.center, 'medium');
         addAsteroid(that.center, 'medium');
+        addAsteroid(that.center, 'medium');
 
       } else if(that.size == 'medium') {
         asteroids.splice(asteroids.indexOf(that), 1);
 
+        addAsteroid(that.center, 'small');
+        addAsteroid(that.center, 'small');
         addAsteroid(that.center, 'small');
         addAsteroid(that.center, 'small');
 
