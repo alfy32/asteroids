@@ -63,7 +63,7 @@ function getScoreV1(req, res) {
   if(id < 0) return _notFound(res);
 
   readFile(res, function (scores) {
-    if(id > scores.length) return _notFound(res);
+    if(id >= scores.length) return _notFound(res);
 
     res.send({
       success: true,
