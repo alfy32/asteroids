@@ -38,7 +38,8 @@ ASTEROIDGAME.graphics.asteroids = (function() {
       direction: Random.nextCircleVector(),
       image: ASTEROIDGAME.images['/img/asteroid.png'],
       size: size,
-      sizeRatio: 0.08
+      sizeRatio: 0.08,
+      AiTarget: false
     }));
   }
 
@@ -124,7 +125,7 @@ ASTEROIDGAME.graphics.asteroids = (function() {
     };
 
     that.draw = function() {
-
+      var stroke = 'rgba(255, 0, 0, .9)';
       context.save();
       context.translate(that.center.x , that.center.y);
       context.rotate(that.rotation);
@@ -135,10 +136,12 @@ ASTEROIDGAME.graphics.asteroids = (function() {
       that.center.x - that.width/2,
       that.center.y - that.height/2,
       that.width, that.height);
-
-      // context.beginPath();
-      // context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
-      // context.stroke();
+      context.strokeStyle = stroke;
+      if(that.AiTarget){
+        context.beginPath();
+        context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
+        context.stroke();
+      }
       context.restore();
     };
 

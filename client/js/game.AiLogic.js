@@ -1,5 +1,7 @@
-
-
+//****account for mod of a negative number
+function modFix(rotation){
+  return ((rotation%(2*Math.PI))+2*Math.PI)%(2*Math.PI);
+}
 ASTEROIDGAME.AiLogic = (function(){
 
     var left=KeyEvent.DOM_VK_LEFT,
@@ -17,14 +19,15 @@ ASTEROIDGAME.AiLogic = (function(){
         currentDirection = 'right';
 
     function update(elapsedTime, asteroids, ufo, ship, lasers, keyBoard){
-       
-        currentAngle = (Math.abs(ship.rotation)%(2*Math.PI))* (180/Math.PI); //convert radians to degrees
+        
+        currentAngle = modFix(ship.rotation)* (180/Math.PI); //convert radians to degrees
           //rotate to 270 degrees and fire 3 times
          
           //console.log(currentAngle+ " <= " + ((targetAngle+5)%360));
         //console.log(currentAngle+ ">= "+ ((targetAngle+355)%360));
         startShoot(keyBoard);
 
+        //check if angle is going to be crossing between 0 and 360
         if(targetAngle>355 || targetAngle <5){
           if(currentAngle<=((targetAngle+4)%360) || currentAngle>=((targetAngle+356)%360)){
             stopRotation(keyBoard);
@@ -121,19 +124,28 @@ ASTEROIDGAME.AiLogic = (function(){
         var minDist = 3000;
           for(a in asteroids.list){
             asteroid = asteroids.list[a];
-            var dist = Math.sqrt(Math.pow((ship.center.x-asteroid.center.x),2),Math.pow((ship.center.y-asteroid.center.y),2));
+            asteroid.AiTarget = false;
+            var aCenterX = asteroid.center.x;
+            var aCenterY = asteroid.center.y;
+            if(aCenterX <0){
+              aCenterX=0;
+            }
+            if(aCenterY <0){
+              aCenterY=0;
+            }
+            var dist = Math.sqrt(Math.pow((ship.center.x-aCenterX),2),Math.pow((ship.center.y-aCenterY),2));
             if(dist<minDist){
               minDist = dist;
               closestAsteroid = asteroid;
             }
           }
-
+          closestAsteroid.AiTarget = true;
           targetAngle=Math.atan2(closestAsteroid.center.x - ship.center.x, ship.center.y - closestAsteroid.center.y);
 
-          if (targetAngle < 0) targetAngle += 2 * Math.PI;
-          targetAngle= targetAngle* (180/Math.PI);
+          console.log('target: ' + targetAngle);
+          targetAngle= modFix(targetAngle) * (180/Math.PI);
           //console.log(minDist + " -- " + closestAsteroid.center.x + ":" + closestAsteroid.center.y)
-          //console.log('new target: ' + targetAngle);
+          console.log('new target: ' + targetAngle);
           /*if(currentAngle-targetAngle > 0){
             currentDirection = 'left';
           }

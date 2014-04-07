@@ -138,8 +138,9 @@ ASTEROIDGAME.screens['AI'] = (function() {
       /**************************************************
       /   update and render AiLogic, Asteroids, Lasers, Quadrant, UFOs, Explosions
       **************************************************/
-      aiLogic.update(ASTEROIDGAME.elapsedTime, aiAsteroids, aiUFO, aiShip, aiLasers, aiKeyboard);
+      
       aiAsteroids.update(ASTEROIDGAME.elapsedTime);
+      aiLogic.update(ASTEROIDGAME.elapsedTime, aiAsteroids, aiUFO, aiShip, aiLasers, aiKeyboard);
       aiAsteroids.render('game');
 
       aiQuadrants.update(ASTEROIDGAME.elapsedTime, aiAsteroids.list);
