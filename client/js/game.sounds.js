@@ -43,15 +43,15 @@ ASTEROIDGAME.sounds = (function() {
   var backGroundMusic = {
     //started in initialize game.js
   play:  function(){
-          ASTEROIDGAME.audio['/audio/backGroundMusic.wav'].addEventListener('ended', function() {
+          ASTEROIDGAME.audio['/audio/backGroundMusic.mp3'].addEventListener('ended', function() {
             this.currentTime = 0;
             this.play();
           }, false);
-          ASTEROIDGAME.audio['/audio/backGroundMusic.wav'].play();
+          ASTEROIDGAME.audio['/audio/backGroundMusic.mp3'].play();
   },
   stop: function(){
-      ASTEROIDGAME.audio['/audio/backGroundMusic.wav'].pause();
-      ASTEROIDGAME.audio['/audio/backGroundMusic.wav'].currentTime=0;
+      ASTEROIDGAME.audio['/audio/backGroundMusic.mp3'].pause();
+      ASTEROIDGAME.audio['/audio/backGroundMusic.mp3'].currentTime=0;
     }
   }
   return {

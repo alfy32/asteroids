@@ -63,7 +63,7 @@ window.addEventListener('load', function() {
         'preload!/audio/hyperSpace2.wav',
         'preload!/audio/laserShot2.wav',
         'preload!/audio/saucerBig.wav',
-        'preload!/audio/backGroundMusic.wav',
+        'preload!/audio/backGroundMusic.mp3',
         'preload!/audio/blastOff.wav',
         'preload!/audio/takeOff.wav',
         'preload!/audio/explosion.wav',
