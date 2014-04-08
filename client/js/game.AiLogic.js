@@ -7,7 +7,7 @@ ASTEROIDGAME.AiLogic = (function () {
   var canvas = document.getElementById('canvas-main');
   var context = canvas.getContext('2d');
 
-  var LOOK_AHEAD = 400;
+  var LOOK_AHEAD = 200;
   var left = KeyEvent.DOM_VK_LEFT,
       right = KeyEvent.DOM_VK_RIGHT,
       accelerate = KeyEvent.DOM_VK_UP,
@@ -23,13 +23,18 @@ ASTEROIDGAME.AiLogic = (function () {
       currentDirection = 'right';
 
   var hTime = 0;
-  var lastMove = 0;
+  var lastShot = 0;
 
   function update(elapsedTime, asteroids, ufo, ship, lasers, keyBoard){
     asteroids.update(LOOK_AHEAD);
     keyBoard.keyRelease(hyperspace);
 
-    startShoot(keyBoard);
+    // startShoot(keyBoard);
+    lastShot += elapsedTime;
+    if(lastShot > 10) {
+      lastShot = 0;
+      lasers.create(elapsedTime, ship);
+    }
 
     var currentDirection = getCurrentDirection(ship);
     var closestAsteroid = findClosestAsteroid(asteroids.list, ship, ufo.getCurrentUFO());
