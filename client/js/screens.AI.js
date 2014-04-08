@@ -35,7 +35,7 @@ ASTEROIDGAME.screens['AI'] = (function() {
       moveRate : 500,     // pixels per second
       rotateRate : 2*Math.PI,  // Radians per second
       particles: [],
-      lives: 5
+      lives: 3
     });
     aiUFO.setShip(aiShip);
 
@@ -81,7 +81,7 @@ ASTEROIDGAME.screens['AI'] = (function() {
     /**************************************************
     /   Collision detection and Score update
     **************************************************/
-    
+
       aiCollisions.circleCircles(aiShip, aiAsteroids.list,
         function (ship, asteroid) {
           asteroid.explode();
@@ -138,7 +138,7 @@ ASTEROIDGAME.screens['AI'] = (function() {
       /**************************************************
       /   update and render AiLogic, Asteroids, Lasers, Quadrant, UFOs, Explosions
       **************************************************/
-      
+
       aiAsteroids.update(ASTEROIDGAME.elapsedTime);
       aiLogic.update(ASTEROIDGAME.elapsedTime, aiAsteroids, aiUFO, aiShip, aiLasers, aiKeyboard);
       aiAsteroids.render('game');
