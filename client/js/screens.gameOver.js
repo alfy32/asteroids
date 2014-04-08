@@ -30,7 +30,7 @@ ASTEROIDGAME.screens['game-over'] = (function() {
 
   }
   function getHighScore(score){
-
+    $("#nav").css('display','none');
     $('#highScoreName').val(''),
     $(".enterName").css('display','block');
     $('#highScoreName').focus();
@@ -71,7 +71,7 @@ ASTEROIDGAME.screens['game-over'] = (function() {
             console.log("Added high scores to server: " + result);
             //hide high score entry input and submit button
              $(".enterName").css('display','none');
-
+             $("#nav").css('display','block');
               ASTEROIDGAME.game.showScreen('high-scores');
           }
         });
