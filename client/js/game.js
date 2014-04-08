@@ -75,11 +75,15 @@ ASTEROIDGAME.game = (function() {
     }
 
     $.ajax({
-      url: '/scores',
+      url: '/v1/high-scores/',
       type: 'GET',
       success: function(result){
-                  ASTEROIDGAME.highScores = JSON.parse(result);
-                  console.log(ASTEROIDGAME.highScores);
+                  ASTEROIDGAME.highScores = result.scores;
+                  ASTEROIDGAME.highScores.sort(function(a,b){return b.score-a.score });
+                  if(ASTEROIDGAME.highScores.length > 10){
+                    ASTEROIDGAME.highScores.length = 10;
+                  }
+                  //console.log(ASTEROIDGAME.highScores);
 
                   for(var i in ASTEROIDGAME.highScores){
                     var S = ASTEROIDGAME.highScores[i];

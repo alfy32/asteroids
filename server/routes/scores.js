@@ -87,7 +87,11 @@ function postScoreV1(req, res) {
       name: name,
       score: score
     });
-
+    scores.sort(function(a,b){return b.score-a.score });
+    if(scores.length > 10){
+      scores.length = 10;
+    }
+    console.log(scores.length);
     writeFile(res, scores, function () {
       res.send({
         success: true

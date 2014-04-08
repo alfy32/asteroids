@@ -60,19 +60,22 @@ ASTEROIDGAME.screens['game-over'] = (function() {
         });
 
         //save scores to the server
-        ASTEROIDGAME.highScores.sort(function(a,b){return b.score-a.score });
+          ASTEROIDGAME.highScores.sort(function(a,b){return b.score-a.score });
+          if(ASTEROIDGAME.highScores.length > 10){
+            ASTEROIDGAME.highScores.length = 10;
+          }
         $.ajax({
-          url: '/scores',
+          url: '/v1/high-scores?name=' + $('#highScoreName').val() + "&score=" + score,
           type: 'POST',
-          data: {scores: JSON.stringify(ASTEROIDGAME.highScores)},
           success: function(result){
             console.log("Added high scores to server: " + result);
+            //hide high score entry input and submit button
+             $(".enterName").css('display','none');
+
+              ASTEROIDGAME.game.showScreen('high-scores');
           }
         });
-        //hide high score entry input and submit button
-        $(".enterName").css('display','none');
-
-        ASTEROIDGAME.game.showScreen('high-scores');
+        
       }
   }
   return {

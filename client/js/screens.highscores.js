@@ -11,16 +11,20 @@ ASTEROIDGAME.screens['high-scores'] = (function() {
   function run() {
     //
     // empty high score display
+
     ASTEROIDGAME.graphics.resize();
     $.ajax({
-      url: '/scores',
+      url: '/v1/high-scores/',
       type: 'GET',
       success: function(result){
-                  ASTEROIDGAME.highScores = JSON.parse(result);
-                  console.log(ASTEROIDGAME.highScores);
+                  ASTEROIDGAME.highScores = result.scores;
+                  console.log("show high score" + ASTEROIDGAME.highScores);
 
                   $('.showScores').empty();
-
+                  ASTEROIDGAME.highScores.sort(function(a,b){return b.score-a.score });
+                  if(ASTEROIDGAME.highScores.length > 10){
+                    ASTEROIDGAME.highScores.length = 10;
+                  }
                   //show top 10 high scores
                   var totalScores = ASTEROIDGAME.highScores.length < 10 ? ASTEROIDGAME.highScores.length : 10;
                   for(var i=0; i<totalScores; ++i){

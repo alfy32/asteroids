@@ -83,8 +83,8 @@ ASTEROIDGAME.graphics.UFO = (function() {
         x: spec.center.x,
         y: spec.center.y
       },
-      get width() { return canvas.width * (ufo.size == 'small' ? 0.1 :  0.13); },
-      get height() { return canvas.width * (ufo.size == 'small' ? 0.08 : 0.13); },
+      get width() { return canvas.width * (ufo.size == 'small' ? 0.09 :  0.10); },
+      get height() { return canvas.width * (ufo.size == 'small' ? 0.07 : 0.10); },
       velocity: {
         x: 50,
         y: 50
