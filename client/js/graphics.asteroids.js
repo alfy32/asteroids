@@ -122,14 +122,6 @@ ASTEROIDGAME.graphics.asteroids = (function() {
       ASTEROIDGAME.graphics.wrapAround(that.center, {width: that.width, height: that.height});
     };
 
-    that.undoUpdate = function(elapsedTime){
-      that.rotation -= that.rotateRate * (elapsedTime/1000);
-
-      that.center.x -= that.velocity.x * (elapsedTime/1000);
-      that.center.y -= that.velocity.y * (elapsedTime/1000);
-
-      ASTEROIDGAME.graphics.wrapAround(that.center, {width: that.width, height: that.height});
-    };
     that.draw = function() {
       var stroke = 'rgba(255, 0, 0, .9)';
       context.save();

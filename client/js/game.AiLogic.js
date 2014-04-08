@@ -3,7 +3,7 @@ function modFix(rotation){
   return ((rotation%(2*Math.PI))+2*Math.PI)%(2*Math.PI);
 }
 ASTEROIDGAME.AiLogic = (function(){
-    var LOOK_AHEAD = 40;
+    var LOOK_AHEAD = 600;
     var left=KeyEvent.DOM_VK_LEFT,
         right=KeyEvent.DOM_VK_RIGHT,
         accelerate=KeyEvent.DOM_VK_UP,
@@ -33,10 +33,8 @@ ASTEROIDGAME.AiLogic = (function(){
             stopRotation(keyBoard);
           }
         }
-
         else if(currentAngle<=targetAngle+4 && currentAngle>=targetAngle-4){
-            stopRotation(keyBoard);
-          
+            stopRotation(keyBoard); 
         }
         else{
           //choose direction
@@ -53,13 +51,13 @@ ASTEROIDGAME.AiLogic = (function(){
           lastUpdateTime=0;
           //change direction
           //targetAngle = Random.nextRange(0,359)
-          for(var i = 0; i<LOOK_AHEAD; ++i){
-            asteroids.update(elapsedTime);
-          }
+         // for(var i = 0; i<LOOK_AHEAD; ++i){
+            asteroids.update(LOOK_AHEAD);
+          //}
           findClosestAsteroid(asteroids, ship);
-          for(var i = 0; i<LOOK_AHEAD; ++i){
-            asteroids.undoUpdate(elapsedTime);
-          }
+          //for(var i = 0; i<LOOK_AHEAD; ++i){
+            asteroids.update(-LOOK_AHEAD);
+          //}
           //var dir = Random.nextRange(0,99);
           //if(dir<50){currentDirection ='right'}
           //else{currentDirection = 'left'}

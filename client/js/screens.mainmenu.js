@@ -45,8 +45,12 @@ ASTEROIDGAME.screens['main-menu'] = (function() {
     ASTEROIDGAME.graphics.clear();
 
     if(ASTEROIDGAME.elapsedEventTime > ASTEROIDGAME.AI_TIME_OUT){
-      //console.log('Start AI: ' + ASTEROIDGAME.elapsedEventTime);
-      ASTEROIDGAME.screens['main-menu'].cancel('AI');
+      
+      //make sure to not start AI when waiting for Player to enter highscore name
+      if($(".enterName").css('display')=='none'){
+
+        ASTEROIDGAME.screens['main-menu'].cancel('AI');
+      }
       
     }
     /**************************************************
@@ -62,9 +66,8 @@ ASTEROIDGAME.screens['main-menu'] = (function() {
       requestAnimationFrame(menuLoop);
     }
     else{
-      //$('.canvas-menu').css('display','none');
-      //$('.canvas-main').css('display','block');
-        ASTEROIDGAME.game.showScreen(startScreen);
+  
+        ASTEROIDGAME.game.showScreen(startScreen); //startScreen set in function cancel
     }
   }
 

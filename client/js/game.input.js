@@ -111,7 +111,7 @@ ASTEROIDGAME.input = (function() {
       for (var h in that.handlers) {
         if(that.handlers[h].key== k){
           if (typeof that.keys[that.handlers[h].key] !== 'undefined') {
-            if(that.handlers[h].sound) { 
+            if(that.handlers[h].sound){ 
               that.handlers[h].sound.stop();
             }
           }

@@ -48,9 +48,7 @@ ASTEROIDGAME.game = (function() {
   //
   //------------------------------------------------------------------
   function initialize() {
-    $('body').click(function(e){
-
-    });
+  
     //reset the AI delay time - after 10 seconds then start AI
     $('*').on('keydown mousedown mousemove', function(e){
       //console.log(" ** reset AI **");

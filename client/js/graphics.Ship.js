@@ -16,8 +16,8 @@ ASTEROIDGAME.graphics.Ship = (function() {
         x: spec.center.x,
         y: spec.center.y
       },
-      get width() { return canvas.width * 0.06; },
-      get height() { return canvas.width * 0.06; },
+      get width() { return canvas.width * 0.05; },
+      get height() { return canvas.width * 0.05; },
       velocity: {
         x: 0,
         y: 0
