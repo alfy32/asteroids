@@ -6,7 +6,8 @@ ASTEROIDGAME.quadrants = (function(){
 
   var populations ={
     locLeastOuter: 0, 
-    locLeastInner: 0, 
+    locLeastInner: 0,
+    locLeastInner2: 0, 
     locMostOuter: 0,
     locMostInner: 0
   }
@@ -58,7 +59,7 @@ ASTEROIDGAME.quadrants = (function(){
 
         var leastPopInner = countObjects(that.quads[popOuter.least].innerQuads,objects);  
         populations.locLeastInner = leastPopInner.least;
-
+        populations.locLeastInner2 = (leastPopInner.least+1)%3;
         var mostPopInner = countObjects(that.quads[popOuter.most].innerQuads,objects); 
         populations.locMostInner = mostPopInner.most;   
 
@@ -77,6 +78,7 @@ ASTEROIDGAME.quadrants = (function(){
               }
           }
           populations.locLeastInner = locFurthestFrom;
+          populations.locLeastInner2 = (locFurthestFrom+1)%3;
         }
       }
       else{
@@ -126,7 +128,10 @@ ASTEROIDGAME.quadrants = (function(){
       
       return that.quads[populations.locLeastOuter].innerQuads[populations.locLeastInner];
     };
-
+    that.getLeastPopulated2 = function(){
+      
+      return that.quads[populations.locLeastOuter].innerQuads[populations.locLeastInner2];
+    };
     that.render = function(){
       var fill = 'rgba(255, 150, 50, .5)';
       var fill2 = 'rgba(185, 40, 250, .5)';

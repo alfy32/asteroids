@@ -153,10 +153,10 @@ ASTEROIDGAME.input = (function() {
     // Allows the client to invoke all the handlers for the registered key/handlers.
     //
     // ------------------------------------------------------------------
-    that.update = function(elapsedTime, ship, quadrants) {
+    that.update = function(elapsedTime, ship, quadrants, asteroids) {
       for (key = 0; key < that.handlers.length; key++) {
         if (typeof that.keys[that.handlers[key].key] !== 'undefined') {
-          that.handlers[key].handler(elapsedTime, ship, quadrants);
+          that.handlers[key].handler(elapsedTime, ship, quadrants, asteroids);
           if(that.handlers[key].sound)  
             that.handlers[key].sound.play();
         }

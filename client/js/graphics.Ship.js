@@ -8,6 +8,8 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
   var MAX_VELOCITY = 800;
   var HYPER_WAIT_TIME = 160;
+  var LOOK_FORWARD = 3000;
+  var LOOK_BACKWARD = -3000;
   var lastHyperspaceTime = 200;
 
   function Ship(spec) {
@@ -41,21 +43,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
       //ASTEROIDGAME.sounds.thrust();
     };
 
-    that.hyperspace = function (elapsedTime, ship, quadrants) {
-      console.log(elapsedTime);
-      if(lastHyperspaceTime >HYPER_WAIT_TIME){
-        lastHyperspaceTime =0;
-        ASTEROIDGAME.sounds.hyperspace();
-        ASTEROIDGAME.graphics.explosions.hyperspace(ship.center);
-        ship.respawn({
-          yCenter: Random.nextRange(100, canvas.height - 100),
-          xCenter: Random.nextRange(100, canvas.width - 100)
-        });
-      }
-      else{
-        lastHyperspaceTime+=elapsedTime;
-      }
-    };
+  
     that.accelerate = function (elapsedTime) {
       var newVelocity = {
         x: that.velocity.x + that.moveRate * -Math.cos(that.rotation) * (elapsedTime/1000),
@@ -137,7 +125,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
       spec.particles.push(particlesSmoke);
       spec.particles.push(particleFire);
     }
-
+ 
     that.explode = function () {
       ASTEROIDGAME.graphics.explosions.ship(that.center);
       ASTEROIDGAME.sounds.explode.medium();
@@ -152,15 +140,39 @@ ASTEROIDGAME.graphics.Ship = (function() {
         return true;
       }
     };
+    that.hyperspace = function (elapsedTime, ship, quadrants, asteroids) {
+      console.log(elapsedTime);
+      if(lastHyperspaceTime >HYPER_WAIT_TIME){
+        lastHyperspaceTime =0;
+        ASTEROIDGAME.sounds.hyperspace();
+        ASTEROIDGAME.graphics.explosions.hyperspace(ship.center);
+        ship.respawn(quadrants, asteroids);
+      }
+      else{
+        lastHyperspaceTime+=elapsedTime;
+      }
+    };
+    that.respawn = function(quadrants, asteroids){
+      asteroids.update(LOOK_FORWARD);
+      quadrants.update(LOOK_FORWARD, asteroids.list);
 
-    that.respawn = function(quadLoc){
-      ASTEROIDGAME.sounds.hyperspace();
-      ASTEROIDGAME.graphics.explosions.respawn({ x: quadLoc.xCenter, y:quadLoc.yCenter});
+      var quadLoc = quadrants.getLeastPopulated();
+
+      asteroids.update(LOOK_BACKWARD);
+      quadrants.update(LOOK_BACKWARD, asteroids.list);
+      //check if already in the same spot as safest spot
+      if(that.center.x == quadLoc.xCenter&& that.center.x == quadLoc.xCenter){
+        quadLoc = quadrants.getLeastPopulated2();
+      }
+     
       that.center.x= quadLoc.xCenter;
       that.center.y= quadLoc.yCenter;
+      
       that.velocity.x=0;
       that.velocity.y=0;
 
+      ASTEROIDGAME.sounds.hyperspace();
+      ASTEROIDGAME.graphics.explosions.respawn({ x: quadLoc.xCenter, y:quadLoc.yCenter});
       console.log('relocating ship');
     }
 

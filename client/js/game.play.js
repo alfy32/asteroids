@@ -117,7 +117,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     ASTEROIDGAME.elapsedTime = time - ASTEROIDGAME.lastTimeStamp;
     ASTEROIDGAME.lastTimeStamp = time;
 
-    myKeyboard.update(ASTEROIDGAME.elapsedTime, myShip, myQuadrants);
+    myKeyboard.update(ASTEROIDGAME.elapsedTime, myShip, myQuadrants, myAsteroids);
     myMouse.update(ASTEROIDGAME.elapsedTime);
 
     ASTEROIDGAME.graphics.clear();
@@ -128,7 +128,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       function (ship, asteroid) {
         asteroid.explode();
         cancelNextRequest = myShip.explode(); //returns true if no more lives left
-        myShip.respawn(myQuadrants.getLeastPopulated());
+        myShip.respawn(myQuadrants, myAsteroids);
       });
 
     myCollisions.circlesPoints(myAsteroids.list, myLasers.list,
@@ -149,7 +149,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
           ufo.explode();
 
           cancelNextRequest = ship.explode(); //returns true if no more lives left
-          myShip.respawn(myQuadrants.getLeastPopulated());
+          myShip.respawn(myQuadrants, myAsteroids);
         });
 
       myCollisions.circlePoints(ufo, myLasers.list,
@@ -166,7 +166,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
         myBullets.list.splice(myBullets.list.indexOf(bullet),1);
 
         cancelNextRequest = ship.explode(); //returns true if no more lives left
-        ship.respawn(myQuadrants.getLeastPopulated());
+        ship.respawn(myQuadrants, myAsteroids);
       });
 
     /**************************************************
