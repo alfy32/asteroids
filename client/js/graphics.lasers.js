@@ -9,17 +9,15 @@ ASTEROIDGAME.graphics.lasers = (function() {
   var lasers = [];
 
   var shoot = {
-    limit: 150,
+    limit: 300,
     last: 0
   };
 
   var lifeTime = 1000;
 
   function create(elapsedTime, ship) {
-    shoot.last += elapsedTime;
-
-    if(shoot.last > shoot.limit) {
-      shoot.last = 0;
+    if(Date.now() - shoot.last > shoot.limit) {
+      shoot.last = Date.now();
 
       lasers.push(laser({
         center: {
