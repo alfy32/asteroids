@@ -12,14 +12,6 @@ ASTEROIDGAME.graphics.Ship = (function() {
   var LOOK_BACKWARD = -3000;
   var lastHyperspaceTime = 200;
 
-  var sheilds = {
-    count: 3,
-    on: true,
-    lifetime: 10000, // miliseconds
-    hits: 0,
-    HIT_MAX: 2
-  };
-
   function Ship(spec) {
     var that = {
       center: {
@@ -36,10 +28,16 @@ ASTEROIDGAME.graphics.Ship = (function() {
       moveRate: spec.moveRate,
       image: spec.image,
       rotation: spec.rotation,
-      moving: false
+      moving: false,
+      shields: {
+        count: 3,
+        on: false,
+        lifetime: 10000, // miliseconds
+        hits: 0,
+        HIT_MAX: 2,
+        startTime: Date.now()
+      }
     };
-
-    sheilds.startTime = Date.now();
 
     that.rotateRight = function (elapsedTime) {
       that.rotation += spec.rotateRate * (elapsedTime / 1000);
@@ -137,20 +135,20 @@ ASTEROIDGAME.graphics.Ship = (function() {
     }
 
     that.turnOnShield = function () {
-      console.log('turnOnShield', sheilds);
-      if(sheilds.on || sheilds.count <= 0) return;
+      if(that.shields.on || that.shields.count <= 0) return;
 
-      sheilds.startTime = Date.now();
-      sheilds.count--;
-      sheilds.on = true;
-      sheilds.hits = 0;
+      console.log('turnOnShield');
+      that.shields.startTime = Date.now();
+      that.shields.count--;
+      that.shields.on = true;
+      that.shields.hits = 0;
     }
 
     that.explode = function (quadrants, asteroids) {
-      if(++sheilds.hits > sheilds.HIT_MAX) sheilds.on = false;
-
-      if(sheilds.on) {
+      if(that.shields.on) {
+        if(++that.shields.hits >= that.shields.HIT_MAX) that.shields.on = false;
         // do some cool particles
+        console.log("We got hit with the shields on!!");
       } else {
         ASTEROIDGAME.graphics.explosions.ship(that.center);
         ASTEROIDGAME.sounds.explode.medium();
@@ -168,7 +166,6 @@ ASTEROIDGAME.graphics.Ship = (function() {
       return false;
     };
     that.hyperspace = function (elapsedTime, ship, quadrants, asteroids) {
-      console.log(elapsedTime);
       if(lastHyperspaceTime >HYPER_WAIT_TIME){
         lastHyperspaceTime =0;
         ASTEROIDGAME.sounds.hyperspace();
@@ -205,10 +202,8 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
 
     that.update = function(elapsedTime){
-      if(sheilds.on) {
-        if(sheilds.startTime + sheilds.lifetime  > Date.now()) {
-          sheilds.on = false;
-        }
+      if(that.shields.on && (that.shields.startTime + that.shields.lifetime < Date.now()) ) {
+        that.shields.on = false;
       }
 
       that.center.x += that.velocity.x * (elapsedTime/1000);
@@ -238,7 +233,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
         that.width, that.width);
 
       // Draw Shield
-      if(sheilds.on) {
+      if(that.shields.on) {
         context.beginPath();
         context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
         context.stroke();

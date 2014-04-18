@@ -9,7 +9,8 @@ ASTEROIDGAME.screens['controls'] = (function() {
     left: KeyEvent.DOM_VK_A,
     right: KeyEvent.DOM_VK_D,
     shoot: KeyEvent.DOM_VK_B,
-    hyperspace: KeyEvent.DOM_VK_S
+    hyperspace: KeyEvent.DOM_VK_S,
+    shield: KeyEvent.DOM_VK_Z
   }
   function initialize() {
     $('#forward').val(String.fromCharCode(that.controls.forward));
@@ -33,11 +34,11 @@ ASTEROIDGAME.screens['controls'] = (function() {
     })
     $('#shoot').keyup(function(e){
       that.controls.shoot = e.keyCode;
-      
+
     })
     $('#hyperspace').keyup(function(e){
       that.controls.hyperspace = e.keyCode;
-      
+
     })
     $('#forward').keypress(function(e){
       $('#forward').val(String.fromCharCode(e.which));

@@ -65,7 +65,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, myShip.accelerate, ASTEROIDGAME.sounds.thrust);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_DOWN, myShip.hyperspace);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, myLasers.create);
-    myKeyboard.registerCommand(KeyEvent.DOM_VK_Z, myShip.turnOnShield);
+    // myKeyboard.registerOneTimeKey(KeyEvent.DOM_VK_Z, myShip.turnOnShield);
 
     var controls = ASTEROIDGAME.screens['controls'].controls();
 
@@ -74,6 +74,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myKeyboard.registerCommand(controls.forward, myShip.accelerate, ASTEROIDGAME.sounds.thrust);
     myKeyboard.registerCommand(controls.shoot, myLasers.create);
     myKeyboard.registerCommand(controls.hyperspace, myShip.hyperspace);
+    myKeyboard.registerOneTimeKey(controls.shield, myShip.turnOnShield);
 
 
     myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {
@@ -148,8 +149,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
         function (ufo, ship) {
           ufo.explode();
 
-          cancelNextRequest = ship.explode(); //returns true if no more lives left
-          myShip.respawn(myQuadrants, myAsteroids);
+          cancelNextRequest = ship.explode(myQuadrants, myAsteroids); //returns true if no more lives left
         });
 
       myCollisions.circlePoints(ufo, myLasers.list,
@@ -165,8 +165,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
       function (ship, bullet) {
         myBullets.list.splice(myBullets.list.indexOf(bullet),1);
 
-        cancelNextRequest = ship.explode(); //returns true if no more lives left
-        ship.respawn(myQuadrants, myAsteroids);
+        cancelNextRequest = ship.explode(myQuadrants, myAsteroids); //returns true if no more lives left
       });
 
     /**************************************************

@@ -76,7 +76,7 @@ ASTEROIDGAME.screens['AI'] = (function() {
     ASTEROIDGAME.elapsedTime = time - ASTEROIDGAME.lastTimeStamp;
     ASTEROIDGAME.lastTimeStamp = time;
 
-    aiKeyboard.update(ASTEROIDGAME.elapsedTime, aiShip, aiQuadrants,aiAsteroids); 
+    aiKeyboard.update(ASTEROIDGAME.elapsedTime, aiShip, aiQuadrants,aiAsteroids);
     ASTEROIDGAME.graphics.clear();
     /**************************************************
     /   Collision detection and Score update
@@ -85,8 +85,7 @@ ASTEROIDGAME.screens['AI'] = (function() {
       aiCollisions.circleCircles(aiShip, aiAsteroids.list,
         function (ship, asteroid) {
           asteroid.explode();
-          cancelNextRequest = aiShip.explode(); //returns true if no more lives left
-          aiShip.respawn(aiQuadrants, aiAsteroids);
+          cancelNextRequest = aiShip.explode(aiQuadrants, aiAsteroids); //returns true if no more lives left
         });
 
       aiCollisions.circlesPoints(aiAsteroids.list, aiLasers.list,
@@ -106,8 +105,7 @@ ASTEROIDGAME.screens['AI'] = (function() {
           function (ufo, ship) {
             ufo.explode();
 
-            cancelNextRequest = ship.explode(); //returns true if no more lives left
-            aiShip.respawn(aiQuadrants, aiAsteroids);
+            cancelNextRequest = ship.explode(aiQuadrants, aiAsteroids); //returns true if no more lives left
           });
 
         aiCollisions.circlePoints(ufo, aiLasers.list,
@@ -123,8 +121,7 @@ ASTEROIDGAME.screens['AI'] = (function() {
         function (ship, bullet) {
           aiBullets.list.splice(aiBullets.list.indexOf(bullet),1);
 
-          cancelNextRequest = ship.explode(); //returns true if no more lives left
-          ship.respawn(aiQuadrants, aiAsteroids);
+          cancelNextRequest = ship.explode(aiQuadrants, aiAsteroids); //returns true if no more lives left
         });
 
       /**************************************************

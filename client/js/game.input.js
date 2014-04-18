@@ -88,20 +88,22 @@ ASTEROIDGAME.input = (function() {
   function Keyboard() {
     var that = {
         keys : {},
-        handlers : []
+        handlers : [],
+
+        // these only run the handler once per keypress
+        oneTimehandlers: {}
       },
       key;
 
     that.keyPress = function(e) { //87 -w, 83 - s, 68-d, 65-a, 69-e, 81-q
-      
-      if(e.keyCode){ //User input
 
+      if(e.keyCode){ //User input
         that.keys[e.keyCode] = e.timeStamp;
       }
       else{ //AI input
         that.keys[e] = performance.now();
       }
-      
+
     }
 
     that.keyRelease= function(e) {
@@ -111,7 +113,7 @@ ASTEROIDGAME.input = (function() {
       for (var h in that.handlers) {
         if(that.handlers[h].key== k){
           if (typeof that.keys[that.handlers[h].key] !== 'undefined') {
-            if(that.handlers[h].sound){ 
+            if(that.handlers[h].sound){
               that.handlers[h].sound.stop();
             }
           }
@@ -141,9 +143,18 @@ ASTEROIDGAME.input = (function() {
         that.handlers.push({ key : key, handler : handler});
       }
     };
+
+    that.registerOneTimeKey = function(key, handler, sound) {
+      that.oneTimehandlers[key] = {
+        key: key,
+        handler: handler,
+        sound: sound
+      };
+    };
+
     that.clearRegister = function(){
       for(var h in that.handlers){
-        if(that.handlers[h].sound)  
+        if(that.handlers[h].sound)
           that.handlers[h].sound.stop();
       }
       that.handlers.length = 0;
@@ -154,10 +165,18 @@ ASTEROIDGAME.input = (function() {
     //
     // ------------------------------------------------------------------
     that.update = function(elapsedTime, ship, quadrants, asteroids) {
+      // Run the one time key handlers
+      for (key in that.oneTimehandlers) {
+        if (typeof that.keys[that.oneTimehandlers[key].key] !== 'undefined') {
+          that.oneTimehandlers[key].handler(elapsedTime, ship, quadrants, asteroids);
+          delete that.keys[that.oneTimehandlers[key].key];
+        }
+      }
+
       for (key = 0; key < that.handlers.length; key++) {
         if (typeof that.keys[that.handlers[key].key] !== 'undefined') {
           that.handlers[key].handler(elapsedTime, ship, quadrants, asteroids);
-          if(that.handlers[key].sound)  
+          if(that.handlers[key].sound)
             that.handlers[key].sound.play();
         }
       }
