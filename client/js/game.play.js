@@ -65,6 +65,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, myShip.accelerate, ASTEROIDGAME.sounds.thrust);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_DOWN, myShip.hyperspace);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, myLasers.create);
+    myKeyboard.registerCommand(KeyEvent.DOM_VK_Z, myShip.turnOnShield);
 
     var controls = ASTEROIDGAME.screens['controls'].controls();
 
@@ -127,8 +128,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myCollisions.circleCircles(myShip, myAsteroids.list,
       function (ship, asteroid) {
         asteroid.explode();
-        cancelNextRequest = myShip.explode(); //returns true if no more lives left
-        myShip.respawn(myQuadrants, myAsteroids);
+        cancelNextRequest = myShip.explode(myQuadrants, myAsteroids); //returns true if no more lives left
       });
 
     myCollisions.circlesPoints(myAsteroids.list, myLasers.list,

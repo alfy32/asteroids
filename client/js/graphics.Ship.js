@@ -12,6 +12,14 @@ ASTEROIDGAME.graphics.Ship = (function() {
   var LOOK_BACKWARD = -3000;
   var lastHyperspaceTime = 200;
 
+  var sheilds = {
+    count: 3,
+    on: true,
+    lifetime: 10000, // miliseconds
+    hits: 0,
+    HIT_MAX: 2
+  };
+
   function Ship(spec) {
     var that = {
       center: {
@@ -31,6 +39,8 @@ ASTEROIDGAME.graphics.Ship = (function() {
       moving: false
     };
 
+    sheilds.startTime = Date.now();
+
     that.rotateRight = function (elapsedTime) {
       that.rotation += spec.rotateRate * (elapsedTime / 1000);
       createSideParticles(that.rotation +1.2);
@@ -43,7 +53,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
       //ASTEROIDGAME.sounds.thrust();
     };
 
-  
+
     that.accelerate = function (elapsedTime) {
       var newVelocity = {
         x: that.velocity.x + that.moveRate * -Math.cos(that.rotation) * (elapsedTime/1000),
@@ -125,20 +135,37 @@ ASTEROIDGAME.graphics.Ship = (function() {
       spec.particles.push(particlesSmoke);
       spec.particles.push(particleFire);
     }
- 
-    that.explode = function () {
-      ASTEROIDGAME.graphics.explosions.ship(that.center);
-      ASTEROIDGAME.sounds.explode.medium();
-      if(that.lives>1){
-        that.lives--;
-        console.log('You hit an asteroid, lives left: '+ that.lives);
-        //that.relocateShip();
-        return false;
+
+    that.turnOnShield = function () {
+      console.log('turnOnShield', sheilds);
+      if(sheilds.on || sheilds.count <= 0) return;
+
+      sheilds.startTime = Date.now();
+      sheilds.count--;
+      sheilds.on = true;
+      sheilds.hits = 0;
+    }
+
+    that.explode = function (quadrants, asteroids) {
+      if(++sheilds.hits > sheilds.HIT_MAX) sheilds.on = false;
+
+      if(sheilds.on) {
+        // do some cool particles
+      } else {
+        ASTEROIDGAME.graphics.explosions.ship(that.center);
+        ASTEROIDGAME.sounds.explode.medium();
+        if(that.lives>1){
+          that.lives--;
+          console.log('You hit an asteroid, lives left: '+ that.lives);
+          that.respawn(quadrants, asteroids);
+        }
+        else{
+          console.log("You're Dead, Game over");
+          return true;
+        }
       }
-      else{
-        console.log("You're Dead, Game over");
-        return true;
-      }
+
+      return false;
     };
     that.hyperspace = function (elapsedTime, ship, quadrants, asteroids) {
       console.log(elapsedTime);
@@ -164,10 +191,10 @@ ASTEROIDGAME.graphics.Ship = (function() {
       if(that.center.x == quadLoc.xCenter&& that.center.x == quadLoc.xCenter){
         quadLoc = quadrants.getLeastPopulated2();
       }
-     
+
       that.center.x= quadLoc.xCenter;
       that.center.y= quadLoc.yCenter;
-      
+
       that.velocity.x=0;
       that.velocity.y=0;
 
@@ -178,6 +205,12 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
 
     that.update = function(elapsedTime){
+      if(sheilds.on) {
+        if(sheilds.startTime + sheilds.lifetime  > Date.now()) {
+          sheilds.on = false;
+        }
+      }
+
       that.center.x += that.velocity.x * (elapsedTime/1000);
       that.center.y += that.velocity.y * (elapsedTime/1000);
 
@@ -204,9 +237,12 @@ ASTEROIDGAME.graphics.Ship = (function() {
         that.center.y- that.width/2,
         that.width, that.width);
 
-      // context.beginPath();
-      // context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
-      // context.stroke();
+      // Draw Shield
+      if(sheilds.on) {
+        context.beginPath();
+        context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
+        context.stroke();
+      }
 
       context.restore();
 
