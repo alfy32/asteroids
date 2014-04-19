@@ -71,7 +71,7 @@ body{
 .quitButton:hover{
   position: absolute;
   z-index: 20;
-  font-family:Lucida Console; 
+  font-family:Lucida Console;
   font-size: 100%;
   font-weight: bold;
   width: 100px;
@@ -128,6 +128,22 @@ body{
   border-style: none;
   border-color: #3399FF;
   border-radius: 5px;
+}
+.shields {
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+}
+.shield-images {
+  height: 45px;
+}
+.ships {
+  position: fixed;
+  bottom: 5px;
+  left: 5px;
+}
+.ship-images {
+  width: 40px;
 }
 .logo{
   color: #3399FF;

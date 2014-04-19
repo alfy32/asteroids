@@ -178,6 +178,11 @@ ASTEROIDGAME.graphics.Ship = (function() {
       that.shields.count--;
       that.shields.on = true;
       that.shields.hits = 0;
+
+      $('#shield1').toggle(that.shields.count == 3);
+      $('#shield2').toggle(that.shields.count >= 2);
+      $('#shield3').toggle(that.shields.count >= 1);
+
     }
 
     that.explode = function (quadrants, asteroids) {
@@ -239,17 +244,22 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
 
     that.update = function(elapsedTime){
-      if(lastHyperspaceTime>=HYPER_WAIT_TIME && !that.hyperAvailable){
-        console.log("hyper available");
+      $('#ship1').toggle(that.lives == 3);
+      $('#ship2').toggle(that.lives >= 2);
+      $('#ship3').toggle(that.lives >= 1);
+
+      if(lastHyperspaceTime >= HYPER_WAIT_TIME && !that.hyperAvailable) {
         that.hyperAvailable = true;
       }
-      if(!that.hyperAvailable){
-        lastHyperspaceTime+=elapsedTime;
+
+      if(!that.hyperAvailable) {
+        lastHyperspaceTime += elapsedTime;
         var pixels = $("#id-progress").css('width').replace('px','');
         var width = parseFloat(pixels);
         ++width;
         $("#id-progress").css('width','' + width +  'px');
       }
+
       if(that.shields.on && (that.shields.startTime + that.shields.LIFE_TIME < Date.now()) ) {
         that.shields.on = false;
       }
