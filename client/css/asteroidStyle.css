@@ -136,6 +136,7 @@ body{
 }
 .shield-images {
   height: 45px;
+  margin-left: -8px;
 }
 .ships {
   position: fixed;
@@ -143,7 +144,8 @@ body{
   left: 5px;
 }
 .ship-images {
-  width: 40px;
+  width: 50px;
+  margin-right: -20px;
 }
 .logo{
   color: #3399FF;
