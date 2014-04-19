@@ -40,6 +40,8 @@ window.addEventListener('load', function() {
         'preload!/img/redLaser.png',
         'preload!/img/fire.png',
         'preload!/img/blueFire.png',
+        'preload!/img/lightBlueFire.png',
+        'preload!/img/redFire.png',
         'preload!/img/purpleFire.png',
         'preload!/img/brightRed.png',
         'preload!/img/brightPurple.png',

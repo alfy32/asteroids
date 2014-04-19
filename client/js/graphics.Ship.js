@@ -7,10 +7,10 @@ ASTEROIDGAME.graphics.Ship = (function() {
   var context = canvas.getContext('2d');
 
   var MAX_VELOCITY = 800;
-  var HYPER_WAIT_TIME = 160;
+  var HYPER_WAIT_TIME = 3000;
   var LOOK_FORWARD = 3000;
   var LOOK_BACKWARD = -3000;
-  var lastHyperspaceTime = 200;
+  var lastHyperspaceTime = 0;
 
   function Ship(spec) {
     var that = {
@@ -24,6 +24,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
         x: 0,
         y: 0
       },
+      hyperAvailable: false,
       lives: spec.lives,
       moveRate: spec.moveRate,
       image: spec.image,
@@ -74,7 +75,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
     var particlesToCreate = {
       smoke: 20,
-      fire: 100
+      fire: 50
     };
     function createSideParticles(rotation){
       var particleFire = ASTEROIDGAME.particleSystems.createSystem({
@@ -103,35 +104,70 @@ ASTEROIDGAME.graphics.Ship = (function() {
       var particlesSmoke = ASTEROIDGAME.particleSystems.createSystem({
         image: ASTEROIDGAME.images['/img/purpleFire.png'],
         center: {
-          x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.03)/2)),
-          y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.03)/2))
+          x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.02)/2)),
+          y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.02)/2))
+        },
+        size: {
+          mean: 7,
+          stdev: 2
         },
         direction: that.rotation,
-        speed: {mean: 0.5, stdev: 0.05},
-        lifetime: {mean: 200, stdev: 10}
+        speed: {mean: 0.5, stdev: 0.1},
+        lifetime: {mean: 150, stdev: 1}
       });
 
-      for(var i = 0; i < particlesToCreate.smoke; ++i){
-        particlesSmoke.create();
-      }
-
+      var particleRedFire = ASTEROIDGAME.particleSystems.createSystem({
+        image: ASTEROIDGAME.images['/img/redFire.png'],
+        center: {
+          x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.02)/2)),
+          y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.02)/2))
+        },
+        size: {
+          mean: 10,
+          stdev: 4
+        },
+        direction: that.rotation,
+        speed: {mean: 0.4, stdev: 0.1},
+        lifetime: {mean: 75, stdev: 1}
+      });
+      
       var particleFire = ASTEROIDGAME.particleSystems.createSystem({
         image: ASTEROIDGAME.images['/img/blueFire.png'],
         center: {
           x: that.center.x+(Math.cos(that.rotation)*((canvas.width*0.03)/2)),
           y: that.center.y+(Math.sin(that.rotation)*((canvas.width*0.03)/2))
         },
+        size: {
+          mean: 12,
+          stdev: 8
+        },
         direction: that.rotation,
-        speed: {mean: 0.5, stdev: 0.05},
-        lifetime: {mean: 200, stdev: 10}
+        speed: {mean: 0.6, stdev: 0.15},
+        lifetime: {mean: 150, stdev: 1}
       });
+
 
       for(var i = 0;  i < particlesToCreate.fire; ++i){
         particleFire.create();
       }
-
-      spec.particles.push(particlesSmoke);
       spec.particles.push(particleFire);
+      for(var i = 0;  i < particlesToCreate.fire; ++i){
+        particleRedFire.create();
+      }
+
+      for(var i = 0; i < particlesToCreate.smoke; ++i){
+        particlesSmoke.create();
+      }
+      
+      
+      
+      //spec.particles.push(particlesSmoke);
+      spec.particles.push(particleRedFire);
+      spec.particles.push(particleFire);
+
+      
+      
+      
     }
 
     that.turnOnShield = function () {
@@ -166,15 +202,16 @@ ASTEROIDGAME.graphics.Ship = (function() {
       return false;
     };
     that.hyperspace = function (elapsedTime, ship, quadrants, asteroids) {
-      if(lastHyperspaceTime >HYPER_WAIT_TIME){
-        lastHyperspaceTime =0;
+      if(that.hyperAvailable){
+        
+        that.hyperAvailable= false;
+        lastHyperspaceTime=0;
+        $("#id-progress").css('width', '1px');
         ASTEROIDGAME.sounds.hyperspace();
         ASTEROIDGAME.graphics.explosions.hyperspace(ship.center);
         ship.respawn(quadrants, asteroids);
       }
-      else{
-        lastHyperspaceTime+=elapsedTime;
-      }
+      
     };
     that.respawn = function(quadrants, asteroids){
       asteroids.update(LOOK_FORWARD);
@@ -202,6 +239,17 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
 
     that.update = function(elapsedTime){
+      if(lastHyperspaceTime>=HYPER_WAIT_TIME && !that.hyperAvailable){
+        console.log("hyper available");
+        that.hyperAvailable = true;
+      }
+      if(!that.hyperAvailable){
+        lastHyperspaceTime+=elapsedTime;
+        var pixels = $("#id-progress").css('width').replace('px','');
+        var width = parseFloat(pixels);
+        ++width;
+        $("#id-progress").css('width','' + width +  'px');
+      }
       if(that.shields.on && (that.shields.startTime + that.shields.lifetime < Date.now()) ) {
         that.shields.on = false;
       }

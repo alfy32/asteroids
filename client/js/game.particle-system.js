@@ -125,7 +125,7 @@ ASTEROIDGAME.particleSystems = (function(){
       var value,
         particle;
       var empty = true;
-  
+        
       for (value in that.particles) {
         empty = false;
         if (that.particles.hasOwnProperty(value)) {

@@ -57,12 +57,16 @@ var Random = (function() {
 
     return mean + y1 * stdDev;
   }
-
+  function shuffle(o){ //v1.0
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+};
   return {
     nextDouble : nextDouble,
     nextRange : nextRange,
     nextCircleVector : nextCircleVector,
-    nextGaussian : nextGaussian
+    nextGaussian : nextGaussian,
+    shuffle : shuffle
   };
 
 }());

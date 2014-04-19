@@ -71,10 +71,10 @@ body{
 .quitButton:hover{
   position: absolute;
   z-index: 20;
-  font-family:Lucida Console;
+  font-family:Lucida Console; 
   font-size: 100%;
   font-weight: bold;
-  width: 8%;
+  width: 100px;
   padding-top: 5px;
   padding-bottom: 5px;
   background-color: #3399FF;
@@ -87,11 +87,12 @@ body{
 }
 .quitButton{
   position: absolute;
+  text-align: center;
   z-index: 20;
   font-family:Lucida Console;
   font-size: 100%;
   font-weight: bold;
-  width: 8%;
+  width: 100px;
   padding-top: 5px;
   padding-bottom: 5px;
   background-color: rgba(0,0,0, .7);
@@ -100,8 +101,33 @@ body{
   border-color: #3399FF;
   border-radius: 5px;
   box-shadow: 2px 2px 5px #000000;
+}
+.hyperProgressBar{
+  position: fixed;
+  z-index: 20;
+  text-align: center;
+  font-family:Lucida Console;
+  font-size: 10px;
+  letter-spacing: 8px;
+  font-weight: bold;
+  width: 175px;
+  height: 15px;
+  top: 64px;
+  left: 6px;
+  color: rgba(0,0,0);
 
-
+}
+.hyperProgress{
+  position: fixed;
+  z-index: -5;
+  width: 1px;
+  height: 15px;
+  top: 60px;
+  left: 6px;
+  background-color: rgba(173, 255, 255, .9);
+  border-style: none;
+  border-color: #3399FF;
+  border-radius: 5px;
 }
 .logo{
   color: #3399FF;
@@ -117,11 +143,13 @@ body{
   z-index: 20;
   text-align: center;
   text-shadow: -1px 0 #3399FF , 0 1px #3399FF , 1px 0 #3399FF , 0 -1px #3399FF ;
+  width: 80%;
+  min-width: 800px;
 }
 .gameInfo li{
   display: inline;
   font-size: 150%;
-  margin-left: 10%;
+  margin-left: 8%;
 }
 .info{
 
@@ -131,6 +159,7 @@ body{
   padding-top: 2%;
   padding-bottom: 2%;
   width: 50%;
+  min-width: 600px;
   height: 80%;
   margin-left: auto;
   margin-right: auto;
@@ -144,13 +173,11 @@ body{
 .labelControl {
   text-align: right;
   font-size: 20px;
-   width: 50%;
+   width: 90%;
 
-   margin-right: 10%;
-   margin-left: 10%;
    clear: both;
 }
-.labelControl input{
+.labelControl .inputUser{
   float: right;
   border-radius: 2px;
   color: #3399FF;
@@ -158,8 +185,36 @@ body{
   text-align: center;
     margin-top: -4px;
     margin-bottom: 5px;
-    margin-left: 10px;
+    margin-left: 40px;
+    margin-right: 30px;
   width: 20px;
+  background-color: rgba(0,0,0, .8);
+  border-color: #3399FF;
+}
+.labelControl .labelUser{
+  float: right;
+  border-radius: 2px;
+  color: #3399FF;
+  font-size: 20px;
+  text-align: center;
+    margin-top: -4px;
+    margin-bottom: 5px;
+    margin-left: 20px;
+    margin-right: 20px;
+  width: 50px;
+  background-color: rgba(0,0,0, .8);
+  border-color: #3399FF;
+}
+.labelControl .inputDefault{
+  float: right;
+  border-radius: 2px;
+  color: #3399FF;
+  font-size: 20px;
+  text-align: center;
+    margin-top: -4px;
+    margin-bottom: 5px;
+    margin-right: 15%;
+  width: 110px;
   background-color: rgba(0,0,0, .8);
   border-color: #3399FF;
 }

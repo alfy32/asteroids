@@ -31,7 +31,12 @@
     </div>
 
     <div class="game-play">
-      <button class="quitButton" id="id-quit">Quit</button>
+      <div class="quitButton" id="id-quit">Quit</div> 
+      
+          <div class="hyperProgress" id="id-progress">
+            <div class="hyperProgressBar">Hyperspace</div>
+      </div>
+
       <ul class="gameInfo" >
         <li id="lives">Lives:3</li>
         <li id="level">Level:1</li>
@@ -65,12 +70,22 @@
       <div class = "info">
         <h1 >Controls</h1>
        <form class="formControl">
-        <p class="labelControl">Forward<input class="inputControl" id="forward" type="text" maxlength="1"></p>
-        <p class="labelControl">Left<input class="inputControl" id="left" type="text" maxlength="1"></p>
-        <p class="labelControl">Right<input  class="inputControl" id="right" type="text" maxlength="1"></p>
-        <p class="labelControl">Hyperspace<input class="inputControl"  id ="hyperspace" type="text" maxlength="1"></p>
-        <p class="labelControl">Shoot<input class="inputControl"  id="shoot" type="text" maxlength="1"></p>
-        <p class="labelControl">Shield<input class="inputControl"  id="shield" type="text" maxlength="1"></p>
+        <p class="labelControl">Actions<input class="inputDefault" type="text" value="Default" readonly>
+          <input class="labelUser" value="User" type="text" readonly>
+          </p>
+        <p class="labelControl">Forward<input class="inputDefault" type="text" value="Up Arrow" readonly>
+          <input class="inputUser" id="forward" type="text" maxlength="1">
+          </p>
+        <p class="labelControl">Left<input class="inputDefault" type="text" value="Left Arrow" readonly>
+          <input class="inputUser" id="left" type="text" maxlength="1"></p>
+        <p class="labelControl">Right<input class="inputDefault" type="text" value="Right Arrow" readonly>
+          <input  class="inputUser" id="right" type="text" maxlength="1"></p>
+        <p class="labelControl">Hyperspace<input class="inputDefault" type="text" value="Down Arrow" readonly>
+          <input class="inputUser"  id ="hyperspace" type="text" maxlength="1"></p>
+        <p class="labelControl">Shoot<input class="inputDefault" type="text" value="Space Bar" readonly>
+          <input class="inputUser"  id="shoot" type="text" maxlength="1"></p>
+        <p class="labelControl">Shield<input class="inputDefault" type="text" value=" " readonly>
+          <input class="inputUser"  id="shield" type="text" maxlength="1"></p>
       </form>
       </div>
     </div>
