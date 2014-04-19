@@ -190,9 +190,9 @@ ASTEROIDGAME.graphics.Ship = (function() {
       that.shields.hits = 0;
       that.shields.shieldWidth =0;
 
-      //$('#shield1').toggle(that.shields.count == 3);
-      //$('#shield2').toggle(that.shields.count >= 2);
-      //$('#shield3').toggle(that.shields.count >= 1);
+      $('#shield1').toggle(that.shields.count == 3);
+      $('#shield2').toggle(that.shields.count >= 2);
+      $('#shield3').toggle(that.shields.count >= 1);
 
     }
 
