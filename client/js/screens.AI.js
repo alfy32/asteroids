@@ -59,6 +59,16 @@ ASTEROIDGAME.screens['AI'] = (function() {
     aiScore.render();
     aiLevels.render();
 
+    $('#ship1').show();
+    $('#ship2').show();
+    $('#ship3').show();
+
+    $('#shield1').show();
+    $('#shield2').show();
+    $('#shield3').show();
+
+    $('#id-shield-progress').show();
+
     aiLevels.create(aiAsteroids, 4);
     aiQuadrants.create();
 

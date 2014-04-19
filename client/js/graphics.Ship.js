@@ -193,12 +193,13 @@ ASTEROIDGAME.graphics.Ship = (function() {
       $('#shield1').toggle(that.shields.count == 3);
       $('#shield2').toggle(that.shields.count >= 2);
       $('#shield3').toggle(that.shields.count >= 1);
-
     }
 
     that.explode = function (quadrants, asteroids) {
       if(that.shields.on) {
         if(++that.shields.hits >= that.shields.HIT_MAX) that.shields.on = false;
+        if(that.shields.count == 0)
+          $('#id-shield-progress').hide();
         // do some cool particles
         console.log("We got hit with the shields on!!");
       } else {
@@ -274,6 +275,8 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
         if ((that.shields.startTime + that.shields.LIFE_TIME < Date.now()) ) {
           that.shields.on = false;
+          if(that.shields.count == 0)
+            $('#id-shield-progress').hide();
         }
       }
       $('#id-shield-progress').css('width', '' + shieldWidth + 'px');

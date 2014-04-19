@@ -61,6 +61,8 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     $('#shield2').show();
     $('#shield3').show();
 
+    $('#id-shield-progress').show();
+
     myLevels.create(myAsteroids, 4);
     myQuadrants.create();
 
