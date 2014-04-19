@@ -182,7 +182,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myAsteroids.update(ASTEROIDGAME.elapsedTime);
     myAsteroids.render('game');
 
-    myQuadrants.update(ASTEROIDGAME.elapsedTime, myAsteroids.list);
+    //myQuadrants.update(ASTEROIDGAME.elapsedTime, myAsteroids.list);
     // myQuadrants.render();
 
     myLasers.update(ASTEROIDGAME.elapsedTime);
