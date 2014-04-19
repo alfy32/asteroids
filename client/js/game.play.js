@@ -53,6 +53,14 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myScore.render();
     myLevels.render();
 
+    $('#ship1').show();
+    $('#ship2').show();
+    $('#ship3').show();
+
+    $('#shield1').show();
+    $('#shield2').show();
+    $('#shield3').show();
+
     myLevels.create(myAsteroids, 4);
     myQuadrants.create();
 

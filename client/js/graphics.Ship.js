@@ -36,12 +36,12 @@ ASTEROIDGAME.graphics.Ship = (function() {
         get width() { if(this.shieldWidth < MAX_SHIELD_WIDTH){
                         this.shieldWidth+=.0005;
                       }
-                         return canvas.width * this.shieldWidth; 
+                         return canvas.width * this.shieldWidth;
                     },
         get height() { if(this.shieldWidth < MAX_SHIELD_WIDTH){
                         this.shieldWidth+=.0005;
                         }
-                        return canvas.width * this.shieldWidth; 
+                        return canvas.width * this.shieldWidth;
                       },
         images: {
           red: ASTEROIDGAME.images['/img/redForceField.png'],
@@ -215,6 +215,10 @@ ASTEROIDGAME.graphics.Ship = (function() {
         }
       }
 
+      $('#ship1').toggle(that.lives == 3);
+      $('#ship2').toggle(that.lives >= 2);
+      $('#ship3').toggle(that.lives >= 1);
+
       return false;
     };
     that.hyperspace = function (elapsedTime, ship, quadrants, asteroids) {
@@ -255,20 +259,13 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
 
     that.update = function(elapsedTime){
-      $('#ship1').toggle(that.lives == 3);
-      $('#ship2').toggle(that.lives >= 2);
-      $('#ship3').toggle(that.lives >= 1);
-
       if(lastHyperspaceTime >= HYPER_WAIT_TIME && !that.hyperAvailable) {
         that.hyperAvailable = true;
       }
 
       if(!that.hyperAvailable) {
         lastHyperspaceTime += elapsedTime;
-        var pixels = $("#id-progress").css('width').replace('px','');
-        var width = parseFloat(pixels);
-        ++width;
-        $("#id-progress").css('width','' + width +  'px');
+        $("#id-progress").css('width', '' + (lastHyperspaceTime/HYPER_WAIT_TIME)*170 + 'px');
       }
 
       if(that.shields.on && (that.shields.startTime + that.shields.LIFE_TIME < Date.now()) ) {
