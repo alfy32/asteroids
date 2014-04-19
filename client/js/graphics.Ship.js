@@ -189,7 +189,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
       that.shields.on = true;
       that.shields.hits = 0;
       that.shields.shieldWidth =0;
-
+      ASTEROIDGAME.sounds.hyperspace();
       
      // $('#shield1').toggle(that.shields.count == 3);
       //$('#shield2').toggle(that.shields.count >= 2);
