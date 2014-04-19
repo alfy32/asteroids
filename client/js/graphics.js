@@ -18,13 +18,20 @@ ASTEROIDGAME.graphics = (function() {
 
   function clear() {
     context.clear();
-    
+
   }
 
   function resize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    if(1280/800 < canvas.width/canvas.height) {
+      $('#background').css('width', '' + canvas.width + 'px');
+      $('#background').css('height', 'initial');
+    } else {
+      $('#background').css('width', 'initial');
+      $('#background').css('height', '' + canvas.height + 'px');
+    }
   }
 
   function wrapAround(center, dimensions) {
