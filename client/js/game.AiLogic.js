@@ -42,6 +42,8 @@ ASTEROIDGAME.AiLogic = (function () {
     if(closestAsteroid) {
       var danger = (distance(ship, closestAsteroid) < 100);
 
+      if(danger) ship.turnOnShield();
+
       if(danger) asteroids.update(-LOOK_AHEAD/2);
       var targetDirection = getDirection(ship.center, closestAsteroid.center) + Math.PI;
       if(danger) asteroids.update(LOOK_AHEAD/2);

@@ -29,16 +29,10 @@ window.addEventListener('load', function() {
     {
       load : [
         // Images
-        'preload!/img/longBrownShip.png',
         'preload!/img/milleniumFalcon.png',
         'preload!/img/deathStar.png',
-        'preload!/img/wingShip.png',
         'preload!/img/redShip.png',
-        'preload!/img/laser.png',
-        'preload!/img/purpleLaser.png',
-        'preload!/img/blueLaser.png',
         'preload!/img/redLaser.png',
-        'preload!/img/fire.png',
         'preload!/img/blueFire.png',
         'preload!/img/lightBlueFire.png',
         'preload!/img/redFire.png',
@@ -52,11 +46,10 @@ window.addEventListener('load', function() {
         'preload!/img/grayBlast.png',
         'preload!/img/smoke.png',
         'preload!/img/asteroid.png',
-        'preload!/img/ufo.png',
         'preload!/img/redForceField.png',
         'preload!/img/blueForceField.png',
 
-                 // Sounds
+        // Sounds
         'preload!/js/game.sounds.js',
         'preload!/audio/bangLarge.wav',
         'preload!/audio/bangMedium.wav',
@@ -97,9 +90,6 @@ window.addEventListener('load', function() {
         'preload!/js/screens.controls.js',
         'preload!/js/screens.AI.js',
         'preload!/js/screens.about.js'
-
-
-
       ],
       complete : function() {
         console.log('All files requested for loading...');
