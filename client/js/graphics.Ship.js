@@ -36,12 +36,12 @@ ASTEROIDGAME.graphics.Ship = (function() {
         get width() { if(this.shieldWidth < MAX_SHIELD_WIDTH){
                         this.shieldWidth+=.0005;
                       }
-                         return canvas.width * this.shieldWidth; 
+                         return canvas.width * this.shieldWidth;
                     },
         get height() { if(this.shieldWidth < MAX_SHIELD_WIDTH){
                         this.shieldWidth+=.0005;
                         }
-                        return canvas.width * this.shieldWidth; 
+                        return canvas.width * this.shieldWidth;
                       },
         images: {
           red: ASTEROIDGAME.images['/img/redForceField.png'],
@@ -265,10 +265,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
       if(!that.hyperAvailable) {
         lastHyperspaceTime += elapsedTime;
-        var pixels = $("#id-progress").css('width').replace('px','');
-        var width = parseFloat(pixels);
-        ++width;
-        $("#id-progress").css('width','' + width +  'px');
+        $("#id-progress").css('width', '' + (lastHyperspaceTime/HYPER_WAIT_TIME)*170 + 'px');
       }
 
       if(that.shields.on && (that.shields.startTime + that.shields.LIFE_TIME < Date.now()) ) {
