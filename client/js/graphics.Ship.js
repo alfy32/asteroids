@@ -31,9 +31,15 @@ ASTEROIDGAME.graphics.Ship = (function() {
       rotation: spec.rotation,
       moving: false,
       shields: {
+        get width() { return canvas.width * 0.06; },
+        get height() { return canvas.width * 0.06; },
+        images: {
+          red: ASTEROIDGAME.images['/img/redForceField.png'],
+          blue: ASTEROIDGAME.images['/img/blueForceField.png']
+        },
         count: 3,
         on: false,
-        lifetime: 10000, // miliseconds
+        LIFE_TIME: 10000, // miliseconds
         hits: 0,
         HIT_MAX: 2,
         startTime: Date.now()
@@ -130,7 +136,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
         speed: {mean: 0.4, stdev: 0.1},
         lifetime: {mean: 75, stdev: 1}
       });
-      
+
       var particleFire = ASTEROIDGAME.particleSystems.createSystem({
         image: ASTEROIDGAME.images['/img/blueFire.png'],
         center: {
@@ -158,16 +164,10 @@ ASTEROIDGAME.graphics.Ship = (function() {
       for(var i = 0; i < particlesToCreate.smoke; ++i){
         particlesSmoke.create();
       }
-      
-      
-      
+
       //spec.particles.push(particlesSmoke);
       spec.particles.push(particleRedFire);
       spec.particles.push(particleFire);
-
-      
-      
-      
     }
 
     that.turnOnShield = function () {
@@ -203,7 +203,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
     };
     that.hyperspace = function (elapsedTime, ship, quadrants, asteroids) {
       if(that.hyperAvailable){
-        
+
         that.hyperAvailable= false;
         lastHyperspaceTime=0;
         $("#id-progress").css('width', '1px');
@@ -211,7 +211,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
         ASTEROIDGAME.graphics.explosions.hyperspace(ship.center);
         ship.respawn(quadrants, asteroids);
       }
-      
+
     };
     that.respawn = function(quadrants, asteroids){
       asteroids.update(LOOK_FORWARD);
@@ -250,7 +250,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
         ++width;
         $("#id-progress").css('width','' + width +  'px');
       }
-      if(that.shields.on && (that.shields.startTime + that.shields.lifetime < Date.now()) ) {
+      if(that.shields.on && (that.shields.startTime + that.shields.LIFE_TIME < Date.now()) ) {
         that.shields.on = false;
       }
 
@@ -270,29 +270,27 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
       context.save();
 
-      context.translate(that.center.x , that.center.y);
+      context.translate(that.center.x, that.center.y);
       context.rotate(that.rotation);
-      context.translate(-that.center.x , -that.center.y);
+      context.translate(-that.center.x, -that.center.y);
 
       context.drawImage(
-        spec.image,
-        that.center.x  - that.width/2,
-        that.center.y- that.width/2,
-        that.width, that.width);
+        that.image,
+        that.center.x - that.width/2,
+        that.center.y - that.height/2,
+        that.width, that.height
+      );
 
       // Draw Shield
       if(that.shields.on) {
-        var shieldWidth = canvas.width * 0.06;
-        var shieldImg = that.shields.count==0? ASTEROIDGAME.images['/img/redForceField.png'] : ASTEROIDGAME.images['/img/blueForceField.png']
+        var shieldColor = that.shields.count == 0 ? 'red' : 'blue';
+
         context.drawImage(
-        shieldImg,
-        that.center.x  - shieldWidth/2,
-        that.center.y- shieldWidth/2,
-        shieldWidth, shieldWidth);
-        /*context.beginPath();
-        context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
-        context.stroke();
-        */
+          that.shields.images[shieldColor],
+          that.center.x - that.shields.width/2,
+          that.center.y - that.shields.width/2,
+          that.shields.width, that.shields.height
+        );
       }
 
       context.restore();
