@@ -268,9 +268,15 @@ ASTEROIDGAME.graphics.Ship = (function() {
         $("#id-progress").css('width', '' + (lastHyperspaceTime/HYPER_WAIT_TIME)*170 + 'px');
       }
 
-      if(that.shields.on && (that.shields.startTime + that.shields.LIFE_TIME < Date.now()) ) {
-        that.shields.on = false;
+      var shieldWidth = 170;
+      if(that.shields.on) {
+        shieldWidth *= 1 - (Date.now() - that.shields.startTime)/that.shields.LIFE_TIME;
+
+        if ((that.shields.startTime + that.shields.LIFE_TIME < Date.now()) ) {
+          that.shields.on = false;
+        }
       }
+      $('#id-shield-progress').css('width', '' + shieldWidth + 'px');
 
       that.center.x += that.velocity.x * (elapsedTime/1000);
       that.center.y += that.velocity.y * (elapsedTime/1000);
