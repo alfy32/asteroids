@@ -53,13 +53,13 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myScore.render();
     myLevels.render();
 
-    $('#ship1').show();
-    $('#ship2').show();
-    $('#ship3').show();
+    $('#ship1').css('visibility', 'visible');
+    $('#ship2').css('visibility', 'visible');
+    $('#ship3').css('visibility', 'visible');
 
-    $('#shield1').show();
-    $('#shield2').show();
-    $('#shield3').show();
+    $('#shield1').css('visibility', 'visible');
+    $('#shield2').css('visibility', 'visible');
+    $('#shield3').css('visibility', 'visible');
 
     $('#id-shield-progress').show();
 

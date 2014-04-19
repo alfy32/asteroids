@@ -190,9 +190,16 @@ ASTEROIDGAME.graphics.Ship = (function() {
       that.shields.hits = 0;
       that.shields.shieldWidth =0;
 
-      $('#shield1').toggle(that.shields.count == 3);
-      $('#shield2').toggle(that.shields.count >= 2);
-      $('#shield3').toggle(that.shields.count >= 1);
+      
+     // $('#shield1').toggle(that.shields.count == 3);
+      //$('#shield2').toggle(that.shields.count >= 2);
+      //$('#shield3').toggle(that.shields.count >= 1);
+      if(that.shields.count < 3){  $('#shield1').css('visibility', 'hidden');}
+
+      if(that.shields.count <2 ){  $('#shield2').css('visibility', 'hidden');}
+
+      if(that.shields.count <1 ){  $('#shield3').css('visibility', 'hidden');}
+
     }
 
     that.explode = function (quadrants, asteroids) {
@@ -216,9 +223,14 @@ ASTEROIDGAME.graphics.Ship = (function() {
         }
       }
 
-      $('#ship1').toggle(that.lives == 3);
-      $('#ship2').toggle(that.lives >= 2);
-      $('#ship3').toggle(that.lives >= 1);
+      //$('#ship1').toggle(that.lives == 3);
+      //$('#ship2').toggle(that.lives >= 2);
+      //$('#ship3').toggle(that.lives >= 1);
+      if(that.lives < 3){  $('#ship1').css('visibility', 'hidden');}
+
+      if(that.lives <2 ){  $('#ship2').css('visibility', 'hidden');}
+
+      if(that.lives <1 ){  $('#ship3').css('visibility', 'hidden');}
 
       return false;
     };
