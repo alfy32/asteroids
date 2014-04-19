@@ -131,7 +131,7 @@ yepnope.addPrefix('preload', function(resource) {
     ASTEROIDGAME.status.preloadComplete += 1;
 
     document.getElementById('loading').innerHTML = 'Loading...<br/>' +
-      'File ' + ASTEROIDGAME.status.preloadRequest + ' of ' + ASTEROIDGAME.status.preloadComplete;
+      'File ' + ASTEROIDGAME.status.preloadComplete + ' of ' + ASTEROIDGAME.status.preloadRequest;
     //
     // When everything has finished preloading, go ahead and start the game
     if (ASTEROIDGAME.status.preloadComplete === ASTEROIDGAME.status.preloadRequest) {
