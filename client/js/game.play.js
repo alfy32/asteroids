@@ -65,7 +65,7 @@ ASTEROIDGAME.screens['game-play'] = (function() {
     myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, myShip.accelerate, ASTEROIDGAME.sounds.thrust);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_DOWN, myShip.hyperspace);
     myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, myLasers.create);
-    // myKeyboard.registerOneTimeKey(KeyEvent.DOM_VK_Z, myShip.turnOnShield);
+    //myKeyboard.registerOneTimeKey(KeyEvent.DOM_VK_Z, myShip.turnOnShield);
 
     var controls = ASTEROIDGAME.screens['controls'].controls();
 

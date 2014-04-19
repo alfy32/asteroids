@@ -18,6 +18,7 @@ ASTEROIDGAME.screens['controls'] = (function() {
     $('#left').val(String.fromCharCode(that.controls.left));
     $('#shoot').val(String.fromCharCode(that.controls.shoot));
     $('#hyperspace').val(String.fromCharCode(that.controls.hyperspace));
+    $('#shield').val(String.fromCharCode(that.controls.shield));
   }
   function getControls(){
     return that.controls;
@@ -40,6 +41,10 @@ ASTEROIDGAME.screens['controls'] = (function() {
       that.controls.hyperspace = e.keyCode;
 
     })
+    $('#shield').keyup(function(e){
+      that.controls.shield = e.keyCode;
+
+    })
     $('#forward').keypress(function(e){
       $('#forward').val(String.fromCharCode(e.which));
     })
@@ -55,12 +60,14 @@ ASTEROIDGAME.screens['controls'] = (function() {
     $('#hyperspace').keypress(function(e){
       $('#hyperspace').val(String.fromCharCode(e.which));
     })
+    $('#shield').keypress(function(e){
+      $('#shield').val(String.fromCharCode(e.which));
+    })
     //$('#right').val(String.fromCharCode(that.controls.right));
     //$('#left').val(String.fromCharCode(that.controls.left));
     //$('#shoot').val(String.fromCharCode(that.controls.shoot));
     //$('#hyperspace').val(String.fromCharCode(that.controls.hyperspace));
     //
-    // I know this is empty, there isn't anything to do.
   }
 
   return {

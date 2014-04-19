@@ -234,9 +234,17 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
       // Draw Shield
       if(that.shields.on) {
-        context.beginPath();
+        var shieldWidth = canvas.width * 0.06;
+        var shieldImg = that.shields.count==0? ASTEROIDGAME.images['/img/redForceField.png'] : ASTEROIDGAME.images['/img/blueForceField.png']
+        context.drawImage(
+        shieldImg,
+        that.center.x  - shieldWidth/2,
+        that.center.y- shieldWidth/2,
+        shieldWidth, shieldWidth);
+        /*context.beginPath();
         context.arc(that.center.x, that.center.y, that.width/2, 0, 2*Math.PI);
         context.stroke();
+        */
       }
 
       context.restore();

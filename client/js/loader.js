@@ -7,7 +7,7 @@ var ASTEROIDGAME = {
   playerScore: 0,
   highScores: [],
   lastEventTime: 0,
-  AI_TIME_OUT: 5000,
+  AI_TIME_OUT: 10000,
   status : {
     preloadRequest : 0,
     preloadComplete : 0
@@ -51,6 +51,8 @@ window.addEventListener('load', function() {
         'preload!/img/smoke.png',
         'preload!/img/asteroid.png',
         'preload!/img/ufo.png',
+        'preload!/img/redForceField.png',
+        'preload!/img/blueForceField.png',
 
                  // Sounds
         'preload!/js/game.sounds.js',
