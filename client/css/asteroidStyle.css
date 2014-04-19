@@ -114,7 +114,7 @@ body {
   font-weight: bold;
   width: 175px;
   height: 15px;
-  top: 64px;
+  bottom: 2px;
   left: 6px;
   color: rgba(0,0,0);
 
@@ -124,7 +124,7 @@ body {
   z-index: -5;
   width: 1px;
   height: 15px;
-  top: 60px;
+  bottom: 5px;
   left: 6px;
   background-color: rgba(173, 255, 255, .9);
   border-style: none;
@@ -142,7 +142,7 @@ body {
 }
 .ships {
   position: fixed;
-  bottom: 5px;
+  bottom: 14px;
   left: 5px;
 }
 .ship-images {
