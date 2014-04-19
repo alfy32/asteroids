@@ -215,6 +215,10 @@ ASTEROIDGAME.graphics.Ship = (function() {
         }
       }
 
+      $('#ship1').toggle(that.lives == 3);
+      $('#ship2').toggle(that.lives >= 2);
+      $('#ship3').toggle(that.lives >= 1);
+
       return false;
     };
     that.hyperspace = function (elapsedTime, ship, quadrants, asteroids) {
@@ -255,10 +259,6 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
 
     that.update = function(elapsedTime){
-      $('#ship1').toggle(that.lives == 3);
-      $('#ship2').toggle(that.lives >= 2);
-      $('#ship3').toggle(that.lives >= 1);
-
       if(lastHyperspaceTime >= HYPER_WAIT_TIME && !that.hyperAvailable) {
         that.hyperAvailable = true;
       }
