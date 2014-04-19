@@ -130,10 +130,13 @@ yepnope.addPrefix('preload', function(resource) {
 
     ASTEROIDGAME.status.preloadComplete += 1;
 
+    document.getElementById('loading').innerHTML = 'Loading...<br/>' +
+      'File ' + ASTEROIDGAME.status.preloadRequest + ' of ' + ASTEROIDGAME.status.preloadComplete;
     //
     // When everything has finished preloading, go ahead and start the game
     if (ASTEROIDGAME.status.preloadComplete === ASTEROIDGAME.status.preloadRequest) {
       console.log('Preloading complete!');
+      document.getElementById('loading').remove();
       ASTEROIDGAME.game.initialize();
     }
   };
