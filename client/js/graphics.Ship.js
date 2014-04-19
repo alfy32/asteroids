@@ -7,7 +7,8 @@ ASTEROIDGAME.graphics.Ship = (function() {
   var context = canvas.getContext('2d');
 
   var MAX_VELOCITY = 800;
-  var HYPER_WAIT_TIME = 3000;
+  var MAX_SHIELD_WIDTH = .06;
+  var HYPER_WAIT_TIME = 3200;
   var LOOK_FORWARD = 3000;
   var LOOK_BACKWARD = -3000;
   var lastHyperspaceTime = 0;
@@ -31,8 +32,17 @@ ASTEROIDGAME.graphics.Ship = (function() {
       rotation: spec.rotation,
       moving: false,
       shields: {
-        get width() { return canvas.width * 0.06; },
-        get height() { return canvas.width * 0.06; },
+        shieldWidth: 0,
+        get width() { if(this.shieldWidth < MAX_SHIELD_WIDTH){
+                        this.shieldWidth+=.0005;
+                      }
+                         return canvas.width * this.shieldWidth; 
+                    },
+        get height() { if(this.shieldWidth < MAX_SHIELD_WIDTH){
+                        this.shieldWidth+=.0005;
+                        }
+                        return canvas.width * this.shieldWidth; 
+                      },
         images: {
           red: ASTEROIDGAME.images['/img/redForceField.png'],
           blue: ASTEROIDGAME.images['/img/blueForceField.png']
@@ -178,6 +188,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
       that.shields.count--;
       that.shields.on = true;
       that.shields.hits = 0;
+      that.shields.shieldWidth =0;
 
       $('#shield1').toggle(that.shields.count == 3);
       $('#shield2').toggle(that.shields.count >= 2);
