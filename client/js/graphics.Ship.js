@@ -203,7 +203,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
       that.shields.on = true;
       that.shields.hits = 0;
       that.shields.shieldWidth =0;
-      ASTEROIDGAME.sounds.hyperspace();
+      ASTEROIDGAME.sounds.shieldOn();
       
      // $('#shield1').toggle(that.shields.count == 3);
       //$('#shield2').toggle(that.shields.count >= 2);
@@ -302,6 +302,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
         if ((that.shields.startTime + that.shields.LIFE_TIME < Date.now()) ) {
           that.shields.on = false;
           that.shields.removing = true;
+          ASTEROIDGAME.sounds.shieldOff();
           if(that.shields.count == 0)
             $('#id-shield-progress').hide();
         }

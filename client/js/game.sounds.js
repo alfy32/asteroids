@@ -40,6 +40,12 @@ ASTEROIDGAME.sounds = (function() {
   function hyperspace(){
     ASTEROIDGAME.audio['/audio/hyperSpace2.wav'].play();
   }
+  function shieldOn(){
+    ASTEROIDGAME.audio['/audio/shieldOn.wav'].play();
+  }
+  function shieldOff(){
+    ASTEROIDGAME.audio['/audio/shieldOff.wav'].play();
+  }
   var backGroundMusic = {
     //started in initialize game.js
   play:  function(){
@@ -58,6 +64,8 @@ ASTEROIDGAME.sounds = (function() {
     shootSHIP: shootSHIP,
     shootUFO: shootUFO,
     explode: explode,
+    shieldOn: shieldOn,
+    shieldOff: shieldOff,
     thrust: thrust,
     hyperspace: hyperspace,
     backGroundMusic: backGroundMusic
