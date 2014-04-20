@@ -8,6 +8,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
   var MAX_VELOCITY = 800;
   var MAX_SHIELD_WIDTH = .065;
+  var MIN_SHIELD_WIDTH = .0005;
   var HYPER_WAIT_TIME = 3200;
   var LOOK_FORWARD = 3000;
   var LOOK_BACKWARD = -3000;
@@ -32,17 +33,30 @@ ASTEROIDGAME.graphics.Ship = (function() {
       rotation: spec.rotation,
       moving: false,
       shields: {
+        removing: false,
         shieldWidth: 0,
-        get width() { if(this.shieldWidth < MAX_SHIELD_WIDTH){
+        get width() { if(this.removing){ //shrink shield when time is up
+                        if(this.shieldWidth < MIN_SHIELD_WIDTH) 
+                          this.removing = false;
+                        this.shieldWidth-=.0005;
+                        return  canvas.width * this.shieldWidth;
+                      }
+                      else if(this.shieldWidth < MAX_SHIELD_WIDTH){ //grow shield at start
                         this.shieldWidth+=.00075;
                       }
                          return canvas.width * this.shieldWidth;
                     },
-        get height() { if(this.shieldWidth < MAX_SHIELD_WIDTH){
+        get height(){ if(this.removing){ 
+                          if(this.shieldWidth < MIN_SHIELD_WIDTH) 
+                            this.removing = false;
+                          this.shieldWidth-=.0005;
+                          return  canvas.width * this.shieldWidth;
+                      }
+                      else if(this.shieldWidth < MAX_SHIELD_WIDTH){
                         this.shieldWidth+=.00075;
                         }
                         return canvas.width * this.shieldWidth;
-                      },
+                    },
         images: {
           red: ASTEROIDGAME.images['/img/redForceField.png'],
           blue: ASTEROIDGAME.images['/img/blueForceField.png']
@@ -287,6 +301,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
 
         if ((that.shields.startTime + that.shields.LIFE_TIME < Date.now()) ) {
           that.shields.on = false;
+          that.shields.removing = true;
           if(that.shields.count == 0)
             $('#id-shield-progress').hide();
         }
@@ -321,7 +336,7 @@ ASTEROIDGAME.graphics.Ship = (function() {
       );
 
       // Draw Shield
-      if(that.shields.on) {
+      if(that.shields.on || that.shields.removing) {
         var shieldColor = that.shields.count == 0 ? 'red' : 'blue';
 
         context.drawImage(
